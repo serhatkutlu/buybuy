@@ -1,0 +1,40 @@
+<resources>
+
+    <string name="app_name">buybuy</string>
+    <string name="bottom_nav_home">home</string>
+    <string name="bottom_nav_favorite">favorite</string>
+    <string name="bottom_nav_cart">cart</string>
+    <string name="bottom_nav_profile">profile</string>
+
+    <string name="fragment_login_login">Login</string>
+    <string name="fragment_login_email">Email</string>">
+    <string name="fragment_login_password">Password</string>">
+    <string name="fragment_login_forgot_password">Forgot Password?</string>">
+    <string name="fragment_login_Login_button">LOGIN</string>">
+
+    <string name="fragment_signup_signup">Sign Up</string>">
+    <string name="fragment_signup_email">Email</string>">
+    <string name="fragment_signup_password">Password</string>">
+    <string name="fragment_signup_already_have_an_account">Already have an account?</string>">
+
+    <string name="fragment_forgot_password_fogotpassword">Forgot Password</string>
+    <string name="fragment_forgot_password_new_password">new password</string>">
+    <string name="fragment_forgot_password_new_password_again">new password again</string>">
+    <string name="fragment_forgot_password_email">Email</string>">
+
+
+    <string name="nav_header_username">Username</string>
+    <string name="nav_header_email">Email</string>
+
+
+    <string name="nav_menu_profile">Profile</string>
+    <string name="nav_menu_orders">Orders</string>
+    <string name="nav_menu_coupons">Coupons</string>
+    <string name="nav_menu_logout">Log out</string>
+
+    <string name="open">Open</string>
+    <string name="closed">closed</string>
+
+
+
+</resources>

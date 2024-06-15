@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="@string/nav_menu_profile"
+        android:icon="@drawable/profile_nav"
+        />
+    <item android:id="@+id/nav_orders"
+        android:title="@string/nav_menu_orders"
+        android:icon="@drawable/nav_order"
+        />
+    <item android:id="@+id/nav_coupons"
+        android:title="@string/nav_menu_coupons"
+        android:icon="@drawable/coupon"
+        />
+    <item android:title="@string/nav_menu_logout">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:title="@string/nav_menu_logout"
+                android:icon="@drawable/nav_logout"
+                />
+        </menu>
+    </item>
+
+
+</menu>

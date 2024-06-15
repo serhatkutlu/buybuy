@@ -1,21 +1,22 @@
 package com.example.buybuy
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
-
+    @Inject
+    lateinit var fakeApi: FakeStoreApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
@@ -29,10 +30,22 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        /*runBlocking {
+            val a=fakeApi.createUser(
+                UserDetail(
+                    name = Name(firstname = "ahmed", lastname = "123"),
+                    password = "12"
+                )
+            )
+            when{
+               a.isSuccessful->{Log.d("adae","${a.body()}")}
+                else->{}
+            }
 
 
-
+    }*/
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
@@ -42,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openDrawerClick() {
-        Log.d("adae","oldu")
         binding.drawerLayout.openDrawer(GravityCompat.START)
     }
 }

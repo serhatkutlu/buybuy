@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.databinding.ActivityMainBinding
+import com.example.buybuy.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

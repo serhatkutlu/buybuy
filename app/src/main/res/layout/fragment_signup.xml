@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="20dp"
+        android:indeterminateTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_profile">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/fragment_signup_name"
-            android:inputType="textEmailAddress"
-            android:padding="20dp" />
-    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_email"
+        android:id="@+id/til_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -39,9 +34,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_name">
+        app:layout_constraintTop_toBottomOf="@id/fl_profile">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_name"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_signup_name"
+            android:inputType="textEmailAddress"
+            android:padding="20dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
             style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +73,7 @@
         android:id="@+id/tv_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="25dp"
         android:text="@string/fragment_signup_signup"
         android:textAlignment="center"
         android:textSize="25sp"
@@ -66,41 +85,39 @@
 
 
     <FrameLayout
-        android:id="@+id/iv_profile"
+        android:id="@+id/fl_profile"
         android:layout_width="150.dp"
         android:layout_height="150.dp"
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Login"
-        >
+        app:layout_constraintTop_toBottomOf="@id/tv_Login">
 
 
         <ImageView
-
+            android:id="@+id/iv_close"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/close"
             android:layout_gravity="end|top"
-            />
+            android:src="@drawable/close" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_gravity="top|start"
-        android:src="@drawable/profile"
-       />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="top|start"
+            android:src="@drawable/profile" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_signup_select_photo"
-        android:layout_gravity="bottom|center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_profile" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="@string/fragment_signup_select_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile" />
 
     </FrameLayout>
 
@@ -109,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="25.dp"
+        android:layout_marginTop="15.dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/button_bg_orange"
         android:text="@string/fragment_signup_signup"
@@ -118,7 +135,7 @@
         app:layout_constraintTop_toBottomOf="@id/ll_already" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_password"
+        android:id="@+id/til_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -127,9 +144,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email">
+        app:layout_constraintTop_toBottomOf="@+id/til_email">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fragment_signup_password"
@@ -138,7 +156,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_password2"
+        android:id="@+id/til_password2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -147,12 +165,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password">
+        app:layout_constraintTop_toBottomOf="@+id/til_password">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fragment_signup_password"
+            android:nextFocusDown="@id/ll_already"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -161,9 +181,10 @@
         android:id="@+id/ll_already"
         android:layout_width="200dp"
         android:layout_height="30dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password2">
+        app:layout_constraintTop_toBottomOf="@+id/til_password2">
 
 
         <TextView
@@ -180,8 +201,9 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:src="@drawable/next"
-            app:tint="@color/green" />
+            app:tint="@color/orange" />
     </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

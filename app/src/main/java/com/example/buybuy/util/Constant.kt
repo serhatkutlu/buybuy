@@ -19,5 +19,7 @@ object Constant {
     const val ALERT_RESET_PASSWORD_OPEN_EMAIL="Open Email"
     const val ALERT_CANCEL="Cancel"
     const val PASSWORD_NOT_MATCH:String="Password not match"
+    const val BANNER="banner"
+    const val VPBANNER="vp_banner"
 
 }

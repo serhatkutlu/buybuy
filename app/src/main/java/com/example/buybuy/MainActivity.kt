@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     binding.bottomNavigation.Visible()
+                  // binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
+
                 }
             }
         }

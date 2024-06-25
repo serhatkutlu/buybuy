@@ -58,8 +58,8 @@ class FirebaseRepositoryImp @Inject constructor (
     }
 
     override  fun checkUserLogin() = flow {
-        //emit(authentication.currentUser != null)
-        emit(false)
+        emit(authentication.currentUser != null)
+
     }
 
     override fun checkUserEmailAndPassword(email: String, password: String) = flow {

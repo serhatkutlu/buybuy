@@ -3,9 +3,11 @@ package com.example.buybuy.util
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.squareup.picasso.Picasso
 
 fun View.Visible() {
     visibility = View.VISIBLE
@@ -71,4 +73,10 @@ fun Context.showAlertDialog(
             }
         }
         .show()
+}
+
+
+fun ImageView.setImage(url:String){
+    Picasso.get().load(url).into(this)
+
 }

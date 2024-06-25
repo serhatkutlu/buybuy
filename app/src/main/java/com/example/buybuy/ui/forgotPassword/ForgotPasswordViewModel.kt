@@ -2,7 +2,7 @@ package com.example.buybuy.ui.forgotPassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.domain.usecase.Login.ResetPassword
+import com.example.buybuy.domain.usecase.login.ResetPassword
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

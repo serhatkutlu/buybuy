@@ -1,11 +1,9 @@
 package com.example.buybuy.ui.login
 
-import android.provider.Settings.Global.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.R
-import com.example.buybuy.domain.usecase.Login.CheckUserLoginEmailAndPasswordUseCase
-import com.example.buybuy.domain.usecase.Login.CheckUserLoginUseCase
+import com.example.buybuy.domain.usecase.login.CheckUserLoginEmailAndPasswordUseCase
+import com.example.buybuy.domain.usecase.login.CheckUserLoginUseCase
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

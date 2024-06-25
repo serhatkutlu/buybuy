@@ -1,14 +1,12 @@
 package com.example.buybuy.ui.signup
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.User
-import com.example.buybuy.domain.usecase.Login.SignUpUseCase
+import com.example.buybuy.domain.usecase.login.SignUpUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

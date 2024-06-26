@@ -7,6 +7,8 @@ import com.example.buybuy.domain.usecase.login.SignUpUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +17,8 @@ class SignupViewModel @Inject constructor(
         val SignupUseCase:SignUpUseCase
 ):ViewModel() {
 
-    private val _user= MutableSharedFlow<Resource<Nothing>>()
-    val user= _user
+    private val _user= MutableStateFlow<Resource<Nothing>>(Resource.Loading())
+    val user: StateFlow<Resource<Nothing>> = _user
 
     fun Signup(user:User){
         viewModelScope.launch {

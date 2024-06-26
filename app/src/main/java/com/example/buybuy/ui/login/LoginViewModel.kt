@@ -8,7 +8,9 @@ import com.example.buybuy.util.Constant.UNKNOWN_ERROR
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,8 +24,8 @@ class LoginViewModel @Inject constructor(
 
     val checkUserLogin = checkUserLoginUseCase()
 
-    private val _loginflow: MutableSharedFlow<Resource<Boolean>> = MutableSharedFlow()
-    val loginflow:SharedFlow<Resource<Boolean>> =_loginflow
+    private val _loginflow: MutableStateFlow<Resource<Boolean>> = MutableStateFlow(Resource.Loading())
+    val loginflow: StateFlow<Resource<Boolean>> =_loginflow
 
 
     fun loginEmailAndPassword(email: String, password: String) {

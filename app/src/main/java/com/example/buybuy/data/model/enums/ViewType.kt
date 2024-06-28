@@ -1,6 +1,8 @@
 package com.example.buybuy.data.model.enums
 
 enum class ViewType {
-    vp_banner
+    vp_banner,
+    category,
+    divider
 
 }

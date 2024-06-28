@@ -3,5 +3,8 @@ package com.example.buybuy.data.model.data
 import com.example.buybuy.data.model.enums.ViewType
 import com.example.buybuy.domain.model.MainRecycleViewdata
 
-data class VpBannerData(override val type: ViewType?=null,val data:List<String>):MainRecycleViewdata
-
+data class Category (
+    val categories: List<String>,
+    val message: String,
+    val status: String,
+    )

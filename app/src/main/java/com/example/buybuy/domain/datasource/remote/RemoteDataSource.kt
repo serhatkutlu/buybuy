@@ -1,10 +1,13 @@
 package com.example.buybuy.domain.datasource.remote
 
-import com.example.buybuy.data.model.data.VpBannerData
-import com.example.buybuy.util.Resource
-import kotlinx.coroutines.flow.Flow
+import com.example.buybuy.data.model.data.Category
+import com.example.buybuy.data.model.data.Product
+import retrofit2.Response
 
 interface RemoteDataSource {
 
-    fun GetVpBanner():Flow<Resource<List<VpBannerData>>>
+    suspend fun GetVpBanner():List<String>?
+    suspend fun GetAllCategory():Response<Category>
+
+    suspend fun GetProductByCategory(category:String):Response<Product>
 }

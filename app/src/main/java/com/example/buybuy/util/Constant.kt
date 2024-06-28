@@ -21,5 +21,7 @@ object Constant {
     const val PASSWORD_NOT_MATCH:String="Password not match"
     const val BANNER="banner"
     const val VPBANNER="vp_banner"
+    const val CATEGORY="category"
+    const val DECORATION_SPACE=20
 
 }

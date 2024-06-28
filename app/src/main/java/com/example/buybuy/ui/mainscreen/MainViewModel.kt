@@ -2,14 +2,14 @@ package com.example.buybuy.ui.mainscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.VpBannerData
-import com.example.buybuy.domain.usecase.main.GetProductByCategoriesUseCase
+import com.example.buybuy.data.model.enums.ViewType
+import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,59 +18,64 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getVpBannerImagesUseCase: GetVpBannerImagesUseCase,
-    private val getProductByCategoriesUseCase: GetProductByCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
-    private val _vpBannerDataFlow: MutableStateFlow<List<VpBannerData>> = MutableStateFlow(
-        listOf()
+    private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewdata>> = MutableStateFlow(
+        emptyList()
     )
-    val vpBannerDataFlow: StateFlow<List<VpBannerData>> = _vpBannerDataFlow
+    val vpBannerDataFlow: StateFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
 
     init {
-        getVpBannerImages()
-        //getCategories()
+        viewModelScope.launch {
+            val getVpBannerImages = async { getVpBannerImages() }
+            val getCategories = async { getCategories() }
+            getVpBannerImages.await()
+            getCategories.await()
+
+            val combinedList =( getVpBannerImages.await() + getCategories.await()).toMutableList()
+            val Divider: MainRecycleViewdata=object :MainRecycleViewdata{
+                override val type: ViewType?
+                    get() = ViewType.divider
+            }
+            combinedList.add(Divider)
+            _vpBannerDataFlow.emit(combinedList)
+        }
+
 
     }
 
-    private fun getCategories() {
-        val mutablelist = _vpBannerDataFlow.value.toMutableList()
-        var index = 0
-        viewModelScope.launch {
-            getVpBannerImagesUseCase().collect {
-                when (it) {
-                    is Resource.Success -> {
-                        it.data?.let {
-                            if (mutablelist.size > 0) index = 1
-                            mutablelist.add(index, it)
-                            _vpBannerDataFlow.emit(mutablelist)
-                        }
+    suspend fun getCategories(): List<MainRecycleViewdata> {
+        val result = mutableListOf<MainRecycleViewdata>()
+        getCategoriesUseCase().collect {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.let { RVC ->
+                        result.add(RVC)
                     }
-
-                    else -> {}
                 }
 
+                else -> {}
             }
 
         }
+        return result
     }
 
-    private fun getVpBannerImages() {
-        val mutablelist = _vpBannerDataFlow.value.toMutableList()
-        viewModelScope.launch {
-            getVpBannerImagesUseCase().collect {
-                when (it) {
-                    is Resource.Success -> {
-                        it.data?.let {
-                            mutablelist.add(0, it)
-                            _vpBannerDataFlow.emit(mutablelist)
-                        }
-
+    suspend private fun getVpBannerImages(): List<MainRecycleViewdata> {
+        val result = mutableListOf<MainRecycleViewdata>()
+        getVpBannerImagesUseCase().collect {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.let { RVC ->
+                        result.add(RVC)
                     }
 
-                    else -> {}
                 }
+
+                else -> {}
             }
-
         }
+        return result
     }
-
 }
+

@@ -1,4 +1,4 @@
-package com.example.buybuy.ui.mainscreen.recycleview
+package com.example.buybuy.ui.mainscreen.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,7 +29,6 @@ class VpBannerAdapter(private val images:List<String>):RecyclerView.Adapter<VpBa
     }
 
     override fun getItemCount(): Int {
-        Log.d("serhat", "getItemCount: ${images.size}")
          return images.size
     }
 }

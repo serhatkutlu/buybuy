@@ -8,13 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.VpBannerData
 import com.example.buybuy.databinding.FragmentMainBinding
-import com.example.buybuy.ui.mainscreen.recycleview.MainRecycleViewAdapter
-import com.example.buybuy.util.Gone
-import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
-import com.example.buybuy.util.showToast
+import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,7 +19,7 @@ import kotlinx.coroutines.launch
 class MainFragment() : Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var adapter: MainRecycleViewAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,10 +33,11 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
     private fun initUi() {
     }
 
-    private fun initRecylerView(VpBannerData: List<VpBannerData>) {
+    private fun initRecyclerView(mainRecycleViewdata: List<MainRecycleViewdata>) {
         binding.recyclerView.apply {
-            adapter = MainRecycleViewAdapter(VpBannerData)
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = MainRecycleViewAdapter(mainRecycleViewdata, this@MainFragment)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
     }
@@ -50,21 +47,7 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
             with(binding) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     vpBannerDataFlow.collect {
-                        when (it) {
-                            is Resource.Loading -> {
-                                progressBar.Visible()
-                            }
-
-                            is Resource.Success -> {
-                                progressBar.Gone()
-                                Log.d("daddd",it.data?.get(0)?.type.toString())
-                                initRecylerView(it.data!!)
-                            }
-                            is Resource.Error -> {
-                                progressBar.Gone()
-                                requireContext().showToast(it.message)
-                            }
-                        }
+                        initRecyclerView(it)
                     }
                 }
             }

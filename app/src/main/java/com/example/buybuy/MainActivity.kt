@@ -19,7 +19,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding:ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
 
@@ -28,33 +28,36 @@ class MainActivity : AppCompatActivity() {
     lateinit var fakeApi: FakeStoreApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
 
-        toggle=ActionBarDrawerToggle(this,binding.drawerLayout,R.string.open,R.string.closed)
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.closed)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
-        navHostFragment.navController.addOnDestinationChangedListener{_,destination,_ ->
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            when(destination.id){
+            when (destination.id) {
                 R.id.loginFragment,
                 R.id.signupFragment,
                 R.id.forgotPasswordFragment,
-                R.id.splashFragment-> {
+                R.id.productDetailFragment,
+                R.id.splashFragment -> {
                     binding.bottomNavigation.Gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
                 }
+
                 else -> {
                     binding.bottomNavigation.Visible()
-                  // binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
+                    // binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
 
                 }
             }

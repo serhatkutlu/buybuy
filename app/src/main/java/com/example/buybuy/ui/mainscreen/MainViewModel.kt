@@ -9,7 +9,9 @@ import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,17 +22,13 @@ class MainViewModel @Inject constructor(
     private val getVpBannerImagesUseCase: GetVpBannerImagesUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
-    private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewdata>> = MutableStateFlow(
-        emptyList()
-    )
-    val vpBannerDataFlow: StateFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
+    private val _vpBannerDataFlow: MutableSharedFlow<List<MainRecycleViewdata>> = MutableSharedFlow()
+    val vpBannerDataFlow: SharedFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
 
     init {
         viewModelScope.launch {
             val getVpBannerImages = async { getVpBannerImages() }
             val getCategories = async { getCategories() }
-            getVpBannerImages.await()
-            getCategories.await()
 
             val combinedList =( getVpBannerImages.await() + getCategories.await()).toMutableList()
             val Divider: MainRecycleViewdata=object :MainRecycleViewdata{

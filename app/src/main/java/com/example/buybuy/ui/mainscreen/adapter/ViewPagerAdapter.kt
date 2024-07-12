@@ -6,15 +6,21 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.buybuy.ui.mainscreen.productbycategoryFragment.ProductByCategoryFragment
 import com.example.buybuy.util.Constant.CATEGORY
 
-class ViewPagerAdapter(fragment: Fragment,private val categories: List<String>) : FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
+
+    var categories: List<String> = listOf()
     override fun getItemCount(): Int = categories.size
+
+
 
     override fun createFragment(position: Int): Fragment {
         val fragment = ProductByCategoryFragment()
         fragment.arguments = Bundle().apply {
-                putString(CATEGORY, categories[position])
+            putString(CATEGORY, categories[position])
         }
         return fragment
+
+
     }
 }

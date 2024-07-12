@@ -23,5 +23,8 @@ object Constant {
     const val VPBANNER="vp_banner"
     const val CATEGORY="category"
     const val DECORATION_SPACE=20
+    const val POPULAR="popular"
+    const val PREFS_NAME = "my_preferences"
+    const val lASTRVPOS="lastRVPosition"
 
 }

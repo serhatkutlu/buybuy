@@ -2,9 +2,11 @@ package com.example.buybuy.util
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.buybuy.util.Constant.PREFS_NAME
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
@@ -15,6 +17,9 @@ fun View.Visible() {
 
 fun View.Gone() {
     visibility = View.GONE
+}
+fun View.Invisible() {
+    visibility = View.INVISIBLE
 }
 
 fun TextInputEditText.Checkemail(error: String):Boolean{
@@ -80,3 +85,14 @@ fun ImageView.setImage(url:String){
     Picasso.get().load(url).into(this)
 
 }
+infix fun Int.generateDiscount(discount:Int)=this-(this*discount/100)
+
+
+val Context.sharedPreferences: SharedPreferences
+get() = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+fun SharedPreferences.Editor.putInt(key: String, value: Int): SharedPreferences.Editor =
+    apply { putInt(key, value).apply() }
+
+fun SharedPreferences.getInt(key: String, defaultValue: Int): Int =
+    getInt(key, defaultValue)

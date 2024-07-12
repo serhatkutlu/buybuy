@@ -8,7 +8,9 @@
     <color name="blue">#2424AC</color>
     <color name="orange">#ff9800</color>"
     <color name="light_grey">#E4E3E3</color>
-    <color name="transparent">#00E4E3E3</color>
+    <color name="dark_grey">#9b9b9b</color>
+
+    <color name="gold">#febb49</color>
 
 
 </resources>

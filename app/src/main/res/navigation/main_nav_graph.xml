@@ -7,5 +7,22 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.buybuy.ui.mainscreen.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment"
+        app:launchSingleTop="true">
+        <action
+            android:id="@+id/action_mainFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.buybuy.ui.productdetail.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
+        <argument android:name="product"
+            app:argType="com.example.buybuy.data.model.data.ProductDetail" />
+    </fragment>
 </navigation>

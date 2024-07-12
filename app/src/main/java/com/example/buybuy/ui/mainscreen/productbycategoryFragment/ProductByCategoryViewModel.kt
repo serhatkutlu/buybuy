@@ -32,7 +32,7 @@ class ProductByCategoryViewModel @Inject constructor(private val getProductByCat
                     }
 
                     is Resource.Success -> {
-                        _productByCategories.emit(Resource.Success(it.data))
+                        _productByCategories.emit(it)
                     }
                 }
             }

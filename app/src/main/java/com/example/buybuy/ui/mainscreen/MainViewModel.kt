@@ -22,8 +22,9 @@ class MainViewModel @Inject constructor(
     private val getVpBannerImagesUseCase: GetVpBannerImagesUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
-    private val _vpBannerDataFlow: MutableSharedFlow<List<MainRecycleViewdata>> = MutableSharedFlow()
-    val vpBannerDataFlow: SharedFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
+    private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewdata>> = MutableStateFlow(
+        listOf())
+    val vpBannerDataFlow: StateFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
 
     init {
         viewModelScope.launch {

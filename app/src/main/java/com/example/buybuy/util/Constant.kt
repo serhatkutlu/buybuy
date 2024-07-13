@@ -26,5 +26,5 @@ object Constant {
     const val POPULAR="popular"
     const val PREFS_NAME = "my_preferences"
     const val lASTRVPOS="lastRVPosition"
-
+    const val CURRENCYSYMBOL="$"
 }

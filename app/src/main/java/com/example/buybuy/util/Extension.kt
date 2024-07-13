@@ -85,7 +85,7 @@ fun ImageView.setImage(url:String){
     Picasso.get().load(url).into(this)
 
 }
-infix fun Int.generateDiscount(discount:Int)=this-(this*discount/100)
+infix fun Int.generateDiscount(discount:Int)=this.toFloat()-(this.toFloat()*discount/100)
 
 
 val Context.sharedPreferences: SharedPreferences

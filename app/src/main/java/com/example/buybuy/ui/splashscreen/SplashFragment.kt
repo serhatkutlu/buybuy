@@ -1,4 +1,4 @@
-package com.example.buybuy.ui
+package com.example.buybuy.ui.splashscreen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

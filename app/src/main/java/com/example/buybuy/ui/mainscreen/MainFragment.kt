@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.buybuy.MainActivity
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
@@ -46,7 +47,10 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
+        }
 
+        binding.ivMenu.setOnClickListener {
+           ( requireActivity() as MainActivity).openDrawerClick()
         }
     }
 

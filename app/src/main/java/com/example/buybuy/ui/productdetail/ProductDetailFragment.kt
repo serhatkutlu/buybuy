@@ -14,10 +14,12 @@ import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
+import com.example.buybuy.util.Constant.CURRENCYSYMBOL
 import com.example.buybuy.util.Constant.POPULAR
 import com.example.buybuy.util.Gone
 import com.example.buybuy.util.Invisible
 import com.example.buybuy.util.SpacesItemDecoration
+import com.example.buybuy.util.Visible
 import com.example.buybuy.util.generateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.viewBinding
@@ -75,14 +77,13 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     }
                     var newprice = price.toString()
                     if (discount != 0) {
+                        tvPriceOld.Visible()
                          newprice = (price generateDiscount discount).toString()
-                        tvPrice.text = newprice
-                        tvPriceOld.text=price.toString()
+                        tvPrice.text = (newprice+CURRENCYSYMBOL)
+                        tvPriceOld.text=(price.toString()+CURRENCYSYMBOL)
                         tvPriceOld.paint.isStrikeThruText=true
-                    }else{
-                        tvPriceOld.Invisible()
                     }
-                    tvPriceNew.text =newprice
+                    tvPriceNew.text =(newprice+CURRENCYSYMBOL)
 
 
                 }
@@ -127,6 +128,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
             override fun onAnimationEnd(p0: Animation?) {
                 binding.tvDescription.maxLines = maxLines
+                binding.tvTitle.maxLines=maxLines/3
                 isRotated = !isRotated // Döndürme durumunu güncelle
             }
 

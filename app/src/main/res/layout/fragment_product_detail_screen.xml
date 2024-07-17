@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:elevation="1dp"
+        android:padding="12dp"
+        android:src="@drawable/left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/orange" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.9">
+        android:layout_weight="0.9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_view"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,9 +98,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:paddingHorizontal="40dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="40dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -162,11 +180,13 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="0.1"
         android:paddingHorizontal="15dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -177,10 +197,10 @@
                 android:id="@+id/tv_price_old"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:text="150$"
+                android:textSize="15dp"
                 android:textStyle="bold"
-                android:textSize="15dp" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_price_new"
@@ -188,8 +208,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="150$"
-                android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <Space
@@ -214,4 +234,4 @@
             android:padding="15dp"
             android:text="Buy now" />
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,6 +83,9 @@ dependencies {
     implementation(libs.converter.gson)
     implementation (libs.logging.interceptor)
 
+    //room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
 
     // coroutine
     implementation (libs.kotlinx.coroutines.core)

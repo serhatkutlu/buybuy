@@ -2,7 +2,7 @@ package com.example.buybuy.ui.mainscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.enums.ViewType
+import com.example.buybuy.domain.model.enums.ViewType
 import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase

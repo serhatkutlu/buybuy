@@ -27,4 +27,6 @@ object Constant {
     const val PREFS_NAME = "my_preferences"
     const val lASTRVPOS="lastRVPosition"
     const val CURRENCYSYMBOL="$"
+    const val NODATAFOUND="No Data Found"
+
 }

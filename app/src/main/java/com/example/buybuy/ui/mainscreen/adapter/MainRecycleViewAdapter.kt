@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewpager2.widget.ViewPager2
 import com.example.buybuy.data.model.data.Category
-import com.example.buybuy.data.model.data.mainrecycleviewdata.RVCategory
-import com.example.buybuy.data.model.data.mainrecycleviewdata.TlAndVpData
-import com.example.buybuy.data.model.data.mainrecycleviewdata.VpBannerData
-import com.example.buybuy.data.model.enums.ViewType
+import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
+import com.example.buybuy.domain.model.mainrecycleviewdata.TlAndVpData
+import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
+import com.example.buybuy.domain.model.enums.ViewType
 import com.example.buybuy.databinding.ItemCategoryTablayoutAndViewpagerBinding
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding

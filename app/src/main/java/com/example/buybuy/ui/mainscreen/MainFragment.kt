@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.MainActivity
 import com.example.buybuy.R
@@ -51,6 +52,9 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
 
         binding.ivMenu.setOnClickListener {
            ( requireActivity() as MainActivity).openDrawerClick()
+        }
+        binding.ivSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
         }
     }
 

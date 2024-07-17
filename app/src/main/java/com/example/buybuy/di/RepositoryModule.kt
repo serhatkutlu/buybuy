@@ -1,6 +1,8 @@
 package com.example.buybuy.di
 
 import com.example.buybuy.data.repository.MainRepositoryImp
+import com.example.buybuy.data.source.local.SearchDAO
+import com.example.buybuy.data.source.local.SearchDataSourceImp
 import com.example.buybuy.data.source.remote.RemoteDataSourceImp
 import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
@@ -22,8 +24,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMainRepository(
-        remoteDataSource: RemoteDataSource
-    ): MainRepository = MainRepositoryImp(remoteDataSource)
+        remoteDataSource: RemoteDataSource,
+        searchDao: SearchDAO
+    ): MainRepository = MainRepositoryImp(remoteDataSource,SearchDataSourceImp(searchDao))
 
     @Provides
     @Singleton

@@ -31,6 +31,12 @@ import com.example.buybuy.util.Constant
 import com.example.buybuy.util.sharedPreferences
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainRecycleViewAdapter(
@@ -39,9 +45,12 @@ class MainRecycleViewAdapter(
     ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparator()) {
 
 
-    private var selectedPage = 0
+    private var selectedPage = 1
     private var selectedTabIndex = 0
-    private var selectedTabPage = 0
+
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var autoScrollJob: Job? = null
 
 
     override fun getItemViewType(position: Int): Int {
@@ -73,20 +82,40 @@ class MainRecycleViewAdapter(
         fun bind(item: MainRecycleViewdata) {
             val bannerItem = item as VpBannerData
             val vpBannerAdapter = VpBannerAdapter()
-            vpBannerAdapter.submitList(bannerItem.data)
+            val data = bannerItem.data.toMutableList()
+            data.add(0, bannerItem.data[0])
+            data.add(bannerItem.data.size - 1, bannerItem.data[bannerItem.data.size - 1])
+            vpBannerAdapter.submitList(data)
             binding.viewPager.adapter = vpBannerAdapter
+            startAutoScroll(binding)
+
             binding.viewPager.setCurrentItem(selectedPage, false)
 
             binding.counterTextView.text =
-                (selectedPage + 1).toString() + "/${bannerItem.data.size}"
+                (selectedPage).toString() + "/${bannerItem.data.size}"
 
             binding.viewPager.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                     selectedPage = position
+                    if (position == (binding.viewPager.adapter?.itemCount ?: 0) - 1) {
+                        binding.viewPager.setCurrentItem(1, false)
+                        selectedPage = 1
+
+                    } else if (position == 0) {
+                        binding.viewPager.setCurrentItem(
+                            (binding.viewPager.adapter?.itemCount ?: 0) - 1, false
+                        )
+                        selectedPage = (binding.viewPager.adapter?.itemCount ?: 0) - 1
+                    }
+
                     binding.counterTextView.text =
-                        (position + 1).toString() + "/${bannerItem.data.size}"
+                        (selectedPage).toString() + "/${bannerItem.data.size}"
                 }
 
 
@@ -95,6 +124,17 @@ class MainRecycleViewAdapter(
 
         }
     }
+
+    private fun startAutoScroll(binding: ItemVpBannerBinding) {
+        autoScrollJob = coroutineScope.launch {
+            while (true) {
+                delay(3000) // 3 saniye bekle
+
+                binding.viewPager.setCurrentItem(++selectedPage, true)
+            }
+        }
+    }
+
 
     class DividerViewHolder(binding: ItemDividerMainRvBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -120,18 +160,25 @@ class MainRecycleViewAdapter(
                         val textView = tab.customView?.findViewById<TextView>(R.id.tab_title)
                         textView?.text = categoryItem.categories[position]
                         if (position == 0) {
-                            tab.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
-                                fragment.requireContext(), R.color.orange))
+                            tab.customView?.findViewById<CardView>(R.id.cv_tab)
+                                ?.setCardBackgroundColor(
+                                    ContextCompat.getColor(
+                                        fragment.requireContext(), R.color.orange
+                                    )
+                                )
                         }
                     }.attach()
 
 
-
-                    val tabSelectedListener=object : TabLayout.OnTabSelectedListener {
+                    val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
                         override fun onTabSelected(tab: TabLayout.Tab?) {
                             selectedTabIndex = tab?.position ?: 0
-                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
-                                fragment.requireContext(), R.color.orange))
+                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)
+                                ?.setCardBackgroundColor(
+                                    ContextCompat.getColor(
+                                        fragment.requireContext(), R.color.orange
+                                    )
+                                )
 
                             fragment.requireContext().sharedPreferences.edit()
                                 .putInt(Constant.lASTRVPOS, 0).apply()
@@ -139,10 +186,15 @@ class MainRecycleViewAdapter(
                         }
 
                         override fun onTabUnselected(tab: TabLayout.Tab?) {
-                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
-                                fragment.requireContext(), R.color.white))
+                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)
+                                ?.setCardBackgroundColor(
+                                    ContextCompat.getColor(
+                                        fragment.requireContext(), R.color.white
+                                    )
+                                )
 
                         }
+
                         override fun onTabReselected(tab: TabLayout.Tab?) {}
 
 

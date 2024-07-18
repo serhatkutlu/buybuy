@@ -76,7 +76,6 @@ class MainRepositoryImp @Inject constructor(
         try {
             searchDataSource.saveProducts(productDetail)
         } catch (e: Exception) {
-            Log.d("serhat", "saveAllProduct: ${e.message}")
         }
     }
 

@@ -9,7 +9,10 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            android:background="@color/orange"
+            app:tabTextAppearance="@style/MyTabTextAppearance"
+            app:tabIndicatorColor="@color/orange"
+            app:tabIndicatorHeight="0dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable"

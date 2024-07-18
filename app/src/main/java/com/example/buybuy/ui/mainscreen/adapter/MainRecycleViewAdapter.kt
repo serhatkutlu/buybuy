@@ -5,7 +5,10 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewpager2.widget.ViewPager2
+import com.example.buybuy.R
 import com.example.buybuy.data.model.data.Category
 import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
 import com.example.buybuy.domain.model.mainrecycleviewdata.TlAndVpData
@@ -111,24 +115,49 @@ class MainRecycleViewAdapter(
 
 
                     TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                        tab.text = categoryItem.categories[position]
+
+                        tab.setCustomView(R.layout.item_tab_layouth)
+                        val textView = tab.customView?.findViewById<TextView>(R.id.tab_title)
+                        textView?.text = categoryItem.categories[position]
+                        if (position == 0) {
+                            tab.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
+                                fragment.requireContext(), R.color.orange))
+                        }
                     }.attach()
 
-                    tabLayout.getTabAt(selectedTabIndex)?.select()
-                    tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+
+                    val tabSelectedListener=object : TabLayout.OnTabSelectedListener {
                         override fun onTabSelected(tab: TabLayout.Tab?) {
                             selectedTabIndex = tab?.position ?: 0
+                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
+                                fragment.requireContext(), R.color.orange))
 
                             fragment.requireContext().sharedPreferences.edit()
                                 .putInt(Constant.lASTRVPOS, 0).apply()
 
                         }
 
-                        override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                        override fun onTabUnselected(tab: TabLayout.Tab?) {
+                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)?.setCardBackgroundColor(ContextCompat.getColor(
+                                fragment.requireContext(), R.color.white))
+
+                        }
                         override fun onTabReselected(tab: TabLayout.Tab?) {}
 
 
-                    })
+                    }
+                    tabLayout.getTabAt(0)?.apply {
+                        select()
+                        tabSelectedListener.onTabUnselected(this)
+                    }
+
+                    tabLayout.getTabAt(selectedTabIndex)?.apply {
+                        select()
+                        tabSelectedListener.onTabSelected(this)
+                    }
+
+                    tabLayout.addOnTabSelectedListener(tabSelectedListener)
                 }
 
 

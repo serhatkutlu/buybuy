@@ -12,7 +12,8 @@
         app:launchSingleTop="true">
         <action
             android:id="@+id/action_mainFragment_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
+            app:destination="@id/productDetailFragment"
+            app:launchSingleTop="true"/>
         <action
             android:id="@+id/action_mainFragment_to_searchFragment"
             app:destination="@id/searchFragment" />

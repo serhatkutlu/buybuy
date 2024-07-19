@@ -22,6 +22,7 @@ data class ProductDetail(
     val popular: Boolean,
     val price: Int,
     val title: String,
-    var star: Float?=null
+    var star: Float?=null,
+    var isFavorite: Boolean=false
 
 ): Parcelable

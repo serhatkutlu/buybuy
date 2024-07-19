@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv_tab"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:gravity="center"
-    android:minWidth="80dp"
+    android:minWidth="50dp"
     app:cardCornerRadius="30dp"
     app:cardBackgroundColor="@color/white"
     app:strokeColor="@color/orange">
@@ -18,6 +18,6 @@
         android:layout_margin="8dp"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="10sp" />
 
 </com.google.android.material.card.MaterialCardView>

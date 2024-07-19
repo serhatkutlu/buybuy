@@ -42,6 +42,7 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
 
     }
 
+
     private fun initUi() {
         binding.recyclerView.apply {
             adapter = RVadapter

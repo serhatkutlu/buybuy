@@ -91,8 +91,3 @@ infix fun Int.generateDiscount(discount:Int)=this.toFloat()-(this.toFloat()*disc
 val Context.sharedPreferences: SharedPreferences
 get() = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-fun SharedPreferences.Editor.putInt(key: String, value: Int): SharedPreferences.Editor =
-    apply { putInt(key, value).apply() }
-
-fun SharedPreferences.getInt(key: String, defaultValue: Int): Int =
-    getInt(key, defaultValue)

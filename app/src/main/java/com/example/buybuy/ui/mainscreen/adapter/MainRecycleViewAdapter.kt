@@ -26,9 +26,7 @@ import com.example.buybuy.databinding.ItemCategoryTablayoutAndViewpagerBinding
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
-import com.example.buybuy.ui.mainscreen.productbycategoryFragment.ProductByCategoryFragment
-import com.example.buybuy.util.Constant
-import com.example.buybuy.util.sharedPreferences
+
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +49,6 @@ class MainRecycleViewAdapter(
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var autoScrollJob: Job? = null
-
 
     override fun getItemViewType(position: Int): Int {
 
@@ -125,7 +122,10 @@ class MainRecycleViewAdapter(
         }
     }
 
+
     private fun startAutoScroll(binding: ItemVpBannerBinding) {
+
+        autoScrollJob?.cancel()
         autoScrollJob = coroutineScope.launch {
             while (true) {
                 delay(3000) // 3 saniye bekle
@@ -142,16 +142,20 @@ class MainRecycleViewAdapter(
 
     inner class CategoryViewHolder(val binding: ItemCategoryTablayoutAndViewpagerBinding) :
         ViewHolder(binding.root) {
-        val categoryAdapter by lazy { ViewPagerAdapter(fragment) }
+
+
         fun bind(item: MainRecycleViewdata) {
             val categoryItem = item as RVCategory
 
             with(binding) {
                 categoryItem.categories?.let {
 
-                    categoryAdapter.categories = categoryItem.categories
-                    viewPager.adapter = categoryAdapter
+
+                    viewPager.adapter =
+                        ViewPagerAdapter(fragment).apply { categories = categoryItem.categories }
                     viewPager.isUserInputEnabled = false
+                    viewPager.offscreenPageLimit = 1
+
 
 
                     TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -171,7 +175,9 @@ class MainRecycleViewAdapter(
 
 
                     val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
+
                         override fun onTabSelected(tab: TabLayout.Tab?) {
+
                             selectedTabIndex = tab?.position ?: 0
                             tab?.customView?.findViewById<CardView>(R.id.cv_tab)
                                 ?.setCardBackgroundColor(
@@ -180,8 +186,6 @@ class MainRecycleViewAdapter(
                                     )
                                 )
 
-                            fragment.requireContext().sharedPreferences.edit()
-                                .putInt(Constant.lASTRVPOS, 0).apply()
 
                         }
 
@@ -200,7 +204,7 @@ class MainRecycleViewAdapter(
 
                     }
                     tabLayout.getTabAt(0)?.apply {
-                        select()
+                        //select()
                         tabSelectedListener.onTabUnselected(this)
                     }
 

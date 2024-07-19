@@ -10,6 +10,6 @@ class ProductComparator : DiffUtil.ItemCallback<ProductDetail>() {
     }
 
     override fun areContentsTheSame(oldItem: ProductDetail, newItem: ProductDetail): Boolean {
-        return oldItem==newItem
+        return oldItem.isFavorite==newItem.isFavorite
     }
 }

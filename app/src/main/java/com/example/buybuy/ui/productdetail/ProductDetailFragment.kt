@@ -1,12 +1,17 @@
 package com.example.buybuy.ui.productdetail
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.RotateAnimation
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +29,7 @@ import com.example.buybuy.util.generateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) {
@@ -39,6 +45,21 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
         super.onViewCreated(view, savedInstanceState)
         createTabsList()
         initUi()
+        initObservers()
+
+    }
+
+    private fun initObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.isFavorite.collect{
+                    if (it){
+                        binding.includedLayout.cvFavorite.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.orange))
+                    }else binding.includedLayout.cvFavorite.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.white))
+
+                }
+            }
+        }
     }
 
     private fun createTabsList() {
@@ -64,8 +85,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     imageView.setImage(image)
                     rating.rating = star ?: 0.0f
                     tvRating.text = star.toString()
-                    cvFavorite.setOnClickListener {
-                        addFavoriteItem(args.product)
+                    includedLayout.cvFavorite.setOnClickListener {
                     }
                     recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recyclerView.adapter = ProductDetailAdapter(tabs)

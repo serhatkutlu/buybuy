@@ -1,6 +1,7 @@
 package com.example.buybuy.ui.mainscreen.productbycategoryFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,24 +35,51 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
     private val binding by viewBinding(FragmentProductsByCategoryBinding::bind)
     private val viewModel: ProductByCategoryViewModel by viewModels()
     private val adapter by lazy {
-        ProductByCategoryAdapter() }
+        ProductByCategoryAdapter()
+    }
+
+     var category:String? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bundle = arguments
         bundle?.let {
-            val category = bundle.getString(CATEGORY)
+            category = bundle.getString(CATEGORY)
             category?.let {
-                viewModel.getProductByCategories(category)
+                viewModel.getProductByCategories(it)
 
             }
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        initRecyclerView()
         initObservers()
+    }
+
+    private fun initRecyclerView() {
+        with(binding) {
+
+
+            recyclerView.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            adapter.onClickListener = ::beginNavigate
+            adapter.onFavoriteClickListener = ::addToFavorite
+            recyclerView.adapter = adapter
+            recyclerView.addItemDecoration(
+                SpacesItemDecoration(
+                    spaceleft = DECORATION_SPACE,
+                    spacetop = DECORATION_SPACE
+
+                )
+            )
+            //loadLastRVPosition()
+        }
     }
 
     private fun initObservers() {
@@ -64,26 +92,15 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
                                 is Resource.Loading -> {
                                     //progressBar.Visible()
                                 }
+
                                 is Resource.Success -> {
                                     progressBar.Gone()
                                     it.data?.let {
-                                        recyclerView.addItemDecoration(
-                                            SpacesItemDecoration(
-                                                spaceleft = DECORATION_SPACE,
-                                                spacetop = DECORATION_SPACE
 
-                                            )
-                                        )
-                                        recyclerView.layoutManager = LinearLayoutManager(
-                                            requireContext(),
-                                            LinearLayoutManager.HORIZONTAL,
-                                            false
-                                        )
 
                                         adapter.submitList(it)
-                                        adapter.onClickListener=::beginNavigate
-                                        recyclerView.adapter = adapter
                                         loadLastRVPosition()
+
 
 
                                     }
@@ -100,25 +117,47 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
             }
         }
     }
-    private fun beginNavigate(product:ProductDetail){
-        //findNavController().navigate(MainFragmentDirections.actionMainFragmentToProductDetailFragment(product))
+
+    override fun onStop() {
+        super.onStop()
         saveLastRVPosition()
-        findNavController().navigate(MainFragmentDirections.actionMainFragmentToProductDetailFragment(product))
+
+        parentFragmentManager.beginTransaction()
+            .remove(this)
+            .commitAllowingStateLoss()
     }
+
+    private fun beginNavigate(product: ProductDetail) {
+        //findNavController().navigate(MainFragmentDirections.actionMainFragmentToProductDetailFragment(product))
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToProductDetailFragment(
+                product
+            )
+        )
+    }
+
+    private fun addToFavorite(product: ProductDetail) {
+        viewModel.addToFavorite(product)
+    }
+
 
     private fun saveLastRVPosition() {
         val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-        val position = layoutManager.findFirstVisibleItemPosition()
-        requireContext().sharedPreferences.edit().putInt(lASTRVPOS, position).apply()
+        val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+        position
+        requireContext().sharedPreferences.edit().putInt(category, position).apply()
     }
+
     private fun loadLastRVPosition() {
         val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-        layoutManager.scrollToPosition(getLastRVPosition())
+        val position = getLastRVPosition()
+        layoutManager.scrollToPosition(position)
+        position
+
     }
 
     private fun getLastRVPosition(): Int {
-        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-        layoutManager.findFirstVisibleItemPosition()
-       return requireContext().sharedPreferences.getInt(lASTRVPOS,0)
+
+        return requireContext().sharedPreferences.getInt(category, 0)
     }
 }

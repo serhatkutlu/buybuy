@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,6 +24,7 @@ class ProductByCategoryAdapter() :
     ) {
 
     var onClickListener: (ProductDetail) -> Unit = {}
+    var onFavoriteClickListener: (ProductDetail) -> Unit = {}
 
     inner class ViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,9 +42,31 @@ class ProductByCategoryAdapter() :
             binding.cardView.setOnClickListener {
                 onClickListener(productDetail)
             }
+            setFavoriteBackground(productDetail.isFavorite)
+
+            binding.includedLayout.cvFavorite.setOnClickListener {
+                val background = binding.includedLayout.cvFavorite.cardBackgroundColor.defaultColor==ContextCompat.getColor(binding.root.context, R.color.orange)
+                setFavoriteBackground(!background)
+                onFavoriteClickListener(productDetail)
+            }
+
+        }
+
+        private fun setFavoriteBackground(ischanged: Boolean) {
+            val color = if (ischanged) {
+                ContextCompat.getColor(binding.root.context, R.color.orange)
+            } else {
+                ContextCompat.getColor(binding.root.context, R.color.white)
+            }
+
+            binding.includedLayout.cvFavorite.setCardBackgroundColor(
+                color
+            )
+
 
         }
     }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -56,13 +81,9 @@ class ProductByCategoryAdapter() :
     }
 
 
-
-
-
     override fun getItemCount(): Int {
         return currentList.size
     }
-
 
 
 }

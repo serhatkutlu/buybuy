@@ -2,9 +2,10 @@ package com.example.buybuy.di
 
 import com.example.buybuy.data.repository.MainRepositoryImp
 import com.example.buybuy.data.source.local.SearchDAO
-import com.example.buybuy.data.source.local.SearchDataSourceImp
+import com.example.buybuy.data.source.local.LocalDataSourceImp
 import com.example.buybuy.data.source.remote.RemoteDataSourceImp
 import com.example.buybuy.data.source.remote.FakeStoreApi
+import com.example.buybuy.domain.datasource.local.LocalDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.domain.repository.MainRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -25,14 +26,8 @@ object RepositoryModule {
     @Singleton
     fun provideMainRepository(
         remoteDataSource: RemoteDataSource,
-        searchDao: SearchDAO
-    ): MainRepository = MainRepositoryImp(remoteDataSource,SearchDataSourceImp(searchDao))
+        localDataSource: LocalDataSource
+        ): MainRepository = MainRepositoryImp(remoteDataSource,localDataSource)
 
-    @Provides
-    @Singleton
-    fun provideRemoteDataSource(
-        fakeStoreApi: FakeStoreApi,
-        authentcation: FirebaseAuth,
-        firestore: FirebaseFirestore
-    ): RemoteDataSource = RemoteDataSourceImp(fakeStoreApi, authentcation, firestore)
+
 }

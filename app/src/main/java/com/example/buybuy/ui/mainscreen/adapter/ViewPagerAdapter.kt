@@ -20,7 +20,5 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
             putString(CATEGORY, categories[position])
         }
         return fragment
-
-
     }
 }

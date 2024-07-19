@@ -47,7 +47,7 @@ class ProductByCategoryAdapter() :
             binding.includedLayout.cvFavorite.setOnClickListener {
                 val background = binding.includedLayout.cvFavorite.cardBackgroundColor.defaultColor==ContextCompat.getColor(binding.root.context, R.color.orange)
                 setFavoriteBackground(!background)
-                onFavoriteClickListener(productDetail)
+                onFavoriteClickListener(productDetail.copy(isFavorite = background))
             }
 
         }

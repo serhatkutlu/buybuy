@@ -63,7 +63,7 @@ class ProductByCategoryViewModel @Inject constructor(
                 addToFavoriteUseCase.invoke(productDetail)
                 when (value) {
                     is Resource.Success -> {
-                         value.data?.map {
+                        val updatedList = value.data?.map {
                             if (it.id == productDetail.id){
                                 it.copy(isFavorite = true)
                             }else it
@@ -87,6 +87,8 @@ class ProductByCategoryViewModel @Inject constructor(
                         }
                         withContext(Dispatchers.Main){
                             _productByCategories.value =(Resource.Success(value.data))
+
+
                         }
                     }
                     else -> {}

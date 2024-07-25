@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class IsFavoriteUseCase @Inject constructor( private val repository: MainRepository) {
 
-    suspend operator fun invoke(id: Int) = repository.isFavorite(id)
+    //suspend operator fun invoke(id: Int) = repository.isFavorite(id)
 }

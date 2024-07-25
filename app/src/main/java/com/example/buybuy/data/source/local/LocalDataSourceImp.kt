@@ -20,18 +20,20 @@ class LocalDataSourceImp @Inject constructor(
     }
 
     override suspend fun addToFavorite(product: ProductDetail) {
-        favoriteDAO.addToFavorite(product)
+        searchDAO.addToFavorite(product.id)
     }
 
     override suspend fun deleteFromFavorite(product: Int) {
-        favoriteDAO.deleteFromFavorite(product)
+        searchDAO.deleteFromFavorite(product)
     }
 
     override suspend fun getAllFavoriteProducts(): List<ProductDetail> =
-        favoriteDAO.getFavoriteProducts()
+
+        searchDAO.getAllFavoriteProducts()
+
 
     override suspend fun isProductFavorite(productId: Int): Boolean =
-        favoriteDAO.isProductFavorite(productId)
+        searchDAO.isProductFavorite(productId)
 
 
 }

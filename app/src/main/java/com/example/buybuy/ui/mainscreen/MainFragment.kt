@@ -1,8 +1,6 @@
 package com.example.buybuy.ui.mainscreen
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.MainActivity
 import com.example.buybuy.R
+import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
-import com.example.buybuy.ui.mainscreen.adapter.ViewPagerAdapter
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,7 +25,7 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
 
     private val RVadapter: MainRecycleViewAdapter by lazy {
-        MainRecycleViewAdapter(this)
+        MainRecycleViewAdapter()
     }
 
 
@@ -44,24 +42,43 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
 
 
     private fun initUi() {
-        binding.recyclerView.apply {
-            adapter = RVadapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            setHasFixedSize(true)
-        }
 
+        initRV()
         binding.ivMenu.setOnClickListener {
-           ( requireActivity() as MainActivity).openDrawerClick()
+            (requireActivity() as MainActivity).openDrawerClick()
         }
         binding.ivSearch.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
         }
     }
 
-    private fun initRecyclerView(mainRecycleViewdata: List<MainRecycleViewdata>) {
-        //RVadapter.submitList(mainRecycleViewdata)
-        RVadapter.update(mainRecycleViewdata)
+    private fun initRV() {
+        binding.recyclerView.apply {
+            adapter = RVadapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
+        }
+        RVadapter.fetchContentData = ::fetchContentDataForRecycleView
+        RVadapter.contentClickListener =::openProductDetailScreen
+        RVadapter.contentFavoriteClickListener=::addToFavorite
+    }
+
+    private fun addToFavorite(productDetail: ProductDetail) {
+            viewModel.addToFavorite(productDetail)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        RVadapter.saveState()
+
+    }
+
+    private fun UpdateVpBannerData(mainRecycleViewdata: List<MainRecycleViewdata>) {
+        RVadapter.submitList(mainRecycleViewdata)
+
+
     }
 
     private fun initObservers() {
@@ -70,7 +87,7 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                         vpBannerDataFlow.collect {
-                            initRecyclerView(it)
+                            UpdateVpBannerData(it)
                         }
                     }
 
@@ -79,5 +96,15 @@ class MainFragment() : Fragment(R.layout.fragment_main) {
         }
     }
 
+    fun fetchContentDataForRecycleView(category: String) =
+        viewModel.fetchContentForCategory(category)
+
+    fun openProductDetailScreen(product: ProductDetail) {
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToProductDetailFragment(
+                product
+            )
+        )
+    }
 
 }

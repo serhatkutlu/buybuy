@@ -17,4 +17,20 @@ interface SearchDAO {
     fun searchAll(query: String): List<ProductDetail>?
 
 
+    @Query("UPDATE ProductDetail SET isFavorite = 0 WHERE id = :productId")
+    fun deleteFromFavorite(productId:Int)
+
+    @Query("UPDATE ProductDetail SET isFavorite = 1 WHERE id = :productId")
+    fun addToFavorite(productId:Int)
+
+
+
+
+    @Query("SELECT * FROM productdetail WHERE isFavorite = 1")
+    fun getAllFavoriteProducts():List<ProductDetail>
+    @Query("SELECT EXISTS (SELECT 1 FROM productdetail WHERE id = :productId AND isFavorite = 1)")
+    fun isProductFavorite(productId: Int): Boolean
+
+
+
 }

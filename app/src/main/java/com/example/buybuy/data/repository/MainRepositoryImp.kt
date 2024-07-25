@@ -118,6 +118,6 @@ class MainRepositoryImp @Inject constructor(
         }
     }
 
-     override  suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
+      private   suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
 
 }

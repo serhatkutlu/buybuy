@@ -1,54 +1,56 @@
 package com.example.buybuy.ui.mainscreen.adapter
 
-import android.annotation.SuppressLint
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.viewpager2.widget.ViewPager2
-import com.example.buybuy.R
-import com.example.buybuy.data.model.data.Category
-import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
-import com.example.buybuy.domain.model.mainrecycleviewdata.TlAndVpData
-import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
+import com.example.buybuy.data.adapters.TabAdapter
+import com.example.buybuy.data.adapters.TabContentAdapter
+import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.domain.model.enums.ViewType
-import com.example.buybuy.databinding.ItemCategoryTablayoutAndViewpagerBinding
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
+import com.example.buybuy.util.Resource
 
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlinx.coroutines.flow.Flow
 
 class MainRecycleViewAdapter(
-    private val fragment: Fragment
+
 ) :
     ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparator()) {
 
 
-    private var selectedPage = 1
-    private var selectedTabIndex = 0
+    private var selectedPageVpBanner = 1
 
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var autoScrollJob: Job? = null
+    var contentClickListener: (ProductDetail) -> Unit = {}
+    var contentFavoriteClickListener: (ProductDetail) -> Unit = {}
+    lateinit var fetchContentData: (content: String) -> Flow<Resource<List<ProductDetail>>>
+
+    private val coroutineScopeContent = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private var scrollState: Parcelable? = null
+    var layoutManager: LayoutManager? = null
+
+    private val tabAdapter: TabAdapter by lazy {
+        TabAdapter()
+    }
+    private val tabContentAdapter: TabContentAdapter by lazy {
+        TabContentAdapter()
+    }
+
 
     override fun getItemViewType(position: Int): Int {
 
@@ -69,78 +71,38 @@ class MainRecycleViewAdapter(
 
     }
 
-    fun update(list: List<MainRecycleViewdata>) {
-        submitList(list)
+
+
+
+
+
+
+
+
+
+    //
+//    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+//        super.onDetachedFromRecyclerView(recyclerView)
+//    }
+//
+//    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+//        super.onViewDetachedFromWindow(holder)
+//    }
+//    override fun onViewRecycled(holder: ViewHolder) {
+//        super.onViewRecycled(holder)
+//        if (holder is CategoryTabAndContentViewHolder) { // Cast işlemi
+//            val key = currentList[holder.adapterPosition].type.toString()
+//            scrollStates[key] = holder.layoutManager?.onSaveInstanceState() // LayoutManager'ı kullanın
+//        }
+//    }
+    fun saveState() {
+        scrollState = layoutManager?.onSaveInstanceState()
     }
 
 
-    inner class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
-        ViewHolder(binding.root) {
-        fun bind(item: MainRecycleViewdata) {
-            val bannerItem = item as VpBannerData
-            val vpBannerAdapter = VpBannerAdapter()
-            val data = bannerItem.data.toMutableList()
-            data.add(0, bannerItem.data[0])
-            data.add(bannerItem.data.size - 1, bannerItem.data[bannerItem.data.size - 1])
-            vpBannerAdapter.submitList(data)
-            binding.viewPager.adapter = vpBannerAdapter
-            startAutoScroll(binding)
-
-            binding.viewPager.setCurrentItem(selectedPage, false)
-
-            binding.counterTextView.text =
-                (selectedPage).toString() + "/${bannerItem.data.size}"
-
-            binding.viewPager.registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                    selectedPage = position
-                    if (position == (binding.viewPager.adapter?.itemCount ?: 0) - 1) {
-                        binding.viewPager.setCurrentItem(1, false)
-                        selectedPage = 1
-
-                    } else if (position == 0) {
-                        binding.viewPager.setCurrentItem(
-                            (binding.viewPager.adapter?.itemCount ?: 0) - 1, false
-                        )
-                        selectedPage = (binding.viewPager.adapter?.itemCount ?: 0) - 1
-                    }
-
-                    binding.counterTextView.text =
-                        (selectedPage).toString() + "/${bannerItem.data.size}"
-                }
 
 
-            })
-
-
-        }
-    }
-
-
-    private fun startAutoScroll(binding: ItemVpBannerBinding) {
-
-        autoScrollJob?.cancel()
-        autoScrollJob = coroutineScope.launch {
-            while (true) {
-                delay(3000) // 3 saniye bekle
-
-                binding.viewPager.setCurrentItem(++selectedPage, true)
-            }
-        }
-    }
-
-
-    class DividerViewHolder(binding: ItemDividerMainRvBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
-
-    inner class CategoryViewHolder(val binding: ItemCategoryTablayoutAndViewpagerBinding) :
+    /*inner class CategoryViewHolder(val binding: ItemCategoryTablayoutAndViewpagerBinding) :
         ViewHolder(binding.root) {
 
 
@@ -219,7 +181,7 @@ class MainRecycleViewAdapter(
 
             }
         }
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -231,8 +193,8 @@ class MainRecycleViewAdapter(
 
             ViewType.category.ordinal -> {
                 val binding =
-                    ItemCategoryTablayoutAndViewpagerBinding.inflate(LayoutInflater.from(parent.context))
-                return CategoryViewHolder(binding)
+                    ItemCategoryContentRvBinding.inflate(LayoutInflater.from(parent.context))
+                return CategoryTabAndContentViewHolder(binding)
             }
 
             ViewType.divider.ordinal -> {
@@ -259,12 +221,29 @@ class MainRecycleViewAdapter(
         getItem(position).let {
             when (it.type) {
                 ViewType.vp_banner -> {
-                    (holder as VpBannerViewHolder).bind(it)
+                    (holder as VpBannerViewHolder).apply{
+                        selectedPage=selectedPageVpBanner
+                        bind(it){
+                             selectedPageVpBanner = it
+                            return@bind selectedPageVpBanner
+
+                        }
+                    }
                 }
 
                 ViewType.category -> {
 
-                    (holder as CategoryViewHolder).bind(it)
+                    (holder as CategoryTabAndContentViewHolder).bind(
+                        it,
+                        tabAdapter,
+                        tabContentAdapter,
+                        scrollState,
+                        coroutineScopeContent,
+                        fetchContentData,
+                        contentClickListener,
+                        contentFavoriteClickListener
+                    )
+                    layoutManager = holder.layoutManager
                 }
 
                 else -> {

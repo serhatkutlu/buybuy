@@ -94,5 +94,7 @@ dependencies {
     //picasso
     implementation (libs.picasso)
 
+    implementation (libs.shimmer)
+
 
 }

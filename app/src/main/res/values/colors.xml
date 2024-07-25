@@ -9,6 +9,7 @@
     <color name="orange">#ff9800</color>"
     <color name="light_grey">#E4E3E3</color>
     <color name="dark_grey">#9b9b9b</color>
+    <color name="shimmer_placeholder_color">#C2C2C2</color>
 
     <color name="gold">#febb49</color>
 

@@ -1,4 +1,4 @@
-package com.example.buybuy.data.adapters
+package com.example.buybuy.ui.mainscreen.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemTabLayouthBinding
 
 class TabAdapter() : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparatorTab()) {

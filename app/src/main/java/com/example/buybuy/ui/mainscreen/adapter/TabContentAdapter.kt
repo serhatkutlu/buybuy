@@ -1,18 +1,14 @@
-package com.example.buybuy.data.adapters
+package com.example.buybuy.ui.mainscreen.adapter
 
-import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
-import com.example.buybuy.databinding.ItemProductShimmerPlaceholderBinding
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.Visible
 import com.example.buybuy.util.generateDiscount
@@ -24,13 +20,8 @@ class TabContentAdapter :
     var onFavoriteClickListener: (ProductDetail,Int) -> Unit = {
         _,_->
     }
-    var scrollstateChange: () -> Unit = {}
     private var layoutManager: RecyclerView.LayoutManager? = null
-    override fun onViewRecycled(holder: ContentViewHolder) {
-        super.onViewRecycled(holder)
-        scrollstateChange()
 
-    }
 
 
 

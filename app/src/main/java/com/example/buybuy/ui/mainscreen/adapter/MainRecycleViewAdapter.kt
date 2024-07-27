@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.buybuy.data.adapters.TabAdapter
-import com.example.buybuy.data.adapters.TabContentAdapter
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.domain.model.enums.ViewType

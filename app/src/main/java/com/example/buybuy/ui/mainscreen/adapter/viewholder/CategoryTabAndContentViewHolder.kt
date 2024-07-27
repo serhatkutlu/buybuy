@@ -3,8 +3,8 @@ package com.example.buybuy.ui.mainscreen.adapter.viewholder
 import android.os.Parcelable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.buybuy.data.adapters.TabAdapter
-import com.example.buybuy.data.adapters.TabContentAdapter
+import com.example.buybuy.ui.mainscreen.adapter.TabAdapter
+import com.example.buybuy.ui.mainscreen.adapter.TabContentAdapter
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata

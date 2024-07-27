@@ -52,6 +52,7 @@ class TabContentAdapter :
             binding.cardView.setOnClickListener {
                 onClickListener(productDetail)
             }
+
             setFavoriteBackground(productDetail.isFavorite)
 
             binding.includedLayout.cvFavorite.setOnClickListener {

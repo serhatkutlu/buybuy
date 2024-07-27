@@ -28,6 +28,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
     fun bind(
         item: MainRecycleViewdata,
         tabAdapter: TabAdapter,
+        currentCategoryParent: String?,
+        currentCategoryClickListener: (String) -> Unit,
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
         coroutineScope: CoroutineScope,
@@ -36,6 +38,13 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         contentFavoriteClickListener: (ProductDetail) -> Unit
     ) {
         val categoryItem = item as RVCategory
+        currentCategory=
+            if (currentCategoryParent != null) {
+            currentCategoryParent
+        } else {
+            categoryItem.categories?.get(0)
+
+        }
         binding.tabRecyclerView.adapter = tabAdapter
         binding.tabRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
@@ -49,7 +58,6 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         binding.contentRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 35))
         binding.contentRecyclerView.itemAnimator = null
 
-        currentCategory= categoryItem.categories?.get(0)
         if (scrollState != null) {
             binding.contentRecyclerView.layoutManager?.onRestoreInstanceState(scrollState)
         } else {
@@ -58,7 +66,11 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
 
         val shimmerFrameLayout = binding.shimmer
-        suspend fun initCollect(result: Resource<List<ProductDetail>>,isNewData:Boolean,position: Int ) {
+        suspend fun initCollect(
+            result: Resource<List<ProductDetail>>,
+            isNewData: Boolean,
+            position: Int
+        ) {
             withContext(Dispatchers.Main) {
 
 
@@ -69,18 +81,19 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
                         shimmerFrameLayout.stopShimmer()
                         shimmerFrameLayout.Gone()
                         binding.contentRecyclerView.Visible()
-                        if (!isNewData){
+                        if (!isNewData) {
                             tabContentAdapter.notifyItemChanged(position)
                         }
                     }
 
                     is Resource.Loading -> {
-                        if (isNewData){
-                        tabContentAdapter.submitList(listOf())
-                        shimmerFrameLayout.startShimmer()
-                        shimmerFrameLayout.Visible()
-                        binding.contentRecyclerView.Gone()
-                    }}
+                        if (isNewData) {
+                            tabContentAdapter.submitList(listOf())
+                            shimmerFrameLayout.startShimmer()
+                            shimmerFrameLayout.Visible()
+                            binding.contentRecyclerView.Gone()
+                        }
+                    }
 
                     is Resource.Error -> {
                         binding.root.context.showToast(result.message)
@@ -89,28 +102,28 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
             }
         }
 
-        fun initSearchData(category: String,isNewData:Boolean,position: Int = 0) {
+        fun initSearchData(category: String, isNewData: Boolean, position: Int = 0) {
             coroutineScope.launch {
                 fetchDataContent(
                     category
-                ).collect { initCollect(it,isNewData,position) }
+                ).collect { initCollect(it, isNewData, position) }
             }
         }
-        if (tabContentAdapter.currentList.isEmpty()) {
-           initSearchData(currentCategory ?: "",true)
 
-        }
+        initSearchData(currentCategory ?: "", false)
+
+
         tabAdapter.onTabSelected = {
             currentCategory = it
-            initSearchData(it,true)
+            initSearchData(it, true)
+            currentCategoryClickListener(it)
         }
 
         tabContentAdapter.onClickListener = contentClickListener
-        tabContentAdapter.onFavoriteClickListener ={product,position->
+        tabContentAdapter.onFavoriteClickListener = { product, position ->
             contentFavoriteClickListener(product)
-            initSearchData(currentCategory ?:"",false,position)
+            initSearchData(currentCategory ?: "", false, position)
         }
-
 
 
     }

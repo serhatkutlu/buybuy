@@ -37,7 +37,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private val binding by viewBinding(FragmentProductDetailScreenBinding::bind)
     private val viewModel: ProductDetailViewModel by viewModels()
     private val args: ProductDetailFragmentArgs by navArgs()
-    private val tabs: MutableList<String> = mutableListOf()
+    private val tabs: MutableMap<String,String> = mutableMapOf()
     private var isDetailopen = false
     private var isRotated = false
 
@@ -45,6 +45,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
         super.onViewCreated(view, savedInstanceState)
         createTabsList()
         initUi()
+        args.product.isFavorite
         initObservers()
 
     }
@@ -52,10 +53,10 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.isFavorite.collect{
-                    if (it){
-                        binding.includedLayout.cvFavorite.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.orange))
-                    }else binding.includedLayout.cvFavorite.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.white))
+                viewModel.isFavoriteFlow.collect{
+                    it?.let {
+                        args.product.isFavorite=it
+                    }
 
                 }
             }
@@ -65,10 +66,10 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private fun createTabsList() {
         with(args.product) {
             tabs.apply {
-                add(model)
-                if (color!=null) add(color)
-                add(category)
-                if (popular) add(POPULAR)
+
+                if (color!=null) put(::color.name,color)
+                put(::category.name,category)
+                if (popular) put(::POPULAR.name.lowercase(),POPULAR)
             }
 
         }
@@ -85,7 +86,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     imageView.setImage(image)
                     rating.rating = star ?: 0.0f
                     tvRating.text = star.toString()
+                    setFavoriteBackground(isFavorite)
+                    includedLayout.cvFavorite.cardElevation= 30F
                     includedLayout.cvFavorite.setOnClickListener {
+                        viewModel.addToFavorite(args.product)
+                        setFavoriteBackground(!isFavorite)
+
                     }
                     recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recyclerView.adapter = ProductDetailAdapter(tabs)
@@ -127,6 +133,19 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
         }
     }
 
+    private fun setFavoriteBackground(ischanged: Boolean) {
+        val color = if (ischanged) {
+            ContextCompat.getColor(binding.root.context, R.color.orange)
+        } else {
+            ContextCompat.getColor(binding.root.context, R.color.white)
+        }
+
+        binding.includedLayout.cvFavorite.setCardBackgroundColor(
+            color
+        )
+
+
+    }
 
 
     private fun startAnimation(maxLines: Int) {

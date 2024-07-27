@@ -9,8 +9,8 @@
         android:id="@+id/iv_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:elevation="1dp"
         android:padding="12dp"
         android:src="@drawable/left_arrow"
@@ -23,10 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
+        app:layout_constraintBottom_toTopOf="@id/bottom_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_view"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -38,6 +38,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_marginTop="80dp"
                 android:src="@color/dark_grey" />
 
             <LinearLayout
@@ -76,15 +77,37 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <include android:id="@+id/included_layout"
-                    layout="@layout/favorite_button" />
+                <FrameLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <include
+                        android:id="@+id/included_layout"
+                        layout="@layout/favorite_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:elevation="5dp"
+                        android:layout_gravity="center" />
+                </FrameLayout>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="40dp" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -168,6 +191,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="0.1"
+        android:background="@color/white"
         android:paddingHorizontal="15dp"
         android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent">

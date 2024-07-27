@@ -10,17 +10,18 @@
     app:strokeColor="@color/orange"
     >
     <FrameLayout
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:elevation="1dp">
+        android:elevation="1dp"
+        >
         <include
             android:id="@+id/included_layout"
             layout="@layout/favorite_button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             />
     </FrameLayout>
 

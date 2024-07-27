@@ -29,6 +29,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(searchDAO: SearchDAO, favoriteDAO: FavoriteDAO): LocalDataSource =
-        LocalDataSourceImp(searchDAO,favoriteDAO)
+    fun provideLocalDataSource(searchDAO: SearchDAO): LocalDataSource =
+        LocalDataSourceImp(searchDAO)
 }

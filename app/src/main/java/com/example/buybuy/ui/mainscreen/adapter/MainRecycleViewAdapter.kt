@@ -44,6 +44,8 @@ class MainRecycleViewAdapter(
     private var scrollState: Parcelable? = null
     var layoutManager: LayoutManager? = null
 
+    private var currentCategory: String? = null
+
     private val tabAdapter: TabAdapter by lazy {
         TabAdapter()
     }
@@ -236,6 +238,8 @@ class MainRecycleViewAdapter(
                     (holder as CategoryTabAndContentViewHolder).bind(
                         it,
                         tabAdapter,
+                        currentCategory,
+                        ::setCurrentCategory,
                         tabContentAdapter,
                         scrollState,
                         coroutineScopeContent,
@@ -251,6 +255,10 @@ class MainRecycleViewAdapter(
                 }
             }
         }
+    }
+
+    private fun setCurrentCategory(category: String) {
+        currentCategory = category
     }
 
     class ProductComparator : DiffUtil.ItemCallback<MainRecycleViewdata>() {

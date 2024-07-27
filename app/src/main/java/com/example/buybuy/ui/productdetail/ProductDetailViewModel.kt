@@ -16,14 +16,26 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
-    private val deleteFromFavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val deletefavoriteUseCase: DeleteFromFavoriteUseCase,
 
 ) : ViewModel() {
 
-    private val _isFavorite: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isFavorite: MutableStateFlow<Boolean> = _isFavorite
+    private val _isFavorite: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val isFavoriteFlow: MutableStateFlow<Boolean?> = _isFavorite
 
 
+    fun addToFavorite(productDetail: ProductDetail) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (productDetail.isFavorite){
+                deletefavoriteUseCase.invoke(productDetail.id)
+                _isFavorite.emit(false)
+
+            }else{
+                addToFavoriteUseCase.invoke(productDetail)
+                _isFavorite.emit(true)
+            }
+        }
+    }
 
 
     fun addCart(product: ProductDetail) {

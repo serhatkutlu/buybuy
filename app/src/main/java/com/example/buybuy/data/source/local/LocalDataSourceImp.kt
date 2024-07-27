@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 class LocalDataSourceImp @Inject constructor(
     private val searchDAO: SearchDAO,
-    private val favoriteDAO: FavoriteDAO
 ) : LocalDataSource {
     override suspend fun saveProducts(products: List<ProductDetail>) {
         products.forEach {

@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.databinding.ItemProductDetailScreenBinding
 
-class ProductDetailAdapter(val list:List<String>):RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
-    class ViewHolder(val binding: ItemProductDetailScreenBinding):RecyclerView.ViewHolder(binding.root) {
+class ProductDetailAdapter(val list:MutableMap<String,String>):RecyclerView.Adapter<ProductDetailAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: ItemProductDetailScreenBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(it:String){
-            binding.tvTitle.text=it
+            binding.tvDescription.text=it
+            binding.tvTitle.text=list[it]
         }
     }
 
@@ -19,7 +20,7 @@ class ProductDetailAdapter(val list:List<String>):RecyclerView.Adapter<ProductDe
 
     override fun getItemCount()=list.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        list[position].let {
+        list.keys.elementAt(position).let {
             holder.bind(it)
         }
     }

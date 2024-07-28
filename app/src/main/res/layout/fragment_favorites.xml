@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
 
-    <include layout="@layout/common_search_layouth"
-        android:id="@+id/included_layout"
-        />
+<include layout="@layout/common_search_layouth"
+    android:id="@+id/included_layout"
+    />
 </FrameLayout>

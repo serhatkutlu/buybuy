@@ -1,7 +1,6 @@
 package com.example.buybuy.ui.productdetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -13,19 +12,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.CURRENCYSYMBOL
 import com.example.buybuy.util.Constant.POPULAR
-import com.example.buybuy.util.Gone
-import com.example.buybuy.util.Invisible
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.Visible
-import com.example.buybuy.util.generateDiscount
+import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +99,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     var newprice = price.toString()
                     if (discount != 0) {
                         tvPriceOld.Visible()
-                         newprice = (price generateDiscount discount).toString()
+                         newprice = (price calculateDiscount discount).toString()
                         tvPrice.text = (newprice+CURRENCYSYMBOL)
                         tvPriceOld.text=(price.toString()+CURRENCYSYMBOL)
                         tvPriceOld.paint.isStrikeThruText=true

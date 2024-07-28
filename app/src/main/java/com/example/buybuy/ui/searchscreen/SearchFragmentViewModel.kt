@@ -30,20 +30,8 @@ class SearchFragmentViewModel @Inject constructor(
 
         viewModelScope.launch() {
             performSearchUseCase(query).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        _searchData.emit(Resource.Loading())
+                _searchData.emit(it)
 
-                    }
-
-                    is Resource.Success -> {
-                        _searchData.emit(Resource.Success(it.data))
-                    }
-
-                    is Resource.Error -> {
-                        _searchData.emit(Resource.Error(it.message))
-                    }
-                }
             }
 
 

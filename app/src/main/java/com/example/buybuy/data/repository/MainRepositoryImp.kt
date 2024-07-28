@@ -116,8 +116,26 @@ class MainRepositoryImp @Inject constructor(
         }catch (e:Exception){
             emit(Resource.Error(e.message.toString()))
         }
+    }.flowOn(Dispatchers.IO)
+
+    override fun searchFavorites(query: String): Flow<Resource<List<ProductDetail>>> = flow{
+
+        emit(Resource.Loading())
+
+        try {
+            val response=localDataSource.searchFavoriteProducts(query)
+            if (response.isNullOrEmpty()){
+                emit(Resource.Error(NODATAFOUND))
+            }else{
+                emit(Resource.Success(response))
+            }
+        }catch (e:Exception){
+            emit(Resource.Error(e.message.toString()))
+            }
     }
 
-      private   suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
+
+
+    private   suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
 
 }

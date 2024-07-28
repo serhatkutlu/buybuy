@@ -34,5 +34,9 @@ class LocalDataSourceImp @Inject constructor(
     override suspend fun isProductFavorite(productId: Int): Boolean =
         searchDAO.isProductFavorite(productId)
 
+    override suspend fun searchFavoriteProducts(query: String): List<ProductDetail>? {
+       return searchDAO.searchFavoriteProducts(query)
+    }
+
 
 }

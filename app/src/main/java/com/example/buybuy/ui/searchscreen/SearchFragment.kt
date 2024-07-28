@@ -59,16 +59,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 viewmodel.searchData.collect {
                     when (it) {
                         is Resource.Loading -> {
-                            binding.progressBar.Visible()
+                            binding.includedLayout.progressBar.Visible()
                         }
 
                         is Resource.Success -> {
-                            binding.progressBar.Gone()
+                            binding.includedLayout.progressBar.Gone()
                             RVadapter.submitList(it.data)
                         }
 
                         is Resource.Error -> {
-                            binding.progressBar.Gone()
+                            binding.includedLayout.progressBar.Gone()
                             requireContext().showToast(it.message)
                         }
                     }
@@ -78,7 +78,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initUi() {
-        with(binding) {
+        with(binding.includedLayout) {
 
             initRecyclerView()
             ivBack.setOnClickListener {
@@ -107,7 +107,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initRecyclerView() {
-        with(binding.recyclerView){
+        with(binding.includedLayout.recyclerView){
             adapter=RVadapter
             layoutManager= GridLayoutManager(requireContext(),2)
             addItemDecoration(SpacesItemDecoration(25))

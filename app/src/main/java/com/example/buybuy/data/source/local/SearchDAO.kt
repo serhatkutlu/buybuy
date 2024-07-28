@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.buybuy.data.model.data.ProductDetail
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchDAO {
@@ -24,7 +25,8 @@ interface SearchDAO {
     fun addToFavorite(productId:Int)
 
 
-
+    @Query("SELECT * FROM productdetail WHERE isFavorite = 1 AND LOWER(title) LIKE '%' || :query || '%'")
+    fun searchFavoriteProducts(query: String): List<ProductDetail>?
 
     @Query("SELECT * FROM productdetail WHERE isFavorite = 1")
     fun getAllFavoriteProducts():List<ProductDetail>

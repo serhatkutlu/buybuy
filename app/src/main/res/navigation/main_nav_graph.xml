@@ -42,4 +42,8 @@
             android:id="@+id/action_searchFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.buybuy.ui.favoritesscreen.FavoritesFragment"
+        android:label="FavoritesFragment" />
 </navigation>

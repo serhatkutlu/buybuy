@@ -20,5 +20,6 @@ interface MainRepository {
     suspend fun addToFavorite(productDetail: ProductDetail)
     suspend fun deleteFromFavorite(productDetail: Int)
      fun getAllFavorite(): Flow<Resource<List<ProductDetail>>>
+    fun searchFavorites(query: String):Flow<Resource<List<ProductDetail>>>
 
 }

@@ -10,7 +10,7 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.Visible
-import com.example.buybuy.util.generateDiscount
+import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
 class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(ProductComparator()){
@@ -20,7 +20,7 @@ class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.Searc
 
     inner class SearchScreenViewHolder(private val binding:ItemProductBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(productDetail: ProductDetail) {
-            val newPrice = productDetail.price generateDiscount productDetail.discount
+            val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)
             binding.tvTitle.text = productDetail.title
             binding.tvCurrentPrice.text = newPrice.toString() + "$"

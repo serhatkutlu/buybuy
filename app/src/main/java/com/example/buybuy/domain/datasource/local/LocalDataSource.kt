@@ -13,5 +13,6 @@ interface LocalDataSource {
 
     suspend fun getAllFavoriteProducts(): List<ProductDetail>
     suspend fun isProductFavorite(productId: Int): Boolean
+    suspend fun searchFavoriteProducts(query: String): List<ProductDetail>?
 
 }

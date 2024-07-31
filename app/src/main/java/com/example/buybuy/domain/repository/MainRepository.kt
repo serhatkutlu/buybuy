@@ -1,6 +1,5 @@
 package com.example.buybuy.domain.repository
 
-import com.example.buybuy.data.model.data.Category
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
 import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
@@ -21,5 +20,13 @@ interface MainRepository {
     suspend fun deleteFromFavorite(productDetail: Int)
      fun getAllFavorite(): Flow<Resource<List<ProductDetail>>>
     fun searchFavorites(query: String):Flow<Resource<List<ProductDetail>>>
+
+    fun getCartProducts():Flow<Resource<List<ProductDetail>>>
+
+    suspend fun  addToCart(product: Int)
+
+    suspend fun deleteFromCart(product: Int)
+
+    suspend fun clearCart()
 
 }

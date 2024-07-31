@@ -5,10 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.buybuy.data.model.data.ProductDetail
-import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface SearchDAO {
+interface ProductDAO {
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -32,6 +31,18 @@ interface SearchDAO {
     fun getAllFavoriteProducts():List<ProductDetail>
     @Query("SELECT EXISTS (SELECT 1 FROM productdetail WHERE id = :productId AND isFavorite = 1)")
     fun isProductFavorite(productId: Int): Boolean
+
+    @Query("SELECT * FROM productdetail where cartCount >1")
+    fun getCartProducts():List<ProductDetail>
+
+    @Query("Update ProductDetail SET cartCount = cartCount + 1 WHERE id = :productId")
+    fun addToCart(productId:Int)
+
+    @Query("Update ProductDetail SET cartCount =cartCount - 1 WHERE id = :productId AND cartCount > 0" )
+    fun deleteFromCart(productId:Int)
+
+    @Query("Update ProductDetail SET cartCount = 0 ")
+    fun deleteCart()
 
 
 

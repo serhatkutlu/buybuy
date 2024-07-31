@@ -3,6 +3,8 @@ package com.example.buybuy.ui.productdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
+import com.example.buybuy.domain.usecase.cart.DeleteFromCartUseCase_Factory
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.IsFavoriteUseCase
@@ -17,8 +19,9 @@ import javax.inject.Inject
 class ProductDetailViewModel @Inject constructor(
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val deletefavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val addToCartUseCase: AddToCartUseCase,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
     private val _isFavorite: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val isFavoriteFlow: MutableStateFlow<Boolean?> = _isFavorite
@@ -38,11 +41,15 @@ class ProductDetailViewModel @Inject constructor(
     }
 
 
-    fun addCart(product: ProductDetail) {
-
+    fun addCart(product: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToCartUseCase.invoke(product)
+        }
     }
 
     fun buyNow(product: ProductDetail) {
+        viewModelScope.launch {
 
+        }
     }
 }

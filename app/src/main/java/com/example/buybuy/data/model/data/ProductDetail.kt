@@ -23,6 +23,7 @@ data class ProductDetail(
     val price: Int,
     val title: String,
     var star: Float?=null,
-    var isFavorite: Boolean=false
+    var isFavorite: Boolean=false,
+    var cartCount: Int=0
 
 ): Parcelable

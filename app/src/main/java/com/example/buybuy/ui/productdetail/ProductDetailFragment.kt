@@ -106,6 +106,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     }
                     tvPriceNew.text =(newprice+CURRENCYSYMBOL)
 
+                    buttonAddToCart.setOnClickListener {
+                        viewModel.addCart(args.product.id)
+                    }
 
                 }
             }

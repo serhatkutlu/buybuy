@@ -134,6 +134,34 @@ class MainRepositoryImp @Inject constructor(
             }
     }
 
+    override fun getCartProducts(): Flow<Resource<List<ProductDetail>>> = flow{
+        emit(Resource.Loading())
+        try {
+            val response=localDataSource.getCartProducts()
+            if (response.isEmpty()){
+                emit(Resource.Error(NODATAFOUND))
+            }else{
+                emit(Resource.Success(response))
+        }
+    }catch (e:Exception){
+        emit(Resource.Error(e.message.toString()))
+    }
+
+    }
+
+
+
+    override suspend fun addToCart(product: Int) {
+        localDataSource.addToCart(product)
+    }
+
+    override suspend fun deleteFromCart(product: Int) {
+        localDataSource.deleteFromCart(product)
+    }
+
+    override suspend fun clearCart() {
+        localDataSource.deleteAllCart()
+    }
 
 
     private   suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)

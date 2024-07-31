@@ -2,7 +2,6 @@ package com.example.buybuy.ui.favoritesscreen
 
 import android.os.Bundle
 import android.view.View
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
     private val binding:FragmentFavoritesBinding by viewBinding(FragmentFavoritesBinding::bind)
-    private val viewModel:FragmentFavoritesViewModel by viewModels()
+    private val viewModel:FavoritesViewModel by viewModels()
     private val favoritesAdapter: FavoritesAdapter by lazy { FavoritesAdapter() }
 
 

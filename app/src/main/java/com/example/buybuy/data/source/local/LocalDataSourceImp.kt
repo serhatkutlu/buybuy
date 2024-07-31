@@ -5,37 +5,53 @@ import com.example.buybuy.domain.datasource.local.LocalDataSource
 import javax.inject.Inject
 
 class LocalDataSourceImp @Inject constructor(
-    private val searchDAO: SearchDAO,
+    private val productDAO: ProductDAO,
 ) : LocalDataSource {
     override suspend fun saveProducts(products: List<ProductDetail>) {
         products.forEach {
-            searchDAO.insert(it)
+            productDAO.insert(it)
         }
 
     }
 
     override suspend fun searchProducts(query: String): List<ProductDetail>? {
-        return searchDAO.searchAll(query)
+        return productDAO.searchAll(query)
     }
 
     override suspend fun addToFavorite(product: ProductDetail) {
-        searchDAO.addToFavorite(product.id)
+        productDAO.addToFavorite(product.id)
     }
 
     override suspend fun deleteFromFavorite(product: Int) {
-        searchDAO.deleteFromFavorite(product)
+        productDAO.deleteFromFavorite(product)
     }
 
     override suspend fun getAllFavoriteProducts(): List<ProductDetail> =
 
-        searchDAO.getAllFavoriteProducts()
+        productDAO.getAllFavoriteProducts()
 
 
     override suspend fun isProductFavorite(productId: Int): Boolean =
-        searchDAO.isProductFavorite(productId)
+        productDAO.isProductFavorite(productId)
 
     override suspend fun searchFavoriteProducts(query: String): List<ProductDetail>? {
-       return searchDAO.searchFavoriteProducts(query)
+       return productDAO.searchFavoriteProducts(query)
+    }
+
+    override suspend fun getCartProducts(): List<ProductDetail> {
+        return productDAO.getCartProducts()
+    }
+
+    override suspend fun addToCart(product: Int) {
+       productDAO.addToCart(product)
+    }
+
+    override suspend fun deleteFromCart(product: Int) {
+        productDAO.deleteFromCart(product)
+    }
+
+    override suspend fun deleteAllCart() {
+        productDAO.deleteCart()
     }
 
 

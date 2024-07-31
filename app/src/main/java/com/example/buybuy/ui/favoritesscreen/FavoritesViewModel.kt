@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class FragmentFavoritesViewModel @Inject constructor(private val getFavoritesUseCase: GetAllFavoriteUseCase,private val searchFavoritesUseCase: SearchFavoritesUseCase): ViewModel() {
+class FavoritesViewModel @Inject constructor(private val getFavoritesUseCase: GetAllFavoriteUseCase, private val searchFavoritesUseCase: SearchFavoritesUseCase): ViewModel() {
 
 
     private val _favoritesState :MutableStateFlow<Resource<List<ProductDetail>>> = MutableStateFlow(Resource.Loading())

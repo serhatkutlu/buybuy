@@ -6,6 +6,6 @@ import com.example.buybuy.data.model.data.ProductDetail
 
 
 @Database(entities = [ProductDetail::class], version = 1)
-abstract class SearchRoomDB:RoomDatabase() {
-    abstract fun SearchDAO():SearchDAO
+abstract class ProductRoomDB:RoomDatabase() {
+    abstract fun SearchDAO(): ProductDAO
 }

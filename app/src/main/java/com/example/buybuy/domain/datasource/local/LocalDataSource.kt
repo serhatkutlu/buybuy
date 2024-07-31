@@ -15,4 +15,12 @@ interface LocalDataSource {
     suspend fun isProductFavorite(productId: Int): Boolean
     suspend fun searchFavoriteProducts(query: String): List<ProductDetail>?
 
+    suspend fun getCartProducts(): List<ProductDetail>
+
+    suspend fun addToCart(product: Int)
+
+    suspend fun deleteFromCart(product: Int)
+
+    suspend fun deleteAllCart()
+
 }

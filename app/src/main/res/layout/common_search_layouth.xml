@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/rv_background_color"
     android:orientation="vertical">
 
 
@@ -41,6 +41,7 @@
             app:iconifiedByDefault="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:hint="Search"
             app:goIcon="@drawable/left_arrow"
             />
     </androidx.cardview.widget.CardView>
@@ -50,7 +51,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="35dp"
+        android:paddingHorizontal="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"

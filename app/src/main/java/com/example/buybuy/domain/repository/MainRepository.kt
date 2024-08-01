@@ -25,8 +25,10 @@ interface MainRepository {
 
     suspend fun  addToCart(product: Int)
 
-    suspend fun deleteFromCart(product: Int)
+    suspend fun reduceProductInCart(product: Int)
+    suspend fun deleteProductFromCart(product: Int)
 
     suspend fun clearCart()
+    suspend fun isFavorite(productDetail: Int): Boolean
 
 }

@@ -40,13 +40,12 @@ class MainRepositoryImp @Inject constructor(
 
                 val response = remoteDataSource.GetProductByCategory(category)
                 if (response.isSuccessful) {
-                    val products=response.body()?.products?.map {
-                        if(isFavorite(it.id)){
-                            it.copy(isFavorite = true)
-                        }else it
-                    }
-                    saveAllProduct(products?: emptyList())
-                    emit(Resource.Success(products))
+//                    val products=response.body()?.products?.map {
+//                        if(isFavorite(it.id)){
+//                            it.copy(isFavorite = true)
+//                        }else it
+//                    }
+                    emit(Resource.Success(response.body()?.products))
                 } else {
                     emit(Resource.Error(response.message()))
                 }
@@ -155,15 +154,19 @@ class MainRepositoryImp @Inject constructor(
         localDataSource.addToCart(product)
     }
 
-    override suspend fun deleteFromCart(product: Int) {
-        localDataSource.deleteFromCart(product)
+    override suspend fun reduceProductInCart(product: Int) {
+        localDataSource.reduceProductInCart(product)
+    }
+
+    override suspend fun deleteProductFromCart(product: Int) {
+        localDataSource.deleteProductFromCart(product)
     }
 
     override suspend fun clearCart() {
-        localDataSource.deleteAllCart()
+        localDataSource.deleteAllProductsFromCart()
     }
 
 
-    private   suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
+    override suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
 
 }

@@ -3,10 +3,13 @@ package com.example.buybuy.util
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.buybuy.util.Constant.PREFS_NAME
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
@@ -49,6 +52,16 @@ fun TextInputEditText.CheckNullorEmpty(error:String):Boolean{
 fun Context.showToast(message:String){
     Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
 }
+
+
+fun View.showSnackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT, backgroundColor: Int? = null) {
+    val snackbar = Snackbar.make(this, message, duration)
+    backgroundColor?.let {
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(context, it))
+    }
+    snackbar.show()
+}
+
 
 
 

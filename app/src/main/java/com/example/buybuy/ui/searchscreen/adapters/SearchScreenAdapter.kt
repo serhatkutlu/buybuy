@@ -13,7 +13,9 @@ import com.example.buybuy.util.Visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(ProductComparator()){
+class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(
+    ProductComparator()
+){
 
     var onClickListener: (ProductDetail) -> Unit = {}
     var onFavoriteClickListener: (ProductDetail) -> Unit = {}

@@ -32,17 +32,21 @@ interface ProductDAO {
     @Query("SELECT EXISTS (SELECT 1 FROM productdetail WHERE id = :productId AND isFavorite = 1)")
     fun isProductFavorite(productId: Int): Boolean
 
-    @Query("SELECT * FROM productdetail where cartCount >1")
+    @Query("SELECT * FROM productdetail where pieceCount >0")
     fun getCartProducts():List<ProductDetail>
 
-    @Query("Update ProductDetail SET cartCount = cartCount + 1 WHERE id = :productId")
+    @Query("Update ProductDetail SET pieceCount = pieceCount + 1 WHERE id = :productId")
     fun addToCart(productId:Int)
 
-    @Query("Update ProductDetail SET cartCount =cartCount - 1 WHERE id = :productId AND cartCount > 0" )
-    fun deleteFromCart(productId:Int)
+    @Query("Update ProductDetail SET pieceCount =pieceCount - 1 WHERE id = :productId AND pieceCount > 0")
+    fun reduceProductInCart(productId:Int)
 
-    @Query("Update ProductDetail SET cartCount = 0 ")
-    fun deleteCart()
+
+    @Query("Update ProductDetail Set pieceCount =0 where id =:productId")
+    fun deleteProductFromCart(productId:Int)
+
+    @Query("Update ProductDetail SET pieceCount = 0 ")
+    fun deleteAllProductCart()
 
 
 

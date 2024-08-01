@@ -18,10 +18,13 @@ import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.CURRENCYSYMBOL
 import com.example.buybuy.util.Constant.POPULAR
+import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.Visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
+import com.example.buybuy.util.showSnackbar
+import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -108,6 +111,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
                     buttonAddToCart.setOnClickListener {
                         viewModel.addCart(args.product.id)
+                        requireContext().showToast(SNACKBAR_MESSAGE_CART)
                     }
 
                 }

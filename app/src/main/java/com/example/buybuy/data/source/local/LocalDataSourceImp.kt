@@ -46,12 +46,16 @@ class LocalDataSourceImp @Inject constructor(
        productDAO.addToCart(product)
     }
 
-    override suspend fun deleteFromCart(product: Int) {
-        productDAO.deleteFromCart(product)
+    override suspend fun reduceProductInCart(product: Int) {
+        productDAO.reduceProductInCart(product)
     }
 
-    override suspend fun deleteAllCart() {
-        productDAO.deleteCart()
+    override suspend fun deleteProductFromCart(product: Int) {
+        productDAO.deleteProductFromCart(product)
+    }
+
+    override suspend fun deleteAllProductsFromCart() {
+        productDAO.deleteAllProductCart()
     }
 
 

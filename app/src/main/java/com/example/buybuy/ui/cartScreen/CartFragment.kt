@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCartBinding
+import com.example.buybuy.enums.CartClickEnums
 import com.example.buybuy.ui.cartScreen.adapter.CartAdapter
 import com.example.buybuy.util.Gone
 import com.example.buybuy.util.Resource
@@ -47,6 +48,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                             cartAdapter.submitList(it.data)
                         }
                         is Resource.Error->{
+                            cartAdapter.submitList(emptyList())
                             binding.progressBar.Gone()
                             requireContext().showToast(it.message)
                         }
@@ -70,11 +72,19 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
             cartAdapter.productCartCountClickListener=::addToCartClickListener
         }
     }
-    private fun addToCartClickListener(isPlus:Boolean, id:Int){
-        if (isPlus){
-            viewModel.addToCart(id)
-        }else{
-            viewModel.deleteFromCart(id)
+    private fun addToCartClickListener(isPlus:CartClickEnums, id:Int){
+        when(isPlus){
+            CartClickEnums.PLUS->{
+                viewModel.addToCart(id)
+
+            }
+            CartClickEnums.MINUS->{
+                viewModel.deleteFromCart(id)
+
+            }
+            CartClickEnums.DELETE->{
+                viewModel.deleteProductFromCart(id)
         }
+
     }
-}
+}}

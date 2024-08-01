@@ -4,10 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
-import com.example.buybuy.domain.usecase.cart.DeleteFromCartUseCase_Factory
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
-import com.example.buybuy.domain.usecase.favorite.IsFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
-    private val deletefavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
     private val addToCartUseCase: AddToCartUseCase,
 
     ) : ViewModel() {
@@ -30,7 +28,7 @@ class ProductDetailViewModel @Inject constructor(
     fun addToFavorite(productDetail: ProductDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite){
-                deletefavoriteUseCase.invoke(productDetail.id)
+                deleteFavoriteUseCase.invoke(productDetail.id)
                 _isFavorite.emit(false)
 
             }else{

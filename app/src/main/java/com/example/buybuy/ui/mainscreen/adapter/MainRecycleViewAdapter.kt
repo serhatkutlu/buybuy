@@ -3,7 +3,6 @@ package com.example.buybuy.ui.mainscreen.adapter
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -17,6 +16,7 @@ import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
+import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
 
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 class MainRecycleViewAdapter(
 
 ) :
-    ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparator()) {
+    ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparatorMainRV()) {
 
 
     private var selectedPageVpBanner = 1
@@ -72,14 +72,6 @@ class MainRecycleViewAdapter(
     }
 
 
-
-
-
-
-
-
-
-
     //
 //    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
 //        super.onDetachedFromRecyclerView(recyclerView)
@@ -98,8 +90,6 @@ class MainRecycleViewAdapter(
     fun saveState() {
         scrollState = layoutManager?.onSaveInstanceState()
     }
-
-
 
 
     /*inner class CategoryViewHolder(val binding: ItemCategoryTablayoutAndViewpagerBinding) :
@@ -221,10 +211,10 @@ class MainRecycleViewAdapter(
         getItem(position).let {
             when (it.type) {
                 ViewType.vp_banner -> {
-                    (holder as VpBannerViewHolder).apply{
-                        selectedPage=selectedPageVpBanner
-                        bind(it){
-                             selectedPageVpBanner = it
+                    (holder as VpBannerViewHolder).apply {
+                        selectedPage = selectedPageVpBanner
+                        bind(it) {
+                            selectedPageVpBanner = it
                             return@bind selectedPageVpBanner
 
                         }
@@ -257,17 +247,6 @@ class MainRecycleViewAdapter(
 
     private fun setCurrentCategory(category: String) {
         currentCategory = category
-    }
-
-    class ProductComparator : DiffUtil.ItemCallback<MainRecycleViewdata>() {
-        override fun areItemsTheSame(oldItem: MainRecycleViewdata, newItem: MainRecycleViewdata) =
-            true
-
-        override fun areContentsTheSame(
-            oldItem: MainRecycleViewdata,
-            newItem: MainRecycleViewdata
-        ) =
-            true
     }
 
 

@@ -3,6 +3,7 @@ package com.example.buybuy.ui.favoritesscreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
 import com.example.buybuy.domain.usecase.favorite.GetAllFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.SearchFavoritesUseCase
 import com.example.buybuy.util.Resource
@@ -15,27 +16,40 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(private val getFavoritesUseCase: GetAllFavoriteUseCase, private val searchFavoritesUseCase: SearchFavoritesUseCase): ViewModel() {
+class FavoritesViewModel @Inject constructor(
+    private val getFavoritesUseCase: GetAllFavoriteUseCase,
+    private val searchFavoritesUseCase: SearchFavoritesUseCase,
+    private val addToCartUseCase: AddToCartUseCase
+) : ViewModel() {
 
 
-    private val _favoritesState :MutableStateFlow<Resource<List<ProductDetail>>> = MutableStateFlow(Resource.Loading())
-    val favoritesState:StateFlow<Resource<List<ProductDetail>>> =_favoritesState
+    private val _favoritesState: MutableStateFlow<Resource<List<ProductDetail>>> =
+        MutableStateFlow(Resource.Loading())
+    val favoritesState: StateFlow<Resource<List<ProductDetail>>> = _favoritesState
+
     init {
-            getFavorites()
+        getFavorites()
     }
 
-    fun searchOnFavorites(query:String){
+    fun searchOnFavorites(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            searchFavoritesUseCase.invoke(query).collect{
+            searchFavoritesUseCase.invoke(query).collect {
                 _favoritesState.emit(it)
             }
         }
     }
-    private fun getFavorites(){
+
+    private fun getFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            getFavoritesUseCase.invoke().collect{
+            getFavoritesUseCase.invoke().collect {
                 _favoritesState.emit(it)
             }
         }
     }
+
+     fun addToCart(productDetail: ProductDetail) {
+         viewModelScope.launch(Dispatchers.IO) {
+             addToCartUseCase(productDetail.id)
+         }
+     }
 }

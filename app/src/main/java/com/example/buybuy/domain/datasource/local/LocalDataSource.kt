@@ -19,8 +19,11 @@ interface LocalDataSource {
 
     suspend fun addToCart(product: Int)
 
-    suspend fun deleteFromCart(product: Int)
+    suspend fun reduceProductInCart(product: Int)
+    suspend fun deleteProductFromCart(product: Int)
 
-    suspend fun deleteAllCart()
+
+
+    suspend fun deleteAllProductsFromCart()
 
 }

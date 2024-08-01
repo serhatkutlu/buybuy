@@ -24,6 +24,6 @@ data class ProductDetail(
     val title: String,
     var star: Float?=null,
     var isFavorite: Boolean=false,
-    var cartCount: Int=0
+    var pieceCount: Int=0
 
 ): Parcelable

@@ -15,7 +15,8 @@ class FavoritesAdapter() :
     ListAdapter<ProductDetail, FavoritesAdapter.FavoritesViewHolder>(ProductComparator()) {
 
 
-     class FavoritesViewHolder(val binding: ItemProduct2Binding) :
+        var onItemClicked: (ProductDetail) -> Unit = {}
+     inner class FavoritesViewHolder(val binding: ItemProduct2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductDetail) {
             with(binding) {
@@ -25,8 +26,11 @@ class FavoritesAdapter() :
                 rating.rating = product.star ?: 0f
                 tvPrice.text = (product.star ?: 0f).toString()
                 tvPrice.text = product.price.calculateDiscount(product.discount).toString()
-                tvCount.text = product.cartCount.toString()
+                tvCount.text = product.pieceCount.toString()
                 buttonAddToCart.Visible()
+                buttonAddToCart.setOnClickListener {
+                    onItemClicked(product)
+                }
 
 
 

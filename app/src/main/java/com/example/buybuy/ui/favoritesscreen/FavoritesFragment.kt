@@ -9,8 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
+import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentFavoritesBinding
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
+import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.Gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.Visible
@@ -79,8 +81,13 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
         with(binding.includedLayout){
             recyclerView.adapter=favoritesAdapter
             recyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-
+            favoritesAdapter.onItemClicked=::onItemClicked
         }
 
+    }
+
+    private fun onItemClicked(productDetail: ProductDetail) {
+        viewModel.addToCart(productDetail)
+        requireContext().showToast(SNACKBAR_MESSAGE_CART)
     }
 }

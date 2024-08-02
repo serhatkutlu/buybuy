@@ -99,6 +99,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                             binding.progressBar.Gone()
                             findNavController().navigate(R.id.action_signupFragment_to_main_nav_graph)
                         }
+                        is Resource.Empty -> {}
                     }
                 }
             }

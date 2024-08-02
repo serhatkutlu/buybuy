@@ -26,7 +26,7 @@ class CartViewModel @Inject constructor(
     private val deleteFromCartUseCase: DeleteProductFromCartUseCase
 ) : ViewModel() {
     private val _cartItems: MutableStateFlow<Resource<List<ProductDetail>>> =
-        MutableStateFlow(Resource.Loading())
+        MutableStateFlow(Resource.Empty)
     val cartItems: StateFlow<Resource<List<ProductDetail>>> = _cartItems
 
     init {

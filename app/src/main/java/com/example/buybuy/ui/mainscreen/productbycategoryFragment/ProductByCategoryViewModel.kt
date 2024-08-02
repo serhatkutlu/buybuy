@@ -31,72 +31,58 @@ class ProductByCategoryViewModel @Inject constructor(
     val productByCategories: StateFlow<Resource<List<ProductDetail>>> = _productByCategories
 
 
-
-
     fun getProductByCategories(category: String) {
         viewModelScope.launch {
             getProductByCategoriesUseCase.invoke(category).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        _productByCategories.emit(Resource.Loading())
-                    }
-
-                    is Resource.Error -> {
-                        _productByCategories.emit(Resource.Error(it.message))
-                    }
-
-                    is Resource.Success -> {
-                        _productByCategories.emit(it)
-                    }
-                }
-            }
-
-        }
-    }
-
-
-
-    fun addToFavorite(productDetail: ProductDetail) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val value = productByCategories.value
-            if (!productDetail.isFavorite) {
-                addToFavoriteUseCase.invoke(productDetail)
-                when (value) {
-                    is Resource.Success -> {
-                        val updatedList = value.data?.map {
-                            if (it.id == productDetail.id){
-                                it.copy(isFavorite = true)
-                            }else it
-                        }
-                        withContext(Dispatchers.Main){
-                            _productByCategories.value =(Resource.Success(value.data))
-
-                        }
-                    }
-
-                    else -> {}
-                }
-            }else{
-                deleteFavoriteUseCase.invoke(productDetail.id)
-                when(value){
-                    is Resource.Success -> {
-                        val updatedList = value.data?.map {
-                            if (it.id == productDetail.id){
-                                it.copy(isFavorite = false)
-                            }else it
-                        }
-                        withContext(Dispatchers.Main){
-                            _productByCategories.value =(Resource.Success(value.data))
-
-
-                        }
-                    }
-                    else -> {}
-                }
-            }
+                _productByCategories.emit(it)
         }
 
     }
+}
+
+
+fun addToFavorite(productDetail: ProductDetail) {
+    viewModelScope.launch(Dispatchers.IO) {
+        val value = productByCategories.value
+        if (!productDetail.isFavorite) {
+            addToFavoriteUseCase.invoke(productDetail)
+            when (value) {
+                is Resource.Success -> {
+                    val updatedList = value.data?.map {
+                        if (it.id == productDetail.id) {
+                            it.copy(isFavorite = true)
+                        } else it
+                    }
+                    withContext(Dispatchers.Main) {
+                        _productByCategories.value = (Resource.Success(value.data))
+
+                    }
+                }
+
+                else -> {}
+            }
+        } else {
+            deleteFavoriteUseCase.invoke(productDetail.id)
+            when (value) {
+                is Resource.Success -> {
+                    val updatedList = value.data?.map {
+                        if (it.id == productDetail.id) {
+                            it.copy(isFavorite = false)
+                        } else it
+                    }
+                    withContext(Dispatchers.Main) {
+                        _productByCategories.value = (Resource.Success(value.data))
+
+
+                    }
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+}
 
 
 }

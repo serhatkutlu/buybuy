@@ -85,6 +85,7 @@ class MainViewModel @Inject constructor(
                     is Resource.Error -> {
                         (Resource.Error(it.message))
                     }
+                    is Resource.Empty -> {}
 
                 }
             }

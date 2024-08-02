@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,9 +24,9 @@ class SearchFragmentViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private var _searchData: MutableSharedFlow<Resource<List<ProductDetail>>> =
-        MutableSharedFlow()
-    val searchData: SharedFlow<Resource<List<ProductDetail>>> = _searchData
+    private var _searchData: MutableStateFlow<Resource<List<ProductDetail>>> =
+        MutableStateFlow(Resource.Empty)
+    val searchData: StateFlow<Resource<List<ProductDetail>>> = _searchData
     fun PerformSearch(query: String) {
 
         viewModelScope.launch() {

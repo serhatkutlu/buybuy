@@ -71,6 +71,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             binding.includedLayout.progressBar.Gone()
                             requireContext().showToast(it.message)
                         }
+                        is Resource.Empty -> {}
                     }
                 }
             }

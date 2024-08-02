@@ -12,15 +12,19 @@ class GetProductByCategoriesUseCase @Inject constructor(private val mainReposito
         mainRepository.getProductByCategory(category).map { resource ->
 
             when (resource) {
-                is Resource.Success ->{
-                    val updatedProducts= resource.data?.map {
-                    if (it.star == null) it.copy(star = generateRandomFloat())
-                    else it
-                }
+                is Resource.Success -> {
+                    val updatedProducts = resource.data?.map {
+                        if (mainRepository.isFavorite(it.id)) it.isFavorite=true
+                        if (it.star == null ) it.star=generateRandomFloat()
+                        it
+                    }
+                    mainRepository.saveAllProduct(updatedProducts ?: emptyList())
                     Resource.Success(updatedProducts)
 
-                }else -> resource
-        }
+                }
+
+                else -> resource
+            }
 
         }
 

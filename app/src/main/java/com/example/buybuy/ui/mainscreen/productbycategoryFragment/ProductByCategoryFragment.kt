@@ -109,6 +109,7 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
                                 is Resource.Error -> {
                                     requireContext().showToast(it.message)
                                 }
+                                is Resource.Empty -> {}
                             }
 
                         }

@@ -98,6 +98,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
                     is Resource.Error -> {
                         binding.root.context.showToast(result.message)
                     }
+                    is Resource.Empty->{}
                 }
             }
         }

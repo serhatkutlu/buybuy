@@ -55,6 +55,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                         is Resource.Loading->{
                             binding.progressBar.Visible()
                         }
+                        is Resource.Empty->{}
                     }
                 }
             }

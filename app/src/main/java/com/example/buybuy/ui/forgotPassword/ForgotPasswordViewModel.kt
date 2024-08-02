@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(private val resetPassword: ResetPassword): ViewModel() {
 
-    private val _resetFlow:MutableStateFlow<Resource<Nothing>> = MutableStateFlow(Resource.Loading())
+    private val _resetFlow:MutableStateFlow<Resource<Nothing>> = MutableStateFlow(Resource.Empty)
     val resetFlow: StateFlow<Resource<Nothing>> = _resetFlow
     fun resetPasswordwithEmail(email: String){
         viewModelScope.launch {

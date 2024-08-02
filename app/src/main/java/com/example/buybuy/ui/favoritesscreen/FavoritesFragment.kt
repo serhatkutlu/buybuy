@@ -51,9 +51,9 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
                             binding.includedLayout.progressBar.Gone()
                             requireContext().showToast(it.message)
                         }
-                        else -> {
+                        is Resource.Loading -> {
                             binding.includedLayout.progressBar.Visible()
-                        }
+                        }else->{}
                     }
 
                 }

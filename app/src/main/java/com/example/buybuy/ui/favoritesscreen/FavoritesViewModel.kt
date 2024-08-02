@@ -24,7 +24,7 @@ class FavoritesViewModel @Inject constructor(
 
 
     private val _favoritesState: MutableStateFlow<Resource<List<ProductDetail>>> =
-        MutableStateFlow(Resource.Loading())
+        MutableStateFlow(Resource.Empty)
     val favoritesState: StateFlow<Resource<List<ProductDetail>>> = _favoritesState
 
     init {

@@ -38,7 +38,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         checkUserLogin.collect {
                             if (it) findNavController().navigate(R.id.action_loginFragment_to_main_nav_graph)
                         }
-                        loginflow.collect {
+                        loginFlow.collect {
                             when (it) {
                                 is Resource.Loading -> {
                                     progressBar.Visible()
@@ -49,10 +49,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                     findNavController().navigate(R.id.action_loginFragment_to_main_nav_graph)
                                 }
 
-                                else -> {
+                                is Resource.Error -> {
                                     progressBar.Gone()
                                     context?.showToast(getString(R.string.invalid_email_password))
-                                }
+                                }else -> {}
                             }
                         }
 

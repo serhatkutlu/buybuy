@@ -65,6 +65,9 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                                     progressBar.Gone()
 
                                 }
+                                is Resource.Empty -> {
+
+                                }
                             }
                         }
                     }

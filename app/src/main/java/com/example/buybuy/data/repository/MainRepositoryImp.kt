@@ -4,7 +4,7 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.domain.datasource.local.LocalDataSource
 import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
 import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
-import com.example.buybuy.domain.model.enums.ViewType
+import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.domain.repository.MainRepository
 import com.example.buybuy.util.Constant.NODATAFOUND

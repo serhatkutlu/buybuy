@@ -1,8 +1,10 @@
 package com.example.buybuy.ui.forgotPassword
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentForgotPasswordBinding
+import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.util.Checkemail
 import com.example.buybuy.util.Constant.ALERT_CANCEL
 import com.example.buybuy.util.Constant.ALERT_MESSAGE_RESET_PASSWORD
@@ -76,10 +79,16 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
         }
     }
 
+
+
+
     private fun openEmailIntent() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+
+
     }
 
     private fun initUi() {

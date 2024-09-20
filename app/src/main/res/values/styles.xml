@@ -4,4 +4,9 @@
     <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">9sp</item>
     </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_gravity">center</item>
+        ...
+    </style>
 </resources>

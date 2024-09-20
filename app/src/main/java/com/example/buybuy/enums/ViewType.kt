@@ -1,4 +1,4 @@
-package com.example.buybuy.domain.model.enums
+package com.example.buybuy.enums
 
 enum class ViewType {
     vp_banner,

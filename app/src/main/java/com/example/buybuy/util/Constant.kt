@@ -7,7 +7,9 @@ object Constant {
 
     const val ID="id"
     const val EMAIL="email"
+    const val NAME="name"
     const val IMAGE="image"
+    const val IMAGES="images"
     const val COLLECTION_PATH="users"
     const val UNKNOWN_ERROR:String="Unknown Error"
     const val USER_NOT_FOUND:String="User not found"
@@ -34,5 +36,15 @@ object Constant {
     const val lASTRVPOS="lastRVPosition"
     const val CURRENCYSYMBOL="$"
     const val NODATAFOUND="No Data Found"
+
+    const val ORDER="order"
+    const val COUPONS="coupons"
+    const val ADDRESS="address"
+    const val PAYMENT="payment"
+    const val LOGOUT="logout"
+    const val SETTINGS="settings"
+    const val HELP="help"
+    const val ABOUT="about"
+
 
 }

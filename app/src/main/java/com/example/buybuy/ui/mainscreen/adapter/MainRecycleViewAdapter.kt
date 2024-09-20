@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
-import com.example.buybuy.domain.model.enums.ViewType
+import com.example.buybuy.enums.ViewType
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata

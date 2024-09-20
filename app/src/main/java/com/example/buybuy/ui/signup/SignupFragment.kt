@@ -22,7 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.User
+import com.example.buybuy.domain.model.User
 import com.example.buybuy.databinding.FragmentSignupBinding
 import com.example.buybuy.util.CheckNullorEmpty
 import com.example.buybuy.util.Checkemail
@@ -32,7 +32,6 @@ import com.example.buybuy.util.Constant.ALERT_OK
 import com.example.buybuy.util.Constant.ALERT_TITLE
 import com.example.buybuy.util.Constant.PASSWORD_NOT_MATCH
 import com.example.buybuy.util.Constant.PERMISSION_DENIED_GALLERY
-import com.example.buybuy.util.Constant.PERMISSION_DENIED_SETTINGS
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
 import com.example.buybuy.util.Gone
 import com.example.buybuy.util.Resource
@@ -52,17 +51,25 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
     private var selectedimage: Uri? = null
 
 
-    private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val selectedImageUri: Uri? = result.data?.data
-                if (selectedImageUri != null) {
-                    selectedimage = selectedImageUri
-                    binding.ivProfile.setImageURI(selectedImageUri)
-                }
+//    private val pickImageLauncher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                val selectedImageUri: Uri? = result.data?.data
+//                if (selectedImageUri != null) {
+//                    selectedimage = selectedImageUri
+//                    binding.ivProfile.setImageURI(selectedImageUri)
+//                }
+//            }
+//        }
+    val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            val selectedImageUri: Uri? = uri
+            if (selectedImageUri != null) {
+                selectedimage = selectedImageUri
+                binding.ivProfile.setImageURI(selectedImageUri)
             }
         }
-
+    }
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -93,6 +100,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                         is Resource.Error -> {
                             binding.progressBar.Gone()
                             requireContext().showToast(it.message)
+                            binding.buttonLogin.isEnabled = true
                         }
 
                         is Resource.Success -> {
@@ -132,6 +140,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                             image = selectedimage
                         )
                         viewModel.Signup(user)
+                        buttonLogin.isEnabled = false
 
                     }
                     else{
@@ -165,8 +174,9 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
+        //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        //pickImageLauncher.launch(intent)
+        galleryLauncher.launch("image/*")
     }
 
     private fun openAppSettings(context: Context) {

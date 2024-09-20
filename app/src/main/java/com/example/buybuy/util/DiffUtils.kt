@@ -2,6 +2,7 @@ package com.example.buybuy.util
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.data.model.data.ProfileOption
 import com.example.buybuy.domain.model.MainRecycleViewdata
 
 class ProductComparator : DiffUtil.ItemCallback<ProductDetail>() {
@@ -24,4 +25,17 @@ class ProductComparatorMainRV : DiffUtil.ItemCallback<MainRecycleViewdata>() {
         newItem: MainRecycleViewdata
     ) =
         true
+}
+
+
+class ProfileDiffUtil : DiffUtil.ItemCallback<ProfileOption>() {
+    override fun areItemsTheSame(oldItem: ProfileOption, newItem: ProfileOption): Boolean {
+        return oldItem.id==newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: ProfileOption, newItem: ProfileOption): Boolean {
+        return oldItem==newItem
+    }
+
+
 }

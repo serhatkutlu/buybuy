@@ -51,6 +51,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
                                 is Resource.Error -> {
                                     progressBar.Gone()
+                                    buttonlogin.isEnabled = true
                                     context?.showToast(getString(R.string.invalid_email_password))
                                 }else -> {}
                             }
@@ -72,6 +73,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         etPassword.CheckNullorEmpty(getString(R.string.invalid_password))
                     ) {
                         loginEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
+                        buttonlogin.isEnabled = false
                     }
                 }
 

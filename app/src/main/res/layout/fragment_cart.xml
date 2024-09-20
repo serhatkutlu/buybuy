@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="80dp">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -33,12 +35,14 @@
 
         </LinearLayout>
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="80dp"
             android:background="@color/rv_background_color" />
+
     </LinearLayout>
 
     <ProgressBar
@@ -48,4 +52,42 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/orange"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:paddingHorizontal="15dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_price_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:text="150$"
+            android:textColor="@color/orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0.dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_buy_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg_orange"
+            android:padding="15dp"
+            android:text="Buy now" />
+    </LinearLayout>
 </FrameLayout>

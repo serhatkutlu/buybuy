@@ -49,6 +49,14 @@
 
 
     <string name="Profile_title">Profile</string>
+    <string name="fragment_new_address_title">Add Adress</string>
+    <string name="fragment_new_address_contact_information">contact information</string>
+    <string name="fragment_new_address_address">address</string>
+    <string name="fragment_new_address_address_information">address information</string>
+    <string name="fragment_new_address_name">name</string>
+    <string name="fragment_new_address_address_name">adress name</string>
+    <string name="fragment_new_address_surname">surname</string>
+    <string name="fragment_new_address_phone_number">phone number</string>
 
 
 </resources>

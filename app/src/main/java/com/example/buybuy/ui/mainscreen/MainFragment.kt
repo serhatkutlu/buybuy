@@ -2,6 +2,7 @@ package com.example.buybuy.ui.mainscreen
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,8 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
+import com.example.buybuy.util.Constant
+import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,12 +37,23 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
 
+        handleOnBackPressed()
         initObservers()
         initUi()
 
 
     }
 
+
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireContext().showAlertDialog(Constant.ALERT_TITLE_EXIT,Constant.ALERT_MESSAGE_EXIT, positiveButtonAction = {
+                    requireActivity().finish()
+                })
+            }
+        })
+    }
 
     private fun initUi() {
 

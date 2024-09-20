@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     app:strokeWidth="2dp"
+    android:layout_gravity="center"
     app:strokeColor="@color/orange"
     >
     <FrameLayout

@@ -2,11 +2,13 @@ package com.example.buybuy.ui.favoritesscreen
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
@@ -35,6 +37,17 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
         initUi()
         initObservers()
+        handleOnBackPressed()
+
+
+    }
+
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.mainFragment)
+            }
+        })
     }
 
     private fun initObservers() {

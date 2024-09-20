@@ -19,6 +19,8 @@ object Constant {
     const val ALERT_TITLE_CART="Delete Product"
     const val ALERT_TITLE="Permission Required"
     const val ALERT_TITLE_RESET_PASSWORD="Complate"
+    const val ALERT_TITLE_EXIT="Exit"
+    const val ALERT_MESSAGE_EXIT="Do you want to exit the application?"
     const val ALERT_MESSAGE="We need storage permission to access the gallery. Please grant the permission."
     const val ALERT_MESSAGE_RESET_PASSWORD="You can reset your password using the link sent to your email."
     const val ALERT_MESSAGE_CART="Are you sure you want to delete this product?"

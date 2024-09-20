@@ -111,7 +111,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         with(binding.includedLayout.recyclerView){
             adapter=RVadapter
             layoutManager= GridLayoutManager(requireContext(),2)
-            addItemDecoration(SpacesItemDecoration(25))
+            addItemDecoration(SpacesItemDecoration(25, spaceleft = 35))
             RVadapter.onFavoriteClickListener=::FavoriteClick
             RVadapter.onClickListener=::onItemClick
         }

@@ -71,7 +71,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.signupFragment,
                 R.id.forgotPasswordFragment,
                 R.id.productDetailFragment,
-                R.id.splashFragment -> {
+                R.id.splashFragment ,
+                R.id.addressFragment,
+                R.id.newAddressFragment-> {
                     binding.bottomNavigation.Gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 

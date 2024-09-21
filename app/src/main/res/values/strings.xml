@@ -56,6 +56,7 @@
     <string name="fragment_new_address_name">name</string>
     <string name="fragment_new_address_address_name">adress name</string>
     <string name="fragment_new_address_surname">surname</string>
+    <string name="fragment_new_address_save_address">save address</string>
     <string name="fragment_new_address_phone_number">phone number</string>
 
 

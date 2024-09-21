@@ -21,6 +21,7 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentSearchBinding
 import com.example.buybuy.ui.searchscreen.adapters.SearchScreenAdapter
 import com.example.buybuy.util.Gone
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.Visible
@@ -122,13 +123,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
     fun onItemClick(product:ProductDetail){
         val action=SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(product)
-        findNavController().navigate(action)
+        findNavController().navigate(action,NavOptions.navOption1)
     }
 
     private fun handleBackButton() {
 
 
-            findNavController().popBackStack()
+            findNavController().navigateUp()
 
         
 

@@ -3,6 +3,7 @@ package com.example.buybuy.ui.mainscreen
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.Constant
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,10 +50,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun handleOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                if((requireActivity() as MainActivity).binding.drawerLayout.isDrawerOpen(
+                        GravityCompat.START)){
+                    (requireActivity() as MainActivity).binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                else{
                 requireContext().showAlertDialog(Constant.ALERT_TITLE_EXIT,Constant.ALERT_MESSAGE_EXIT, positiveButtonAction = {
                     requireActivity().finish()
                 })
-            }
+            }}
         })
     }
 
@@ -62,7 +69,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             (requireActivity() as MainActivity).openDrawerClick()
         }
         binding.ivSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_searchFragment,null,NavOptions.navOptions2)
         }
     }
 

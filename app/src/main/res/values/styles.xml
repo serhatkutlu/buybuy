@@ -13,7 +13,7 @@
 <style name="CustomTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox"
     >
     <item name="boxStrokeColor">@color/orange</item>
-    <item name="cursorColor">@color/orange</item>"
+    <item name="cursorColor">@color/orange</item>
     <item name="hintTextColor">@color/orange</item>
 </style>
 </resources>

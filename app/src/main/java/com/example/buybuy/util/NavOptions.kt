@@ -6,15 +6,19 @@ import com.example.buybuy.R
 object NavOptions {
 
 
-    val navOption1=NavOptions.Builder()
+    val navOption1 = NavOptions.Builder()
         .setEnterAnim(R.anim.slide_in_right)
         .setExitAnim(R.anim.slide_out_left)
         .setPopEnterAnim(R.anim.slide_in_left)
         .setPopExitAnim(R.anim.slide_out_right)
         .build()
 
-    val navOptions2=NavOptions.Builder()
-        .setEnterAnim(R.anim.slide_in)
-        .setExitAnim(R.anim.slide_out)
+    val navOptions2 = NavOptions.Builder()
+        .setEnterAnim(R.anim.slide_up_in)
+        .setExitAnim(R.anim.slide_up_out)
+        .setPopEnterAnim(R.anim.slide_down_in)
+        .setPopExitAnim(R.anim.slide_down_out)
         .build()
+
+
 }

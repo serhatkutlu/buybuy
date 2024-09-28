@@ -8,17 +8,17 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="@dimen/toolbar_height"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingEnd="20dp">
+        >
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:layout_gravity="center|start"
-            android:padding="12dp"
+            android:layout_margin="@dimen/default_margin"
             android:src="@drawable/left_arrow"
             app:tint="@color/orange" />
 
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:text="@string/fragment_new_address_title"
             android:textColor="@color/orange"
-            android:textSize="25sp"
+            android:textSize="@dimen/header_text_size"
             android:textStyle="bold" />
 
     </FrameLayout>
@@ -45,7 +45,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="@dimen/large_margin"
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -55,26 +55,26 @@
                 android:layout_margin="15sp"
                 android:text="@string/fragment_new_address_contact_information"
                 android:textColor="@color/orange"
-                android:textSize="15sp" />
+                android:textSize="@dimen/body_text_size" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
                 android:background="@color/rv_background_color" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginHorizontal="20dp">
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginHorizontal="@dimen/default_margin">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
                     android:layout_gravity="center"
                     android:src="@drawable/profile_nav"
                     app:tint="@color/orange"/>
@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginHorizontal="@dimen/large_margin"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -100,12 +100,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginHorizontal="20dp">
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginHorizontal="@dimen/default_margin">
 
                 <View
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
                     android:layout_gravity="center"
                     />
 
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginHorizontal="@dimen/large_margin"
 
                     >
 
@@ -131,13 +131,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="25dp"
-                android:layout_marginHorizontal="20dp">
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginHorizontal="@dimen/default_margin">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
                     android:layout_gravity="center"
                     android:src="@drawable/outline_phone_enabled_24"
                     app:tint="@color/orange"/>

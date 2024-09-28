@@ -200,7 +200,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:src="@drawable/righ_arrow"
+            android:src="@drawable/right_arrow"
             app:tint="@color/orange" />
     </LinearLayout>
 

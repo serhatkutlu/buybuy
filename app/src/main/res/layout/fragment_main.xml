@@ -9,97 +9,74 @@
     android:background="@color/background">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <ImageView
+        android:id="@+id/iv_menu"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/orange" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:elevation="0dp"
-            android:layout_weight="0.8">
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_height"
+        android:layout_marginHorizontal="@dimen/large_margin"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_menu"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/iv_menu"
+        app:layout_constraintTop_toTopOf="@+id/iv_menu">
 
-            <ImageView
-                android:id="@+id/iv_menu"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:padding="12dp"
-                app:tint="@color/orange"
-                android:src="@drawable/menu" />
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_weight="0.5"
+            android:padding="@dimen/xsmall_padding"
+            android:src="@drawable/search" />
+    </androidx.cardview.widget.CardView>
 
 
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="0.5"
-                android:padding="12dp"
-                android:src="@drawable/search" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:src="@drawable/bell"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_menu"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="0.5"
-                android:padding="10dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_menu" />
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/bell"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="@dimen/xSmall_icon_size"
+        android:layout_height="@dimen/xSmall_icon_size"
+        android:layout_gravity="end"
+        android:src="@drawable/notification_red_dot"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/notification_red_dot"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0.dp"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/xxlarge_margin"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0"
-        tools:visibility="visible"
-        android:nestedScrollingEnabled="true"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 
     <ProgressBar

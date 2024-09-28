@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProfileBinding
 import com.example.buybuy.ui.profile.adapter.ProfileAdapter
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val binding by viewBinding(FragmentProfileBinding::bind)
 
     private val viewModel by viewModels<ProfileViewModel>()
-    private val adapter by lazy { ProfileAdapter(::OptionClickListener) }
+    private val adapter by lazy { ProfileAdapter(::optionClickListener) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,11 +53,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 viewModel.profileOptions.collect {
                     when (it) {
                         is Resource.Loading -> {
-                            binding.includeProgressBar.progressBar.Visible()
+                            binding.includeProgressBar.progressBar.visible()
                         }
 
                         is Resource.Success -> {
-                            binding.includeProgressBar.progressBar.Gone()
+                            binding.includeProgressBar.progressBar.gone()
                             adapter.submitList(it.data)
                         }
 
@@ -109,7 +109,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.rvProfile.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun OptionClickListener(option:Int){
+    private fun optionClickListener(option:Int){
         when(option){
             2->{
                 findNavController().navigate(R.id.action_profileFragment_to_addressFragment,null,NavOptions.navOption1)

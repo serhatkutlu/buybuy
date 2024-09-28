@@ -10,12 +10,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentLoginBinding
-import com.example.buybuy.util.CheckNullorEmpty
-import com.example.buybuy.util.Checkemail
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.checkNullorEmpty
+import com.example.buybuy.util.checkEmail
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showToast
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,16 +41,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         loginFlow.collect {
                             when (it) {
                                 is Resource.Loading -> {
-                                    progressBar.Visible()
+                                    progressBar.visible()
                                 }
 
                                 is Resource.Success -> {
-                                    progressBar.Gone()
+                                    progressBar.gone()
                                     findNavController().navigate(R.id.action_loginFragment_to_main_nav_graph)
                                 }
 
                                 is Resource.Error -> {
-                                    progressBar.Gone()
+                                    progressBar.gone()
                                     buttonlogin.isEnabled = true
                                     context?.showToast(getString(R.string.invalid_email_password))
                                 }else -> {}
@@ -69,8 +69,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         with(binding) {
             with(loginViewModel) {
                 buttonlogin.setOnClickListener {
-                    if (etEmail.Checkemail(getString(R.string.invalid_email)) &&
-                        etPassword.CheckNullorEmpty(getString(R.string.invalid_password))
+                    if (etEmail.checkEmail(getString(R.string.invalid_email)) &&
+                        etPassword.checkNullorEmpty(getString(R.string.invalid_password))
                     ) {
                         loginEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
                         buttonlogin.isEnabled = false

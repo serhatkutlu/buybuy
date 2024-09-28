@@ -4,7 +4,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.data.model.data.ProductDetail
@@ -24,9 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 
-class MainRecycleViewAdapter(
-
-) :
+class MainRecycleViewAdapter :
     ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparatorMainRV()) {
 
 
@@ -55,16 +52,16 @@ class MainRecycleViewAdapter(
     override fun getItemViewType(position: Int): Int {
 
         return when (getItem(position).type) {
-            ViewType.vp_banner -> {
-                ViewType.vp_banner.ordinal
+            ViewType.VP_BANNER -> {
+                ViewType.VP_BANNER.ordinal
             }
 
-            ViewType.category -> {
-                ViewType.category.ordinal
+            ViewType.CATEGORY -> {
+                ViewType.CATEGORY.ordinal
             }
 
             else -> {
-                ViewType.divider.ordinal
+                ViewType.DIVIDER.ordinal
             }
         }
 
@@ -173,21 +170,21 @@ class MainRecycleViewAdapter(
         }
     }*/
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            ViewType.vp_banner.ordinal -> {
+            ViewType.VP_BANNER.ordinal -> {
                 val binding = ItemVpBannerBinding.inflate(inflater, parent, false)
                 VpBannerViewHolder(binding)
             }
 
-            ViewType.category.ordinal -> {
+            ViewType.CATEGORY.ordinal -> {
                 val binding =
                     ItemCategoryContentRvBinding.inflate(LayoutInflater.from(parent.context))
                 return CategoryTabAndContentViewHolder(binding)
             }
 
-            ViewType.divider.ordinal -> {
+            ViewType.DIVIDER.ordinal -> {
                 val binding = ItemDividerMainRvBinding.inflate(inflater, parent, false)
                 DividerViewHolder(binding)
 
@@ -208,23 +205,22 @@ class MainRecycleViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        getItem(position).let {
-            when (it.type) {
-                ViewType.vp_banner -> {
-                    (holder as VpBannerViewHolder).apply {
+        getItem(position).let {item->
+            when (holder) {
+                is VpBannerViewHolder -> {
+                    (holder ).apply {
                         selectedPage = selectedPageVpBanner
-                        bind(it) {
+                        bind(item) {
                             selectedPageVpBanner = it
-                            return@bind selectedPageVpBanner
-
+                            selectedPageVpBanner
                         }
                     }
                 }
 
-                ViewType.category -> {
+                is CategoryTabAndContentViewHolder -> {
 
-                    (holder as CategoryTabAndContentViewHolder).bind(
-                        it,
+                    (holder ).bind(
+                        item,
                         tabAdapter,
                         currentCategory,
                         ::setCurrentCategory,

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 
 
-class SignUpUseCase @Inject constructor(val firebaseRepository: FirebaseRepository) {
+class SignUpUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
 
     operator fun invoke(user: User) =firebaseRepository.createUser(user)
 

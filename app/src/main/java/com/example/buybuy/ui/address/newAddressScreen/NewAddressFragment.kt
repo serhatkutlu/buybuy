@@ -13,12 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class NewAddressFragment: Fragment(R.layout.fragment_new_address) {
 
     private val binding:FragmentNewAddressBinding by viewBinding(FragmentNewAddressBinding::bind)
-    //private val viewModel:
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 }

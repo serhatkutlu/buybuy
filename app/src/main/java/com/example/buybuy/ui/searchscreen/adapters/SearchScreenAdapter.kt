@@ -9,11 +9,11 @@ import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
 import com.example.buybuy.util.ProductComparator
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(
+class SearchScreenAdapter:ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(
     ProductComparator()
 ){
 
@@ -22,16 +22,17 @@ class SearchScreenAdapter():ListAdapter<ProductDetail, SearchScreenAdapter.Searc
 
     inner class SearchScreenViewHolder(private val binding:ItemProductBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(productDetail: ProductDetail) {
+            val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)
             binding.tvTitle.text = productDetail.title
-            binding.tvCurrentPrice.text = newPrice.toString() + "$"
+            binding.tvCurrentPrice.text = context.getString(R.string.currency_symbol,newPrice.toString())
 
             setFavoriteBackground(productDetail.isFavorite)
 
             if (productDetail.discount > 0) {
-                binding.tvLastPrice.Visible()
-                binding.tvLastPrice.text = productDetail.price.toString() + "$"
+                binding.tvLastPrice.visible()
+                binding.tvLastPrice.text = context.getString(R.string.currency_symbol,productDetail.price.toString())
             }
             binding.tvLastPrice.paint.isStrikeThruText = true
             binding.cardView.setOnClickListener {

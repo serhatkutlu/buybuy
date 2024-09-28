@@ -23,10 +23,10 @@ class MainRepositoryImp @Inject constructor(
     override fun getVpBannerData(): Flow<Resource<VpBannerData>> = flow {
         emit(Resource.Loading())
         try {
-            val response = remoteDataSource.GetVpBanner()
+            val response = remoteDataSource.getVpBanner()
             response?.let {
-                val Banner = VpBannerData(ViewType.vp_banner, it)
-                emit(Resource.Success(Banner))
+                val banner = VpBannerData(ViewType.VP_BANNER, it)
+                emit(Resource.Success(banner))
             }
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
@@ -38,7 +38,7 @@ class MainRepositoryImp @Inject constructor(
             emit(Resource.Loading())
             try {
 
-                val response = remoteDataSource.GetProductByCategory(category)
+                val response = remoteDataSource.getProductByCategory(category)
                 if (response.isSuccessful) {
 //                    val products=response.body()?.products?.map {
 //                        if(isFavorite(it.id)){
@@ -58,9 +58,9 @@ class MainRepositoryImp @Inject constructor(
 
         emit(Resource.Loading())
         try {
-            val response = remoteDataSource.GetAllCategory()
+            val response = remoteDataSource.getAllCategory()
             if (response.isSuccessful) {
-                val category = RVCategory(response.body()?.categories, ViewType.category)
+                val category = RVCategory(response.body()?.categories, ViewType.CATEGORY)
                 emit(Resource.Success(category))
             } else {
                 emit(Resource.Error(response.message()))
@@ -107,7 +107,7 @@ class MainRepositoryImp @Inject constructor(
 
         try {
             val response=localDataSource.getAllFavoriteProducts()
-            if (response.isNullOrEmpty()){
+            if (response.isEmpty()){
                 emit(Resource.Error(NODATAFOUND))
             }else{
                 emit(Resource.Success(response))

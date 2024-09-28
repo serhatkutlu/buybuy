@@ -27,7 +27,6 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseFirestore()= Firebase.firestore
-
     @Provides
     @Singleton
     fun provideFirebaseStorage()= Firebase.storage

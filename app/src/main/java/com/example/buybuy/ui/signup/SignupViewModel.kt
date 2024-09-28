@@ -13,15 +13,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-        val SignupUseCase:SignUpUseCase
+        val signupUseCase:SignUpUseCase
 ):ViewModel() {
 
     private val _user= MutableStateFlow<Resource<Nothing>>(Resource.Empty)
     val user: StateFlow<Resource<Nothing>> = _user
 
-    fun Signup(user: User){
+    fun signup(user: User){
         viewModelScope.launch {
-            SignupUseCase(user).collect{
+            signupUseCase(user).collect{
                 _user.emit(it)
             }
         }

@@ -3,8 +3,7 @@ package com.example.buybuy.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.TextView
+
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,19 +15,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.buybuy.R
 import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.databinding.ActivityMainBinding
 import com.example.buybuy.databinding.NavHeaderBinding
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,7 +33,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
     private val viewmodel:ActivityViewModel by viewModels()
 
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.closed)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -74,14 +71,21 @@ class MainActivity : AppCompatActivity() {
                 R.id.splashFragment ,
                 R.id.addressFragment,
                 R.id.newAddressFragment-> {
-                    binding.bottomNavigation.Gone()
+                    binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
 
                 }
 
                 else -> {
-                    binding.bottomNavigation.Visible()
-                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    if (destination.id == R.id.mainFragment) {
+                        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    }
+                    else{
+                        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+                    }
+                    binding.bottomNavigation.visible()
                     if(viewmodel.user.value==Resource.Empty){
                         viewmodel.getUserData()
                     }
@@ -111,13 +115,13 @@ class MainActivity : AppCompatActivity() {
                 viewmodel.logOutState.collect{
                     when(it){
                         is Resource.Success->{
-                            binding.progressBar.Gone()
-                            navController.navigate(R.id.splashFragment,null,NavOptions.Builder().setPopUpTo(R.id.splashFragment, true)  // splashFragment dışındaki tüm fragment'ları yığından temizle
+                            binding.progressBar.gone()
+                            navController.navigate(R.id.splashFragment,null,NavOptions.Builder().setPopUpTo(R.id.splashFragment, true)
                                 .setRestoreState(true).build())
                         }
-                        is Resource.Loading->binding.progressBar.Visible()
+                        is Resource.Loading->binding.progressBar.visible()
                         is Resource.Error->{
-                            binding.progressBar.Gone()
+                            binding.progressBar.gone()
                             showToast(it.message)
                         }
                         is Resource.Empty->{}

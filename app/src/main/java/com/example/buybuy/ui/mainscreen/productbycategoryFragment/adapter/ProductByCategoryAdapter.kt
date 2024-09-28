@@ -10,7 +10,7 @@ import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
 import com.example.buybuy.util.ProductComparator
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
@@ -31,7 +31,7 @@ class ProductByCategoryAdapter() :
             binding.tvTitle.text = productDetail.title
             binding.tvCurrentPrice.text = newPrice.toString() + "$"
             if (productDetail.discount > 0) {
-                binding.tvLastPrice.Visible()
+                binding.tvLastPrice.visible()
                 binding.tvLastPrice.text = productDetail.price.toString() + "$"
             }
             binding.tvLastPrice.paint.isStrikeThruText = true

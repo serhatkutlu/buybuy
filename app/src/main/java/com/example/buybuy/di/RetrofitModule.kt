@@ -30,11 +30,11 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideFakeStoreApi(OkHttpClient: OkHttpClient): FakeStoreApi {
+    fun provideFakeStoreApi(okHttpClient: OkHttpClient): FakeStoreApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient)
+            .client(okHttpClient)
             .build()
             .create(FakeStoreApi::class.java)
 

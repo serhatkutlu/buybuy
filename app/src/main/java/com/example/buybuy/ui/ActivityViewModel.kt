@@ -3,7 +3,6 @@ package com.example.buybuy.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.UserData
-import com.example.buybuy.domain.model.User
 import com.example.buybuy.domain.usecase.login.LogOutUseCase
 import com.example.buybuy.domain.usecase.main.GetUserDataUseCase
 import com.example.buybuy.util.Resource

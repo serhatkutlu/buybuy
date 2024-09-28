@@ -35,7 +35,7 @@ class FirebaseRepositoryImp @Inject constructor(
 
             var imageUrl = ""
             val authResult =
-                authentication.createUserWithEmailAndPassword(user.email, user.password ?: "")
+                authentication.createUserWithEmailAndPassword(user.email, user.password )
                     .await()
             val uid = authResult.user?.uid.toString()
             user.image?.let {

@@ -16,14 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
-import com.example.buybuy.util.Constant.CURRENCYSYMBOL
 import com.example.buybuy.util.Constant.POPULAR
 import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.SpacesItemDecoration
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
-import com.example.buybuy.util.showSnackbar
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +33,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private val binding by viewBinding(FragmentProductDetailScreenBinding::bind)
     private val viewModel: ProductDetailViewModel by viewModels()
     private val args: ProductDetailFragmentArgs by navArgs()
-    private val tabs: MutableMap<String,String> = mutableMapOf()
+    private val tabs: MutableMap<String, String> = mutableMapOf()
     private var isDetailopen = false
     private var isRotated = false
 
@@ -50,10 +48,10 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.isFavoriteFlow.collect{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isFavoriteFlow.collect {
                     it?.let {
-                        args.product.isFavorite=it
+                        args.product.isFavorite = it
                     }
 
                 }
@@ -65,9 +63,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
         with(args.product) {
             tabs.apply {
 
-                if (color!=null) put(::color.name,color)
-                put(::category.name,category)
-                if (popular) put(::POPULAR.name.lowercase(),POPULAR)
+                if (color != null) put(::color.name, color)
+                put(::category.name, category)
+                if (popular) put(::POPULAR.name.lowercase(), POPULAR)
             }
 
         }
@@ -77,44 +75,41 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private fun initUi() {
         with(binding) {
             with(args.product) {
-                with(viewModel) {
-
-
-
-                    imageView.setImage(image)
-                    rating.rating = star ?: 0.0f
-                    tvRating.text = star.toString()
-                    setFavoriteBackground(isFavorite)
-                    includedLayout.cvFavorite.cardElevation= 30F
-                    includedLayout.cvFavorite.setOnClickListener {
-                        viewModel.addToFavorite(args.product)
-                        setFavoriteBackground(!isFavorite)
-
-                    }
-                    recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                    recyclerView.adapter = ProductDetailAdapter(tabs)
-                    recyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 40))
-                    tvTitle.text = title
-                    tvDescription.text = description
-                    imDetatilButton.setOnClickListener {
-                        initDetailButton()
-                    }
-                    var newprice = price.toString()
-                    if (discount != 0) {
-                        tvPriceOld.Visible()
-                         newprice = (price calculateDiscount discount).toString()
-                        tvPrice.text = (newprice+CURRENCYSYMBOL)
-                        tvPriceOld.text=(price.toString()+CURRENCYSYMBOL)
-                        tvPriceOld.paint.isStrikeThruText=true
-                    }
-                    tvPriceNew.text =(newprice+CURRENCYSYMBOL)
-
-                    buttonAddToCart.setOnClickListener {
-                        viewModel.addCart(args.product.id)
-                        requireContext().showToast(SNACKBAR_MESSAGE_CART)
-                    }
+                imageView.setImage(image)
+                rating.rating = star ?: 0.0f
+                tvRating.text = star.toString()
+                setFavoriteBackground(isFavorite)
+                includedLayout.cvFavorite.cardElevation = 30F
+                includedLayout.cvFavorite.setOnClickListener {
+                    viewModel.addToFavorite(args.product)
+                    setFavoriteBackground(!isFavorite)
 
                 }
+                recyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.adapter = ProductDetailAdapter(tabs)
+                recyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 40))
+                tvTitle.text = title
+                tvDescription.text = description
+                imDetatilButton.setOnClickListener {
+                    initDetailButton()
+                }
+                var newprice = price.toString()
+                if (discount != 0) {
+                    tvPriceOld.visible()
+                    newprice = (price calculateDiscount discount).toString()
+                    tvPrice.text = getString(R.string.currency_symbol, newprice)
+                    tvPriceOld.text = getString(R.string.currency_symbol, price.toString())
+                    tvPriceOld.paint.isStrikeThruText = true
+                }
+                tvPriceNew.text = getString(R.string.currency_symbol, newprice)
+
+                buttonAddToCart.setOnClickListener {
+                    viewModel.addCart(args.product.id)
+                    requireContext().showToast(SNACKBAR_MESSAGE_CART)
+                }
+
+
             }
 
         }
@@ -128,7 +123,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 startAnimation(10)
             }
 
-            else-> {
+            else -> {
                 isDetailopen = false
                 startAnimation(3)
             }
@@ -160,7 +155,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
             Animation.RELATIVE_TO_SELF, 0.5f
         )
         rotateAnimation.duration = 300
-        rotateAnimation.repeatCount = 0 // Her basışta bir kez dönmesi için
+        rotateAnimation.repeatCount = 0
         rotateAnimation.fillAfter = true
 
         rotateAnimation.setAnimationListener(object : AnimationListener {
@@ -169,8 +164,8 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
             override fun onAnimationEnd(p0: Animation?) {
                 binding.tvDescription.maxLines = maxLines
-                binding.tvTitle.maxLines=maxLines/3
-                isRotated = !isRotated // Döndürme durumunu güncelle
+                binding.tvTitle.maxLines = maxLines / 3
+                isRotated = !isRotated
             }
 
             override fun onAnimationRepeat(p0: Animation?) {

@@ -6,7 +6,7 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
 import com.example.buybuy.domain.usecase.cart.ClearCartUseCase
 import com.example.buybuy.domain.usecase.cart.DeleteProductFromCartUseCase
-import com.example.buybuy.domain.usecase.cart.reduceProductInCartUseCase
+import com.example.buybuy.domain.usecase.cart.ReduceProductInCartUseCase
 import com.example.buybuy.domain.usecase.cart.GetCartProductsUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase,
     private val clearCartUseCase: ClearCartUseCase,
-    private val reduceProductInCartUseCase: reduceProductInCartUseCase,
+    private val reduceProductInCartUseCase: ReduceProductInCartUseCase,
     private val getCartProductsUseCase: GetCartProductsUseCase,
     private val deleteFromCartUseCase: DeleteProductFromCartUseCase
 ) : ViewModel() {

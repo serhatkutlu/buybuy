@@ -23,7 +23,7 @@ object RoomDBModule {
 
     @Singleton
     @Provides
-    fun provideSearchDao(productRoomDB: ProductRoomDB) = productRoomDB.SearchDAO()
+    fun provideSearchDao(productRoomDB: ProductRoomDB) = productRoomDB.searchDAO()
 
 
 

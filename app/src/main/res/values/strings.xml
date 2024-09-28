@@ -1,5 +1,8 @@
 <resources>
 
+    <string name="currency_symbol">%1$s$</string>
+
+
     <string name="invalid_email_password">invalid email or password</string>
     <string name="app_name">buybuy</string>
     <string name="bottom_nav_home">home</string>
@@ -58,6 +61,7 @@
     <string name="fragment_new_address_surname">surname</string>
     <string name="fragment_new_address_save_address">save address</string>
     <string name="fragment_new_address_phone_number">phone number</string>
+
 
 
 </resources>

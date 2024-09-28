@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProduct2Binding
 import com.example.buybuy.util.ProductComparator
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class FavoritesAdapter() :
+class FavoritesAdapter:
     ListAdapter<ProductDetail, FavoritesAdapter.FavoritesViewHolder>(ProductComparator()) {
 
 
@@ -27,7 +27,7 @@ class FavoritesAdapter() :
                 tvPrice.text = (product.star ?: 0f).toString()
                 tvPrice.text = product.price.calculateDiscount(product.discount).toString()
                 tvCount.text = product.pieceCount.toString()
-                buttonAddToCart.Visible()
+                buttonAddToCart.visible()
                 buttonAddToCart.setOnClickListener {
                     onItemClicked(product)
                 }

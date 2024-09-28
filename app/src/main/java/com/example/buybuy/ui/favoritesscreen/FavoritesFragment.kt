@@ -15,9 +15,9 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentFavoritesBinding
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
 import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,15 +57,15 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
                     when(it){
                         is Resource.Success -> {
-                            binding.includedLayout.progressBar.Gone()
+                            binding.includedLayout.progressBar.gone()
                             favoritesAdapter.submitList(it.data)
                         }
                         is Resource.Error -> {
-                            binding.includedLayout.progressBar.Gone()
+                            binding.includedLayout.progressBar.gone()
                             requireContext().showToast(it.message)
                         }
                         is Resource.Loading -> {
-                            binding.includedLayout.progressBar.Visible()
+                            binding.includedLayout.progressBar.visible()
                         }else->{}
                     }
 

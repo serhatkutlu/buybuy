@@ -9,9 +9,7 @@ import com.example.buybuy.domain.usecase.main.PerformSearchUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,9 +25,9 @@ class SearchFragmentViewModel @Inject constructor(
     private var _searchData: MutableStateFlow<Resource<List<ProductDetail>>> =
         MutableStateFlow(Resource.Empty)
     val searchData: StateFlow<Resource<List<ProductDetail>>> = _searchData
-    fun PerformSearch(query: String) {
+    fun performSearch(query: String) {
 
-        viewModelScope.launch() {
+        viewModelScope.launch {
             performSearchUseCase(query).collect {
                 _searchData.emit(it)
 

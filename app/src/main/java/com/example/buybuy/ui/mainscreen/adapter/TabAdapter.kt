@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemTabLayouthBinding
 
-class TabAdapter() : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparatorTab()) {
+class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparatorTab()) {
 
 
     var onTabSelected: (String) -> Unit = {}
 
 
-    private var selectedposition = 0
+    private var selectedPosition = 0
 
-    class TabViewHolder(private val binding: ItemTabLayouthBinding) :
+    class TabViewHolder( binding: ItemTabLayouthBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val itemtab = binding.cvTab
-        val itemtext = binding.tabTitle
+        val itemTab = binding.cvTab
+        val itemText = binding.tabTitle
 
 
     }
@@ -33,16 +33,16 @@ class TabAdapter() : ListAdapter<String, TabAdapter.TabViewHolder>(ProductCompar
     }
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
-        holder.itemtext.text = getItem(holder.adapterPosition)
+        holder.itemText.text = getItem(holder.adapterPosition)
         val context = holder.itemView.context
 
 
-        val color = selectCardBackgroundColor(context, holder.adapterPosition == selectedposition)
+        val color = selectCardBackgroundColor(context, holder.adapterPosition == selectedPosition)
 
-        holder.itemtab.setCardBackgroundColor(color)
+        holder.itemTab.setCardBackgroundColor(color)
 
         holder.itemView.setOnClickListener {
-            selectedposition = holder.adapterPosition
+            selectedPosition = holder.adapterPosition
             onTabSelected(getItem(holder.adapterPosition))
             notifyDataSetChanged()
         }
@@ -60,8 +60,8 @@ class TabAdapter() : ListAdapter<String, TabAdapter.TabViewHolder>(ProductCompar
         }
     }
 
-    private fun selectCardBackgroundColor(comtext: Context, isSelected: Boolean): Int {
-        return if (isSelected) ContextCompat.getColor(comtext, R.color.orange)
-        else ContextCompat.getColor(comtext, R.color.white)
+    private fun selectCardBackgroundColor(context: Context, isSelected: Boolean): Int {
+        return if (isSelected) ContextCompat.getColor(context, R.color.orange)
+        else ContextCompat.getColor(context, R.color.white)
     }
 }

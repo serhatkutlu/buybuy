@@ -15,7 +15,7 @@ import com.example.buybuy.util.Constant.ALERT_CANCEL
 import com.example.buybuy.util.Constant.ALERT_MESSAGE_CART
 import com.example.buybuy.util.Constant.ALERT_TITLE_CART
 import com.example.buybuy.util.ProductComparator
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showAlertDialog
@@ -42,7 +42,7 @@ class CartAdapter :
 
                 calculateIvMinusColor(product.pieceCount)
 
-                llCount.Visible()
+                llCount.visible()
 
                 pieceCount=product.pieceCount
 
@@ -73,7 +73,7 @@ class CartAdapter :
             }
         }
 
-        fun calculateIvMinusColor(count: Int) {
+        private fun calculateIvMinusColor(count: Int) {
             if (count <= 1) {
                 binding.ivMinus.imageTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(

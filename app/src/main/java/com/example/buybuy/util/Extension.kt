@@ -3,7 +3,6 @@ package com.example.buybuy.util
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -14,18 +13,18 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
-fun View.Visible() {
+fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.Gone() {
+fun View.gone() {
     visibility = View.GONE
 }
-fun View.Invisible() {
+fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
-fun TextInputEditText.Checkemail(error: String):Boolean{
+fun TextInputEditText.checkEmail(error: String):Boolean{
     val textInputLayout = this.parent.parent as TextInputLayout
     return if(android.util.Patterns.EMAIL_ADDRESS.matcher(this.text.toString()).matches()){
         textInputLayout.isErrorEnabled = false
@@ -37,7 +36,7 @@ fun TextInputEditText.Checkemail(error: String):Boolean{
     }
 
 }
-fun TextInputEditText.CheckNullorEmpty(error:String):Boolean{
+fun TextInputEditText.checkNullorEmpty(error:String):Boolean{
     val textInputLayout = this.parent.parent as TextInputLayout
     return if (text.toString().isNotEmpty()&&text.toString().isNotBlank()){
         textInputLayout.isErrorEnabled=false

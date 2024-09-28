@@ -14,9 +14,9 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCartBinding
 import com.example.buybuy.enums.CartClickEnums
 import com.example.buybuy.ui.cartScreen.adapter.CartAdapter
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,16 +54,16 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                 viewModel.cartItems.collect {
                     when(it){
                         is Resource.Success->{
-                            binding.progressBar.Gone()
+                            binding.progressBar.gone()
                             cartAdapter.submitList(it.data)
                         }
                         is Resource.Error->{
                             cartAdapter.submitList(emptyList())
-                            binding.progressBar.Gone()
+                            binding.progressBar.gone()
                             requireContext().showToast(it.message)
                         }
                         is Resource.Loading->{
-                            binding.progressBar.Visible()
+                            binding.progressBar.visible()
                         }
                         is Resource.Empty->{}
                     }

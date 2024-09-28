@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getProductByCategoriesUseCase: GetProductByCategoriesUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
-    private val deletefavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
 ) : ViewModel() {
     private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewdata>> = MutableStateFlow(
         listOf()
@@ -41,11 +41,11 @@ class MainViewModel @Inject constructor(
             val getCategories = async { getCategories() }
 
             val combinedList = (getVpBannerImages.await() + getCategories.await()).toMutableList()
-            val Divider: MainRecycleViewdata = object : MainRecycleViewdata {
-                override val type: ViewType?
-                    get() = ViewType.divider
+            val divider: MainRecycleViewdata = object : MainRecycleViewdata {
+                override val type: ViewType
+                    get() = ViewType.DIVIDER
             }
-            combinedList.add(Divider)
+            combinedList.add(divider)
             _vpBannerDataFlow.emit(combinedList)
         }
 
@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(
     fun addToFavorite(productDetail: ProductDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite){
-                deletefavoriteUseCase.invoke(productDetail.id)
+                deleteFavoriteUseCase.invoke(productDetail.id)
 
             }else{
                 addToFavoriteUseCase.invoke(productDetail)
@@ -66,10 +66,10 @@ class MainViewModel @Inject constructor(
 
     fun fetchContentForCategory(category: String)=flow {
 
-            getProductByCategoriesUseCase.invoke(category).collect {
-                when (it) {
+            getProductByCategoriesUseCase.invoke(category).collect {response->
+                when (response) {
                     is Resource.Success -> {
-                        it.data?.let {
+                        response.data?.let {
                             emit(Resource.Success(it))
                         }
                     }
@@ -79,7 +79,7 @@ class MainViewModel @Inject constructor(
 
                     }
                     is Resource.Error -> {
-                        (Resource.Error(it.message))
+                        (Resource.Error(response.message))
                     }
                     is Resource.Empty -> {}
 
@@ -88,13 +88,13 @@ class MainViewModel @Inject constructor(
         }
 
 
-    suspend fun getCategories(): List<MainRecycleViewdata> {
+    private suspend fun getCategories(): List<MainRecycleViewdata> {
         val result = mutableListOf<MainRecycleViewdata>()
         getCategoriesUseCase().collect {
             when (it) {
                 is Resource.Success -> {
-                    it.data?.let { RVC ->
-                        result.add(RVC)
+                    it.data?.let { rVC ->
+                        result.add(rVC)
                     }
                 }
 
@@ -105,13 +105,13 @@ class MainViewModel @Inject constructor(
         return result
     }
 
-    suspend private fun getVpBannerImages(): List<MainRecycleViewdata> {
+    private suspend fun getVpBannerImages(): List<MainRecycleViewdata> {
         val result = mutableListOf<MainRecycleViewdata>()
         getVpBannerImagesUseCase().collect {
             when (it) {
                 is Resource.Success -> {
-                    it.data?.let { RVC ->
-                        result.add(RVC)
+                    it.data?.let { rVC ->
+                        result.add(rVC)
                     }
 
                 }

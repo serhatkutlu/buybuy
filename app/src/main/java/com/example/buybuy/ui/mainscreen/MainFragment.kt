@@ -34,7 +34,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,18 +47,27 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
 
     private fun handleOnBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if((requireActivity() as MainActivity).binding.drawerLayout.isDrawerOpen(
-                        GravityCompat.START)){
-                    (requireActivity() as MainActivity).binding.drawerLayout.closeDrawer(GravityCompat.START)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if ((requireActivity() as MainActivity).binding.drawerLayout.isDrawerOpen(
+                            GravityCompat.START
+                        )
+                    ) {
+                        (requireActivity() as MainActivity).binding.drawerLayout.closeDrawer(
+                            GravityCompat.START
+                        )
+                    } else {
+                        requireContext().showAlertDialog(
+                            Constant.ALERT_TITLE_EXIT,
+                            Constant.ALERT_MESSAGE_EXIT,
+                            positiveButtonAction = {
+                                requireActivity().finish()
+                            })
+                    }
                 }
-                else{
-                requireContext().showAlertDialog(Constant.ALERT_TITLE_EXIT,Constant.ALERT_MESSAGE_EXIT, positiveButtonAction = {
-                    requireActivity().finish()
-                })
-            }}
-        })
+            })
     }
 
     private fun initUi() {
@@ -69,7 +77,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             (requireActivity() as MainActivity).openDrawerClick()
         }
         binding.ivSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_searchFragment,null,NavOptions.navOptions2)
+            findNavController().navigate(
+                R.id.action_mainFragment_to_searchFragment,
+                null,
+                NavOptions.navOptions2
+            )
         }
     }
 
@@ -81,12 +93,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             setHasFixedSize(true)
         }
         rvAdapter.fetchContentData = ::fetchContentDataForRecycleView
-        rvAdapter.contentClickListener =::openProductDetailScreen
-        rvAdapter.contentFavoriteClickListener=::addToFavorite
+        rvAdapter.contentClickListener = ::openProductDetailScreen
+        rvAdapter.contentFavoriteClickListener = ::addToFavorite
     }
 
     private fun addToFavorite(productDetail: ProductDetail) {
-            viewModel.addToFavorite(productDetail)
+        viewModel.addToFavorite(productDetail)
     }
 
     override fun onStop() {
@@ -104,16 +116,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun initObservers() {
         with(viewModel) {
-            with(binding) {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        vpBannerDataFlow.collect {
-                            updateVpBannerData(it)
-                        }
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    vpBannerDataFlow.collect {
+                        updateVpBannerData(it)
                     }
-
                 }
+
             }
+
         }
     }
 

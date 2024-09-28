@@ -1,10 +1,8 @@
 package com.example.buybuy.ui.forgotPassword
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,17 +11,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentForgotPasswordBinding
-import com.example.buybuy.ui.MainActivity
-import com.example.buybuy.util.Checkemail
+import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.Constant.ALERT_CANCEL
 import com.example.buybuy.util.Constant.ALERT_MESSAGE_RESET_PASSWORD
 import com.example.buybuy.util.Constant.ALERT_RESET_PASSWORD_OPEN_EMAIL
 import com.example.buybuy.util.Constant.ALERT_TITLE_RESET_PASSWORD
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showToast
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,9 +47,9 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                     repeatOnLifecycle(state = Lifecycle.State.STARTED) {
                         resetFlow.collect {
                             when (it) {
-                                is Resource.Loading -> progressBar.Visible()
+                                is Resource.Loading -> progressBar.visible()
                                 is Resource.Success -> {
-                                    progressBar.Visible()
+                                    progressBar.visible()
                                     requireContext().showAlertDialog(
                                         ALERT_TITLE_RESET_PASSWORD,
                                         ALERT_MESSAGE_RESET_PASSWORD,
@@ -65,7 +62,7 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
 
                                 is Resource.Error -> {
                                     requireContext().showToast(it.message)
-                                    progressBar.Gone()
+                                    progressBar.gone()
 
                                 }
                                 is Resource.Empty -> {
@@ -99,8 +96,8 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                 }
 
                 buttonSend.setOnClickListener {
-                    if (etEmail.Checkemail(UNKNOWN_ERROR)) {
-                        viewmodel.resetPasswordwithEmail(etEmail.text.toString())
+                    if (etEmail.checkEmail(UNKNOWN_ERROR)) {
+                        viewmodel.resetPasswordWithEmail(etEmail.text.toString())
                     }
                 }
             }

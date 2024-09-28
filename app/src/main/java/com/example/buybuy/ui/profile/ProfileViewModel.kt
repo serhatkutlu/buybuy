@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Exception
 
-class ProfileViewModel() : ViewModel() {
+class ProfileViewModel : ViewModel() {
     private val _profileOptions = MutableStateFlow<Resource<List<ProfileOption>>>(Resource.Empty)
     val profileOptions: StateFlow<Resource<List<ProfileOption>>> = _profileOptions
 

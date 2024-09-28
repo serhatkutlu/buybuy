@@ -6,7 +6,6 @@ import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.data.source.remote.RemoteDataSourceImp
 import com.example.buybuy.domain.datasource.local.LocalDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -22,9 +21,8 @@ object DataSourceModule {
     @Singleton
     fun provideRemoteDataSource(
         fakeStoreApi: FakeStoreApi,
-        authentcation: FirebaseAuth,
         firestore: FirebaseFirestore
-    ): RemoteDataSource = RemoteDataSourceImp(fakeStoreApi, authentcation, firestore)
+    ): RemoteDataSource = RemoteDataSourceImp(fakeStoreApi, firestore)
 
     @Provides
     @Singleton

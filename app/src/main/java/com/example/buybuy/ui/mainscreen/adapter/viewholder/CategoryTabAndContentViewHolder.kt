@@ -9,10 +9,10 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.domain.model.MainRecycleViewdata
 import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,13 +38,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         contentFavoriteClickListener: (ProductDetail) -> Unit
     ) {
         val categoryItem = item as RVCategory
-        currentCategory=
-            if (currentCategoryParent != null) {
-            currentCategoryParent
-        } else {
-            categoryItem.categories?.get(0)
+        currentCategory=currentCategoryParent ?: categoryItem.categories?.get(0)
 
-        }
         binding.tabRecyclerView.adapter = tabAdapter
         binding.tabRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
@@ -79,8 +74,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
                         tabContentAdapter.submitList(result.data)
                         shimmerFrameLayout.stopShimmer()
-                        shimmerFrameLayout.Gone()
-                        binding.contentRecyclerView.Visible()
+                        shimmerFrameLayout.gone()
+                        binding.contentRecyclerView.visible()
                         if (!isNewData) {
                             tabContentAdapter.notifyItemChanged(position)
                         }
@@ -90,8 +85,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
                         if (isNewData) {
                             tabContentAdapter.submitList(listOf())
                             shimmerFrameLayout.startShimmer()
-                            shimmerFrameLayout.Visible()
-                            binding.contentRecyclerView.Gone()
+                            shimmerFrameLayout.visible()
+                            binding.contentRecyclerView.gone()
                         }
                     }
 

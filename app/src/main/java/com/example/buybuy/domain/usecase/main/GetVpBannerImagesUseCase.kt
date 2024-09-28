@@ -1,6 +1,5 @@
 package com.example.buybuy.domain.usecase.main
 
-import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.domain.repository.MainRepository
 import javax.inject.Inject
 

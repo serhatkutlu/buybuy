@@ -11,7 +11,7 @@ interface ProductDAO {
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(Products: ProductDetail)
+    fun insert(products: ProductDetail)
 
     @Query("SELECT * FROM ProductDetail where LOWER(title)  LIKE '%' || :query || '%'")
     fun searchAll(query: String): List<ProductDetail>?

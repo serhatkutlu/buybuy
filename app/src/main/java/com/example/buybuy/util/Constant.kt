@@ -1,6 +1,5 @@
 package com.example.buybuy.util
 
-import com.google.android.material.snackbar.Snackbar
 
 object Constant {
     const val BASE_URL="https://fakestoreapi.in/api/"

@@ -1,7 +1,6 @@
 package com.example.buybuy.ui.mainscreen.productbycategoryFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,10 +17,8 @@ import com.example.buybuy.ui.mainscreen.productbycategoryFragment.adapter.Produc
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.Constant.CATEGORY
 import com.example.buybuy.util.Constant.DECORATION_SPACE
-import com.example.buybuy.util.Constant.lASTRVPOS
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.Visible
 import com.example.buybuy.util.sharedPreferences
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
@@ -94,7 +91,7 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
                                 }
 
                                 is Resource.Success -> {
-                                    progressBar.Gone()
+                                    progressBar.gone()
                                     it.data?.let {
 
 

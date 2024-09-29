@@ -30,7 +30,7 @@ class ProductComparatorMainRV : DiffUtil.ItemCallback<MainRecycleViewTypes>() {
 
 class ProfileDiffUtil : DiffUtil.ItemCallback<ProfileOption>() {
     override fun areItemsTheSame(oldItem: ProfileOption, newItem: ProfileOption): Boolean {
-        return oldItem.id==newItem.id
+        return oldItem.type==newItem.type
     }
 
     override fun areContentsTheSame(oldItem: ProfileOption, newItem: ProfileOption): Boolean {

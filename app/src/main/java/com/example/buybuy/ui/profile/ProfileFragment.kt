@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProfileBinding
+import com.example.buybuy.enums.ProfileOptionsEnum
 import com.example.buybuy.ui.profile.adapter.ProfileAdapter
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.NavOptions
@@ -21,8 +22,11 @@ import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val binding by viewBinding(FragmentProfileBinding::bind)
@@ -33,9 +37,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      //  handleOnBackPressed()
+      // handleOnBackPressed()
         initUi()
         initObservers()
+        initLogOutObserver()
     }
 
 
@@ -80,6 +85,39 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     }
 
+
+    private fun initLogOutObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.logOutState.collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            binding.includeProgressBar.progressBar.gone()
+                            findNavController().navigate(
+                                R.id.splashFragment,
+                                null,
+                                NavOptions.navOptions4
+                            )
+
+                        }
+
+                        is Resource.Loading -> binding.includeProgressBar.progressBar.visible()
+                        is Resource.Error -> {
+                            binding.includeProgressBar
+                                .progressBar.gone()
+                            requireContext().showToast(it.message)
+                        }
+
+                        is Resource.Empty -> {}
+                    }
+                }
+
+
+            }
+        }
+
+    }
+
     private fun initToolBar() {
 
 
@@ -109,12 +147,35 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.rvProfile.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun optionClickListener(option:Int){
-        when(option){
-            2->{
+    private fun optionClickListener(type: ProfileOptionsEnum){
+        when(type){
+//            ProfileOptionsEnum.ORDER->{
+//                findNavController().navigate(R.id.action_profileFragment_to_orderFragment,null,NavOptions.navOption1)
+//            }
+//            ProfileOptionsEnum.COUPONS->{
+//                findNavController().navigate(R.id.action_profileFragment_to_couponFragment,null,NavOptions.navOption1)
+//            }
+//            ProfileOptionsEnum.PAYMENT->{
+//                findNavController().navigate(R.id.action_profileFragment_to_paymentFragment,null,NavOptions.navOption1)
+//            }
+//            ProfileOptionsEnum.SETTINGS->{
+//                findNavController().navigate(R.id.action_profileFragment_to_settingsFragment,null,NavOptions.navOption1)
+//            }
+//            ProfileOptionsEnum.HELP->{
+//                findNavController().navigate(R.id.action_profileFragment_to_helpFragment,null,NavOptions.navOption1)
+//            }
+//            ProfileOptionsEnum.ABOUT->{
+//                findNavController().navigate(R.id.action_profileFragment_to_aboutFragment,null,NavOptions.navOption1)
+//            }
+            ProfileOptionsEnum.LOGOUT->{
+                viewModel.logOut()
+
+            }
+            ProfileOptionsEnum.ADDRESS->{
                 findNavController().navigate(R.id.action_profileFragment_to_addressFragment,null,NavOptions.navOption1)
             }
             else->{}
+
         }
     }
 }

@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.data.model.data.ProfileOption
 import com.example.buybuy.databinding.ItemProfileBinding
+import com.example.buybuy.enums.ProfileOptionsEnum
 import com.example.buybuy.util.ProfileDiffUtil
 
-class ProfileAdapter(val optionClickListener:(Int)->Unit
+class ProfileAdapter(val optionClickListener:(ProfileOptionsEnum)->Unit
 ):ListAdapter<ProfileOption,ProfileAdapter.ProfileViewHolder>(ProfileDiffUtil()) {
 
     inner class ProfileViewHolder(private val binding:ItemProfileBinding):ViewHolder(binding.root){
@@ -16,7 +17,7 @@ class ProfileAdapter(val optionClickListener:(Int)->Unit
             binding.ivIcon.setImageResource(item.iconResId)
             binding.tvTitle.text=item.title
             binding.root.setOnClickListener {
-                optionClickListener(item.id)
+                optionClickListener(item.type)
             }
 
         }

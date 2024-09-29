@@ -15,6 +15,7 @@ object Constant {
     const val PERMISSION_DENIED_GALLERY:String="Permission is required to access the gallery."
     const val PERMISSION_DENIED_SETTINGS:String="You need to grant permission from app settings to access the gallery."
 
+
     const val ALERT_TITLE_CART="Delete Product"
     const val ALERT_TITLE="Permission Required"
     const val ALERT_TITLE_RESET_PASSWORD="Complate"
@@ -35,8 +36,8 @@ object Constant {
     const val DECORATION_SPACE=20
     const val POPULAR="popular"
     const val PREFS_NAME = "my_preferences"
-    const val lASTRVPOS="lastRVPosition"
-    const val CURRENCYSYMBOL="$"
+    const val DETAIL_CARD_MAX_HEIGHT=1000
+    const val DETAIL_CARD_MIN_HEIGHT=400
     const val NODATAFOUND="No Data Found"
 
     const val ORDER="order"

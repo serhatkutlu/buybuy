@@ -10,6 +10,12 @@
         ...
     </style>
 
+    <style name="CustomCardView" parent="Base.CardView">
+        <item name="cardElevation">5dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
 <style name="CustomTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox"
     >
     <item name="boxStrokeColor">@color/orange</item>

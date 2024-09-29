@@ -124,6 +124,14 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.profileFragment, null, NavOptions.navOptions3)
                     true
                 }
+                R.id.favoritesFragment->{
+                    navController.navigate(R.id.favoritesFragment,null,NavOptions.navOptions3)
+                    true
+                }
+                R.id.cartFragment->{
+                    navController.navigate(R.id.cartFragment,null,NavOptions.navOptions3)
+                    true
+                }
 
                 else -> {
                     false

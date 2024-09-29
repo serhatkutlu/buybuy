@@ -71,7 +71,8 @@
 
     <dimen name="card_corner_radius">30dp</dimen>
     <dimen name="card_height">40dp</dimen>
-    <dimen name="large_card_height">200dp</dimen>
+    <dimen name="large_card_height">150dp</dimen>
+    <dimen name="xlarge_card_height">300dp</dimen>
 
     <dimen name="divider_height">2dp</dimen>
 

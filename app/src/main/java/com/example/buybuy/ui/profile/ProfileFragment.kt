@@ -33,7 +33,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        handleOnBackPressed()
+      //  handleOnBackPressed()
         initUi()
         initObservers()
     }
@@ -42,7 +42,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun handleOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.mainFragment)
+                //findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
             }
         })
     }

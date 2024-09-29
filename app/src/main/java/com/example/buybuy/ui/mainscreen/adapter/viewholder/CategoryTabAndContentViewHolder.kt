@@ -7,8 +7,8 @@ import com.example.buybuy.ui.mainscreen.adapter.TabAdapter
 import com.example.buybuy.ui.mainscreen.adapter.TabContentAdapter
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
-import com.example.buybuy.domain.model.MainRecycleViewdata
-import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
+
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
@@ -26,7 +26,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
     var layoutManager: RecyclerView.LayoutManager? = null
     private var currentCategory: String? = null
     fun bind(
-        item: MainRecycleViewdata,
+        item: MainRecycleViewTypes,
         tabAdapter: TabAdapter,
         currentCategoryParent: String?,
         currentCategoryClickListener: (String) -> Unit,
@@ -37,7 +37,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         contentClickListener: (ProductDetail) -> Unit,
         contentFavoriteClickListener: (ProductDetail) -> Unit
     ) {
-        val categoryItem = item as RVCategory
+        val categoryItem = item as MainRecycleViewTypes.RVCategory
         currentCategory=currentCategoryParent ?: categoryItem.categories?.get(0)
 
         binding.tabRecyclerView.adapter = tabAdapter

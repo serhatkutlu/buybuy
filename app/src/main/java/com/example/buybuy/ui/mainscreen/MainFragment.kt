@@ -15,7 +15,7 @@ import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentMainBinding
-import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.Constant
 import com.example.buybuy.util.NavOptions
@@ -108,7 +108,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     }
 
-    private fun updateVpBannerData(mainRecycleViewData: List<MainRecycleViewdata>) {
+    private fun updateVpBannerData(mainRecycleViewData: List<MainRecycleViewTypes>) {
         rvAdapter.submitList(mainRecycleViewData)
 
 

@@ -2,10 +2,9 @@ package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.domain.datasource.local.LocalDataSource
-import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
-import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.repository.MainRepository
 import com.example.buybuy.util.Constant.NODATAFOUND
 import com.example.buybuy.util.Resource
@@ -20,12 +19,12 @@ class MainRepositoryImp @Inject constructor(
     private val localDataSource: LocalDataSource
 ) :
     MainRepository {
-    override fun getVpBannerData(): Flow<Resource<VpBannerData>> = flow {
+    override fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>> = flow {
         emit(Resource.Loading())
         try {
             val response = remoteDataSource.getVpBanner()
             response?.let {
-                val banner = VpBannerData(ViewType.VP_BANNER, it)
+                val banner = MainRecycleViewTypes.VpBannerData(ViewType.VP_BANNER, it)
                 emit(Resource.Success(banner))
             }
         } catch (e: Exception) {
@@ -40,11 +39,6 @@ class MainRepositoryImp @Inject constructor(
 
                 val response = remoteDataSource.getProductByCategory(category)
                 if (response.isSuccessful) {
-//                    val products=response.body()?.products?.map {
-//                        if(isFavorite(it.id)){
-//                            it.copy(isFavorite = true)
-//                        }else it
-//                    }
                     emit(Resource.Success(response.body()?.products))
                 } else {
                     emit(Resource.Error(response.message()))
@@ -54,13 +48,14 @@ class MainRepositoryImp @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override fun getAllCategory(): Flow<Resource<RVCategory>> = flow {
+    override fun getAllCategory(): Flow<Resource<MainRecycleViewTypes.RVCategory>> = flow {
 
         emit(Resource.Loading())
         try {
             val response = remoteDataSource.getAllCategory()
             if (response.isSuccessful) {
-                val category = RVCategory(response.body()?.categories, ViewType.CATEGORY)
+                val category =
+                    MainRecycleViewTypes.RVCategory(response.body()?.categories, ViewType.CATEGORY)
                 emit(Resource.Success(category))
             } else {
                 emit(Resource.Error(response.message()))

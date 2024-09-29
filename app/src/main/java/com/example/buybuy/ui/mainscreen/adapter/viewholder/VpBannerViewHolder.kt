@@ -3,8 +3,7 @@ package com.example.buybuy.ui.mainscreen.adapter.viewholder
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.buybuy.databinding.ItemVpBannerBinding
-import com.example.buybuy.domain.model.MainRecycleViewdata
-import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.VpBannerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +18,8 @@ class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
     private val coroutineScopeScroll = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var autoScrollJob: Job? = null
 
-    fun bind(item: MainRecycleViewdata?,selectedPageChangeCallback: (Int) -> Int) {
-        val bannerItem = item as VpBannerData
+    fun bind(item: MainRecycleViewTypes?, selectedPageChangeCallback: (Int) -> Int) {
+        val bannerItem = item as MainRecycleViewTypes.VpBannerData
         val vpBannerAdapter = VpBannerAdapter()
         val data = bannerItem.data.toMutableList()
         data.add(0, bannerItem.data[0])

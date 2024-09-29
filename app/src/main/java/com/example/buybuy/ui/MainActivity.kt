@@ -13,13 +13,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.buybuy.R
 import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.databinding.ActivityMainBinding
 import com.example.buybuy.databinding.NavHeaderBinding
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
-    private val viewmodel:ActivityViewModel by viewModels()
+    private val viewmodel: ActivityViewModel by viewModels()
 
 
-    private lateinit var headerBinding : NavHeaderBinding
+    private lateinit var headerBinding: NavHeaderBinding
 
     @Inject
     lateinit var fakeApi: FakeStoreApi
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        headerBinding=NavHeaderBinding.bind(binding.navView.getHeaderView(0))
+        headerBinding = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
 
 
 
@@ -68,9 +68,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.signupFragment,
                 R.id.forgotPasswordFragment,
                 R.id.productDetailFragment,
-                R.id.splashFragment ,
+                R.id.splashFragment,
                 R.id.addressFragment,
-                R.id.newAddressFragment-> {
+                R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
@@ -80,13 +80,12 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     if (destination.id == R.id.mainFragment) {
                         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                    }
-                    else{
+                    } else {
                         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
                     }
                     binding.bottomNavigation.visible()
-                    if(viewmodel.user.value==Resource.Empty){
+                    if (viewmodel.user.value == Resource.Empty) {
                         viewmodel.getUserData()
                     }
                 }
@@ -96,14 +95,40 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding.navView.setNavigationItemSelectedListener{
-            when(it.itemId){
-                R.id.nav_logout ->{
+        binding.navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_logout -> {
                     viewmodel.logOut()
                     true
-                }else->{
+                }
+
+                R.id.nav_profile -> {
+                    navController.navigate(R.id.action_mainFragment_to_profileFragment)
+                    true
+                }
+
+                else -> {
                     false
                 }
+            }
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.mainFragment -> {
+                    navController.popBackStack(R.id.mainFragment, false)
+                    true
+                }
+
+                R.id.profileFragment -> {
+                    navController.navigate(R.id.profileFragment, null, NavOptions.navOptions3)
+                    true
+                }
+
+                else -> {
+                    false
+                }
+
             }
         }
 
@@ -111,20 +136,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun initLogOutObserver() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewmodel.logOutState.collect{
-                    when(it){
-                        is Resource.Success->{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewmodel.logOutState.collect {
+                    when (it) {
+                        is Resource.Success -> {
                             binding.progressBar.gone()
-                            navController.navigate(R.id.splashFragment,null,NavOptions.Builder().setPopUpTo(R.id.splashFragment, true)
-                                .setRestoreState(true).build())
+                            navController.navigate(
+                                R.id.splashFragment,
+                                null,
+                                NavOptions.navOptions4
+                            )
+
                         }
-                        is Resource.Loading->binding.progressBar.visible()
-                        is Resource.Error->{
+
+                        is Resource.Loading -> binding.progressBar.visible()
+                        is Resource.Error -> {
                             binding.progressBar.gone()
                             showToast(it.message)
                         }
-                        is Resource.Empty->{}
+
+                        is Resource.Empty -> {}
                     }
                 }
 
@@ -137,20 +168,21 @@ class MainActivity : AppCompatActivity() {
     private fun initNavHeaderObserver() {
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewmodel.user.collect{
-                    when(it){
-                        is Resource.Success->{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewmodel.user.collect {
+                    when (it) {
+                        is Resource.Success -> {
                             headerBinding.navHeaderImage.setImage(it.data?.image ?: "")
                             headerBinding.navHeaderUsername.text = it.data?.name ?: ""
                             headerBinding.navHeaderEmail.text = it.data?.email ?: ""
-                            Log.d("serhat",it.data.toString())
                         }
-                        is Resource.Error->{
+
+                        is Resource.Error -> {
                             showToast(it.message)
                         }
-                        is Resource.Loading->{}
-                        is Resource.Empty->{
+
+                        is Resource.Loading -> {}
+                        is Resource.Empty -> {
 
                         }
                     }

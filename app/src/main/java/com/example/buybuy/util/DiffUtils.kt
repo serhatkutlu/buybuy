@@ -3,7 +3,7 @@ package com.example.buybuy.util
 import androidx.recyclerview.widget.DiffUtil
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.data.model.data.ProfileOption
-import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
 class ProductComparator : DiffUtil.ItemCallback<ProductDetail>() {
 
@@ -16,13 +16,13 @@ class ProductComparator : DiffUtil.ItemCallback<ProductDetail>() {
     }
 }
 
-class ProductComparatorMainRV : DiffUtil.ItemCallback<MainRecycleViewdata>() {
-    override fun areItemsTheSame(oldItem: MainRecycleViewdata, newItem: MainRecycleViewdata) =
+class ProductComparatorMainRV : DiffUtil.ItemCallback<MainRecycleViewTypes>() {
+    override fun areItemsTheSame(oldItem: MainRecycleViewTypes, newItem: MainRecycleViewTypes) =
         oldItem.type==newItem.type
 
     override fun areContentsTheSame(
-        oldItem: MainRecycleViewdata,
-        newItem: MainRecycleViewdata
+        oldItem: MainRecycleViewTypes,
+        newItem: MainRecycleViewTypes
     ) =
         true
 }

@@ -11,7 +11,7 @@ import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
-import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
@@ -24,7 +24,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 
 class MainRecycleViewAdapter :
-    ListAdapter<MainRecycleViewdata, ViewHolder>(ProductComparatorMainRV()) {
+    ListAdapter<MainRecycleViewTypes, ViewHolder>(ProductComparatorMainRV()) {
 
 
     private var selectedPageVpBanner = 1
@@ -69,106 +69,11 @@ class MainRecycleViewAdapter :
     }
 
 
-    //
-//    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-//        super.onDetachedFromRecyclerView(recyclerView)
-//    }
-//
-//    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-//        super.onViewDetachedFromWindow(holder)
-//    }
-//    override fun onViewRecycled(holder: ViewHolder) {
-//        super.onViewRecycled(holder)
-//        if (holder is CategoryTabAndContentViewHolder) { // Cast işlemi
-//            val key = currentList[holder.adapterPosition].type.toString()
-//            scrollStates[key] = holder.layoutManager?.onSaveInstanceState() // LayoutManager'ı kullanın
-//        }
-//    }
+
     fun saveState() {
         scrollState = layoutManager?.onSaveInstanceState()
     }
 
-
-    /*inner class CategoryViewHolder(val binding: ItemCategoryTablayoutAndViewpagerBinding) :
-        ViewHolder(binding.root) {
-
-
-        fun bind(item: MainRecycleViewdata) {
-            val categoryItem = item as RVCategory
-
-            with(binding) {
-                categoryItem.categories?.let {
-
-
-                    viewPager.adapter =
-                        ViewPagerAdapter(fragment).apply { categories = categoryItem.categories }
-                    viewPager.isUserInputEnabled = false
-                    viewPager.offscreenPageLimit = 1
-
-
-
-                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-
-                        tab.setCustomView(R.layout.item_tab_layouth)
-                        val textView = tab.customView?.findViewById<TextView>(R.id.tab_title)
-                        textView?.text = categoryItem.categories[position]
-                        if (position == 0) {
-                            tab.customView?.findViewById<CardView>(R.id.cv_tab)
-                                ?.setCardBackgroundColor(
-                                    ContextCompat.getColor(
-                                        fragment.requireContext(), R.color.orange
-                                    )
-                                )
-                        }
-                    }.attach()
-
-
-                    val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
-
-                        override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                            selectedTabIndex = tab?.position ?: 0
-                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)
-                                ?.setCardBackgroundColor(
-                                    ContextCompat.getColor(
-                                        fragment.requireContext(), R.color.orange
-                                    )
-                                )
-
-
-                        }
-
-                        override fun onTabUnselected(tab: TabLayout.Tab?) {
-                            tab?.customView?.findViewById<CardView>(R.id.cv_tab)
-                                ?.setCardBackgroundColor(
-                                    ContextCompat.getColor(
-                                        fragment.requireContext(), R.color.white
-                                    )
-                                )
-
-                        }
-
-                        override fun onTabReselected(tab: TabLayout.Tab?) {}
-
-
-                    }
-                    tabLayout.getTabAt(0)?.apply {
-                        //select()
-                        tabSelectedListener.onTabUnselected(this)
-                    }
-
-                    tabLayout.getTabAt(selectedTabIndex)?.apply {
-                        select()
-                        tabSelectedListener.onTabSelected(this)
-                    }
-
-                    tabLayout.addOnTabSelectedListener(tabSelectedListener)
-                }
-
-
-            }
-        }
-    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

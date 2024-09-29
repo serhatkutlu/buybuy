@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.enums.ViewType
-import com.example.buybuy.domain.model.MainRecycleViewdata
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
 import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
@@ -29,10 +29,10 @@ class MainViewModel @Inject constructor(
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
 ) : ViewModel() {
-    private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewdata>> = MutableStateFlow(
+    private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewTypes>> = MutableStateFlow(
         listOf()
     )
-    val vpBannerDataFlow: StateFlow<List<MainRecycleViewdata>> = _vpBannerDataFlow
+    val vpBannerDataFlow: StateFlow<List<MainRecycleViewTypes>> = _vpBannerDataFlow
 
 
     init {
@@ -41,10 +41,7 @@ class MainViewModel @Inject constructor(
             val getCategories = async { getCategories() }
 
             val combinedList = (getVpBannerImages.await() + getCategories.await()).toMutableList()
-            val divider: MainRecycleViewdata = object : MainRecycleViewdata {
-                override val type: ViewType
-                    get() = ViewType.DIVIDER
-            }
+            val divider= MainRecycleViewTypes.Divider
             combinedList.add(divider)
             _vpBannerDataFlow.emit(combinedList)
         }
@@ -88,8 +85,8 @@ class MainViewModel @Inject constructor(
         }
 
 
-    private suspend fun getCategories(): List<MainRecycleViewdata> {
-        val result = mutableListOf<MainRecycleViewdata>()
+    private suspend fun getCategories(): List<MainRecycleViewTypes> {
+        val result = mutableListOf<MainRecycleViewTypes>()
         getCategoriesUseCase().collect {
             when (it) {
                 is Resource.Success -> {
@@ -105,8 +102,8 @@ class MainViewModel @Inject constructor(
         return result
     }
 
-    private suspend fun getVpBannerImages(): List<MainRecycleViewdata> {
-        val result = mutableListOf<MainRecycleViewdata>()
+    private suspend fun getVpBannerImages(): List<MainRecycleViewTypes> {
+        val result = mutableListOf<MainRecycleViewTypes>()
         getVpBannerImagesUseCase().collect {
             when (it) {
                 is Resource.Success -> {

@@ -20,5 +20,10 @@ object NavOptions {
         .setPopExitAnim(R.anim.slide_down_out)
         .build()
 
+    val navOptions3 = NavOptions.Builder()
+        .setLaunchSingleTop(true)
+        .setPopUpTo(R.id.mainFragment, false).build()
+
+    val navOptions4 = NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).setRestoreState(true).build()
 
 }

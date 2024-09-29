@@ -15,12 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val checkUserLoginUseCase: CheckUserLoginUseCase,
     private val checkUserEmailAndPasswordUseCase: CheckUserLoginEmailAndPasswordUseCase
 ):ViewModel() {
 
 
-    val checkUserLogin = checkUserLoginUseCase()
+
 
     private val _loginFlow: MutableStateFlow<Resource<Boolean>> = MutableStateFlow(Resource.Empty)
     val loginFlow: StateFlow<Resource<Boolean>> =_loginFlow

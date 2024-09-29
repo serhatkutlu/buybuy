@@ -35,9 +35,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             with(binding) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        checkUserLogin.collect {
-                            if (it) findNavController().navigate(R.id.action_loginFragment_to_main_nav_graph)
-                        }
+
                         loginFlow.collect {
                             when (it) {
                                 is Resource.Loading -> {

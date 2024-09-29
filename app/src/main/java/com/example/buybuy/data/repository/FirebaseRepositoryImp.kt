@@ -77,15 +77,13 @@ class FirebaseRepositoryImp @Inject constructor(
                     emit(Resource.Error(USER_NOT_FOUND))
                 }
             } catch (e: Exception) {
-                Log.d("serhat", "initObserver: ${e.message.toString()}")
                 emit(Resource.Error(e.message.toString()))
             }
 
         }
     }
     override fun checkUserLogin() = flow {
-        emit(authentication.currentUser != null)
-
+        emit(authentication.currentUser?.uid != null)
     }
 
     override fun checkUserEmailAndPassword(email: String, password: String) = flow {

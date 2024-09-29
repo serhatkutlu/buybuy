@@ -29,6 +29,7 @@ object Constant {
     const val SNACKBAR_MESSAGE_CART="added to cart"
     const val PASSWORD_NOT_MATCH:String="Password not match"
     const val BANNER="banner"
+    const val SINGLEBANNER="banners"
     const val VPBANNER="vp_banner"
     const val CATEGORY="category"
     const val DECORATION_SPACE=20

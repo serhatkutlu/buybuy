@@ -6,6 +6,7 @@
     app:cardCornerRadius="@dimen/card_corner_radius"
     android:layout_height="wrap_content">
 <ImageView
+    android:id="@+id/iv_image"
     android:layout_width="match_parent"
     android:layout_height="@dimen/large_card_height"
     android:src="@color/black"

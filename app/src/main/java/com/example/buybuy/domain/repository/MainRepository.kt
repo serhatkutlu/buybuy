@@ -1,6 +1,7 @@
 package com.example.buybuy.domain.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.data.model.data.SingleBannerData
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
 import com.example.buybuy.util.Resource
@@ -12,7 +13,7 @@ interface MainRepository {
 
     fun getProductByCategory(category: String):Flow<Resource<List<ProductDetail>>>
     fun getAllCategory():  Flow<Resource<MainRecycleViewTypes.RVCategory>>
-
+    fun getAllSingleBanner(): Flow<Resource<List<SingleBannerData>>>
     suspend fun saveAllProduct(productDetail: List<ProductDetail>)
 
     fun searchProduct(query: String): Flow<Resource<List<ProductDetail>>>

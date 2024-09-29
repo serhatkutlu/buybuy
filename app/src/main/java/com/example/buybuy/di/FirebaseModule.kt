@@ -1,6 +1,6 @@
 package com.example.buybuy.di
 
-import com.example.buybuy.data.repository.FirebaseRepositoryImp
+import com.example.buybuy.data.repository.LoginRepositoryImp
 import com.example.buybuy.domain.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -34,6 +34,6 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseRepository (firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore, storage: FirebaseStorage): FirebaseRepository =
-        FirebaseRepositoryImp(firebaseAuth,fireStore,storage )
+        LoginRepositoryImp(firebaseAuth,fireStore,storage )
 
 }

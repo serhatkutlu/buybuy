@@ -1,6 +1,5 @@
 package com.example.buybuy.data.repository
 
-import android.util.Log
 import com.example.buybuy.data.model.data.UserData
 import com.example.buybuy.domain.model.User
 import com.example.buybuy.domain.repository.FirebaseRepository
@@ -24,7 +23,7 @@ import kotlinx.coroutines.tasks.await
 
 import javax.inject.Inject
 
-class FirebaseRepositoryImp @Inject constructor(
+class LoginRepositoryImp @Inject constructor(
     private val authentication: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage

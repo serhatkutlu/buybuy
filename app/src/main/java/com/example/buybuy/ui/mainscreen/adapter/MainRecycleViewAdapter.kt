@@ -10,10 +10,12 @@ import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
+import com.example.buybuy.databinding.ItemSingleBannerBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.SingleBannerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
 import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
@@ -59,6 +61,9 @@ class MainRecycleViewAdapter :
             ViewType.CATEGORY -> {
                 ViewType.CATEGORY.ordinal
             }
+            ViewType.SINGLE_BANNER -> {
+                ViewType.SINGLE_BANNER.ordinal
+            }
 
             else -> {
                 ViewType.DIVIDER.ordinal
@@ -87,6 +92,11 @@ class MainRecycleViewAdapter :
                 val binding =
                     ItemCategoryContentRvBinding.inflate(LayoutInflater.from(parent.context))
                 return CategoryTabAndContentViewHolder(binding)
+            }
+
+            ViewType.SINGLE_BANNER.ordinal -> {
+                val binding = ItemSingleBannerBinding.inflate(inflater, parent, false)
+                SingleBannerViewHolder(binding)
             }
 
             ViewType.DIVIDER.ordinal -> {
@@ -139,6 +149,9 @@ class MainRecycleViewAdapter :
                     layoutManager = holder.layoutManager
                 }
 
+                is SingleBannerViewHolder -> {
+                    holder.bind(item )
+                }
                 else -> {
 
                 }

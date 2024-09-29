@@ -37,13 +37,13 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         contentClickListener: (ProductDetail) -> Unit,
         contentFavoriteClickListener: (ProductDetail) -> Unit
     ) {
-        val categoryItem = item as MainRecycleViewTypes.RVCategory
-        currentCategory=currentCategoryParent ?: categoryItem.categories?.get(0)
+        item as MainRecycleViewTypes.RVCategory
+        currentCategory=currentCategoryParent ?: item.categories?.get(0)
 
         binding.tabRecyclerView.adapter = tabAdapter
         binding.tabRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-        tabAdapter.submitList(categoryItem.categories)
+        tabAdapter.submitList(item.categories)
         binding.tabRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 30))
 
         binding.contentRecyclerView.adapter = tabContentAdapter

@@ -19,11 +19,11 @@ class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
     private var autoScrollJob: Job? = null
 
     fun bind(item: MainRecycleViewTypes?, selectedPageChangeCallback: (Int) -> Int) {
-        val bannerItem = item as MainRecycleViewTypes.VpBannerData
+        item as MainRecycleViewTypes.VpBannerData
         val vpBannerAdapter = VpBannerAdapter()
-        val data = bannerItem.data.toMutableList()
-        data.add(0, bannerItem.data[0])
-        data.add(bannerItem.data.size - 1, bannerItem.data[bannerItem.data.size - 1])
+        val data = item.data.toMutableList()
+        data.add(0, item.data[0])
+        data.add(item.data.size - 1, item.data[item.data.size - 1])
         vpBannerAdapter.submitList(data)
         binding.viewPager.adapter = vpBannerAdapter
         startAutoScroll(binding)
@@ -31,7 +31,7 @@ class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
         binding.viewPager.setCurrentItem(selectedPage, false)
 
         binding.counterTextView.text =
-            (selectedPage).toString() + "/${bannerItem.data.size}"
+            (selectedPage).toString() + "/${item.data.size}"
 
         binding.viewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -54,7 +54,7 @@ class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
                 }
 
                 binding.counterTextView.text =
-                    (selectedPage).toString() + "/${bannerItem.data.size}"
+                    (selectedPage).toString() + "/${item.data.size}"
             }
 
 

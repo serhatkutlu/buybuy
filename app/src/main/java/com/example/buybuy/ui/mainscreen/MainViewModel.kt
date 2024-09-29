@@ -1,12 +1,13 @@
 package com.example.buybuy.ui.mainscreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.ProductDetail
-import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
+import com.example.buybuy.domain.usecase.main.GetAllSingleBannerUseCase
 import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetProductByCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
@@ -28,6 +29,7 @@ class MainViewModel @Inject constructor(
     private val getProductByCategoriesUseCase: GetProductByCategoriesUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase
 ) : ViewModel() {
     private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewTypes>> = MutableStateFlow(
         listOf()
@@ -36,12 +38,23 @@ class MainViewModel @Inject constructor(
 
 
     init {
+//        viewModelScope.launch {
+//            val getVpBannerImages = async { getVpBannerImages() }
+//            val getCategories = async { getCategories() }
+//            val getAllSingleBanner = async { getAllSingleBanner() }
+//            val c
+//            val combinedList = (getVpBannerImages.await() + getCategories.await()).toMutableList()
+//            val divider = MainRecycleViewTypes.Divider
+//            combinedList.add(divider)
+//            _vpBannerDataFlow.emit(combinedList)
+//        }
         viewModelScope.launch {
-            val getVpBannerImages = async { getVpBannerImages() }
-            val getCategories = async { getCategories() }
-
-            val combinedList = (getVpBannerImages.await() + getCategories.await()).toMutableList()
-            val divider= MainRecycleViewTypes.Divider
+            val getVpBannerImages = getVpBannerImages()
+            val getCategories =  getCategories()
+            val getAllSingleBanner = getAllSingleBanner()
+            val combinedList = (getVpBannerImages + getCategories+getAllSingleBanner).toMutableList()
+            val divider = MainRecycleViewTypes.Divider
+            combinedList.sortBy{it.ordinal}
             combinedList.add(divider)
             _vpBannerDataFlow.emit(combinedList)
         }
@@ -49,40 +62,64 @@ class MainViewModel @Inject constructor(
 
     }
 
+      private suspend fun getAllSingleBanner(): List<MainRecycleViewTypes> {
+
+        val result = mutableListOf<MainRecycleViewTypes>()
+
+            getAllSingleBannerUseCase.invoke().collect { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        response.data?.let { rvb ->
+                            val singleBanner = rvb.map {
+                                MainRecycleViewTypes.SingleBannerDataUi(it.image, it.ordinal)
+                            }
+                             result.addAll(singleBanner)
+                        }
+                    }else->{
+                    }
+
+                }
+            }
+
+        return result
+    }
+
     fun addToFavorite(productDetail: ProductDetail) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (productDetail.isFavorite){
+            if (productDetail.isFavorite) {
                 deleteFavoriteUseCase.invoke(productDetail.id)
 
-            }else{
+            } else {
                 addToFavoriteUseCase.invoke(productDetail)
 
             }
         }
     }
 
-    fun fetchContentForCategory(category: String)=flow {
+    fun fetchContentForCategory(category: String) = flow {
 
-            getProductByCategoriesUseCase.invoke(category).collect {response->
-                when (response) {
-                    is Resource.Success -> {
-                        response.data?.let {
-                            emit(Resource.Success(it))
-                        }
+        getProductByCategoriesUseCase.invoke(category).collect { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let {
+                        emit(Resource.Success(it))
                     }
+                }
 
-                    is Resource.Loading -> {
-                        emit(Resource.Loading())
-
-                    }
-                    is Resource.Error -> {
-                        (Resource.Error(response.message))
-                    }
-                    is Resource.Empty -> {}
+                is Resource.Loading -> {
+                    emit(Resource.Loading())
 
                 }
+
+                is Resource.Error -> {
+                    (Resource.Error(response.message))
+                }
+
+                is Resource.Empty -> {}
+
             }
         }
+    }
 
 
     private suspend fun getCategories(): List<MainRecycleViewTypes> {
@@ -90,8 +127,8 @@ class MainViewModel @Inject constructor(
         getCategoriesUseCase().collect {
             when (it) {
                 is Resource.Success -> {
-                    it.data?.let { rVC ->
-                        result.add(rVC)
+                    it.data?.let { rvc ->
+                        result.add(rvc)
                     }
                 }
 
@@ -107,8 +144,8 @@ class MainViewModel @Inject constructor(
         getVpBannerImagesUseCase().collect {
             when (it) {
                 is Resource.Success -> {
-                    it.data?.let { rVC ->
-                        result.add(rVC)
+                    it.data?.let { rvb ->
+                        result.add(rvb)
                     }
 
                 }

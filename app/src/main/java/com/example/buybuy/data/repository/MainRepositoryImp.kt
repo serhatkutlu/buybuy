@@ -1,6 +1,7 @@
 package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.data.model.data.SingleBannerData
 import com.example.buybuy.domain.datasource.local.LocalDataSource
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
@@ -31,6 +32,17 @@ class MainRepositoryImp @Inject constructor(
             emit(Resource.Error(e.message.toString()))
         }
     }.flowOn(Dispatchers.IO)
+
+
+    override fun getAllSingleBanner(): Flow<Resource<List<SingleBannerData>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = remoteDataSource.getAllSingleBanner()
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            Resource.Error(e.message.toString())
+        }
+    }
 
     override fun getProductByCategory(category: String): Flow<Resource<List<ProductDetail>>> =
         flow {
@@ -97,52 +109,51 @@ class MainRepositoryImp @Inject constructor(
         localDataSource.deleteFromFavorite(productDetail)
     }
 
-    override fun getAllFavorite(): Flow<Resource<List<ProductDetail>>> = flow{
+    override fun getAllFavorite(): Flow<Resource<List<ProductDetail>>> = flow {
         emit(Resource.Loading())
 
         try {
-            val response=localDataSource.getAllFavoriteProducts()
-            if (response.isEmpty()){
+            val response = localDataSource.getAllFavoriteProducts()
+            if (response.isEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
-            }else{
+            } else {
                 emit(Resource.Success(response))
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun searchFavorites(query: String): Flow<Resource<List<ProductDetail>>> = flow{
+    override fun searchFavorites(query: String): Flow<Resource<List<ProductDetail>>> = flow {
 
         emit(Resource.Loading())
 
         try {
-            val response=localDataSource.searchFavoriteProducts(query)
-            if (response.isNullOrEmpty()){
+            val response = localDataSource.searchFavoriteProducts(query)
+            if (response.isNullOrEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
-            }else{
+            } else {
                 emit(Resource.Success(response))
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
-            }
+        }
     }
 
-    override fun getCartProducts(): Flow<Resource<List<ProductDetail>>> = flow{
+    override fun getCartProducts(): Flow<Resource<List<ProductDetail>>> = flow {
         emit(Resource.Loading())
         try {
-            val response=localDataSource.getCartProducts()
-            if (response.isEmpty()){
+            val response = localDataSource.getCartProducts()
+            if (response.isEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
-            }else{
+            } else {
                 emit(Resource.Success(response))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
         }
-    }catch (e:Exception){
-        emit(Resource.Error(e.message.toString()))
-    }
 
     }
-
 
 
     override suspend fun addToCart(product: Int) {
@@ -162,6 +173,7 @@ class MainRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun isFavorite(productDetail: Int): Boolean =localDataSource.isProductFavorite(productDetail)
+    override suspend fun isFavorite(productDetail: Int): Boolean =
+        localDataSource.isProductFavorite(productDetail)
 
 }

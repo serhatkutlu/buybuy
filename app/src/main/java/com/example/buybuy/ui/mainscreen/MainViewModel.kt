@@ -1,9 +1,8 @@
 package com.example.buybuy.ui.mainscreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
@@ -14,7 +13,6 @@ import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
@@ -38,23 +36,15 @@ class MainViewModel @Inject constructor(
 
 
     init {
-//        viewModelScope.launch {
-//            val getVpBannerImages = async { getVpBannerImages() }
-//            val getCategories = async { getCategories() }
-//            val getAllSingleBanner = async { getAllSingleBanner() }
-//            val c
-//            val combinedList = (getVpBannerImages.await() + getCategories.await()).toMutableList()
-//            val divider = MainRecycleViewTypes.Divider
-//            combinedList.add(divider)
-//            _vpBannerDataFlow.emit(combinedList)
-//        }
+
         viewModelScope.launch {
             val getVpBannerImages = getVpBannerImages()
-            val getCategories =  getCategories()
+            val getCategories = getCategories()
             val getAllSingleBanner = getAllSingleBanner()
-            val combinedList = (getVpBannerImages + getCategories+getAllSingleBanner).toMutableList()
+            val combinedList =
+                (getVpBannerImages + getCategories + getAllSingleBanner).toMutableList()
             val divider = MainRecycleViewTypes.Divider
-            combinedList.sortBy{it.ordinal}
+            combinedList.sortBy { it.ordinal }
             combinedList.add(divider)
             _vpBannerDataFlow.emit(combinedList)
         }
@@ -62,29 +52,29 @@ class MainViewModel @Inject constructor(
 
     }
 
-      private suspend fun getAllSingleBanner(): List<MainRecycleViewTypes> {
+    private suspend fun getAllSingleBanner(): List<MainRecycleViewTypes> {
 
         val result = mutableListOf<MainRecycleViewTypes>()
 
-            getAllSingleBannerUseCase.invoke().collect { response ->
-                when (response) {
-                    is Resource.Success -> {
-                        response.data?.let { rvb ->
-                            val singleBanner = rvb.map {
-                                MainRecycleViewTypes.SingleBannerDataUi(it.image, it.ordinal)
-                            }
-                             result.addAll(singleBanner)
+        getAllSingleBannerUseCase.invoke().collect { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let { rvb ->
+                        val singleBanner = rvb.map {
+                            MainRecycleViewTypes.SingleBannerDataUi(it.image, it.ordinal)
                         }
-                    }else->{
+                        result.addAll(singleBanner)
                     }
-
                 }
+
+                else -> {}
             }
+        }
 
         return result
     }
 
-    fun addToFavorite(productDetail: ProductDetail) {
+    fun addToFavorite(productDetail: ProductDetailUI) {
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite) {
                 deleteFavoriteUseCase.invoke(productDetail.id)
@@ -102,6 +92,7 @@ class MainViewModel @Inject constructor(
             when (response) {
                 is Resource.Success -> {
                     response.data?.let {
+
                         emit(Resource.Success(it))
                     }
                 }
@@ -112,10 +103,10 @@ class MainViewModel @Inject constructor(
                 }
 
                 is Resource.Error -> {
-                    (Resource.Error(response.message))
+                    emit(Resource.Error(response.message))
                 }
 
-                is Resource.Empty -> {}
+                is Resource.Empty -> {emit(Resource.Empty)}
 
             }
         }

@@ -2,7 +2,7 @@ package com.example.buybuy.ui.favoritesscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
 import com.example.buybuy.domain.usecase.favorite.GetAllFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.SearchFavoritesUseCase
@@ -23,9 +23,9 @@ class FavoritesViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _favoritesState: MutableStateFlow<Resource<List<ProductDetail>>> =
+    private val _favoritesState: MutableStateFlow<Resource<List<ProductDetailUI>>> =
         MutableStateFlow(Resource.Empty)
-    val favoritesState: StateFlow<Resource<List<ProductDetail>>> = _favoritesState
+    val favoritesState: StateFlow<Resource<List<ProductDetailUI>>> = _favoritesState
 
     init {
         getFavorites()
@@ -47,7 +47,7 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-     fun addToCart(productDetail: ProductDetail) {
+     fun addToCart(productDetail: ProductDetailUI) {
          viewModelScope.launch(Dispatchers.IO) {
              addToCartUseCase(productDetail.id)
          }

@@ -11,8 +11,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentFavoritesBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
 import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.gone
@@ -99,7 +99,7 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
     }
 
-    private fun onItemClicked(productDetail: ProductDetail) {
+    private fun onItemClicked(productDetail: ProductDetailUI) {
         viewModel.addToCart(productDetail)
         requireContext().showToast(SNACKBAR_MESSAGE_CART)
     }

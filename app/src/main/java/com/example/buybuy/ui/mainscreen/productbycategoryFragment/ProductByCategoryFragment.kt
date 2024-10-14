@@ -10,8 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentProductsByCategoryBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.mainscreen.MainFragmentDirections
 import com.example.buybuy.ui.mainscreen.productbycategoryFragment.adapter.ProductByCategoryAdapter
 import com.example.buybuy.util.SpacesItemDecoration
@@ -125,7 +125,7 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
             .commitAllowingStateLoss()
     }
 
-    private fun beginNavigate(product: ProductDetail) {
+    private fun beginNavigate(product: ProductDetailUI) {
         //findNavController().navigate(MainFragmentDirections.actionMainFragmentToProductDetailFragment(product))
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToProductDetailFragment(
@@ -134,7 +134,7 @@ class ProductByCategoryFragment() : Fragment(R.layout.fragment_products_by_categ
         )
     }
 
-    private fun addToFavorite(product: ProductDetail) {
+    private fun addToFavorite(product: ProductDetailUI) {
         viewModel.addToFavorite(product)
     }
 

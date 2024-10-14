@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
 class TabContentAdapter :
-    ListAdapter<ProductDetail, TabContentAdapter.ContentViewHolder>(ProductComparator()) {
-    var onClickListener: (ProductDetail) -> Unit = {}
-    var onFavoriteClickListener: (ProductDetail,Int) -> Unit = {
+    ListAdapter<ProductDetailUI, TabContentAdapter.ContentViewHolder>(ProductComparator()) {
+    var onClickListener: (ProductDetailUI) -> Unit = {}
+    var onFavoriteClickListener: (ProductDetailUI,Int) -> Unit = {
         _,_->
     }
     private var layoutManager:LayoutManager? = null
@@ -28,7 +28,7 @@ class TabContentAdapter :
 
     inner class ContentViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(productDetail: ProductDetail) {
+        fun bind(productDetail: ProductDetailUI) {
 
             val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
@@ -45,6 +45,7 @@ class TabContentAdapter :
                 onClickListener(productDetail)
             }
 
+
             setFavoriteBackground(productDetail.isFavorite)
 
             binding.includedLayout.cvFavorite.setOnClickListener {
@@ -53,8 +54,8 @@ class TabContentAdapter :
                         binding.root.context,
                         R.color.orange
                     )
-                //setFavoriteBackground(!background)
                 onFavoriteClickListener(productDetail.copy(isFavorite = background),adapterPosition)
+
             }
         }
 
@@ -92,8 +93,8 @@ class TabContentAdapter :
     }}
 
     override fun onCurrentListChanged(
-        previousList: MutableList<ProductDetail>,
-        currentList: MutableList<ProductDetail>
+        previousList: MutableList<ProductDetailUI>,
+        currentList: MutableList<ProductDetailUI>
     ) {
         super.onCurrentListChanged(previousList, currentList)
     }

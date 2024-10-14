@@ -12,8 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentSearchBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.searchscreen.adapters.SearchScreenAdapter
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.NavOptions
@@ -113,10 +113,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun onFavoriteClick(product:ProductDetail){
+    private fun onFavoriteClick(product: ProductDetailUI){
         viewmodel.addToFavorite(product)
     }
-    private fun onItemClick(product:ProductDetail){
+    private fun onItemClick(product:ProductDetailUI){
         val action=SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(product)
         findNavController().navigate(action,NavOptions.navOption1)
     }

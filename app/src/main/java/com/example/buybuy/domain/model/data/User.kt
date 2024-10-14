@@ -1,4 +1,4 @@
-package com.example.buybuy.domain.model
+package com.example.buybuy.domain.model.data
 
 import android.net.Uri
 

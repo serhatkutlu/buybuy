@@ -2,7 +2,7 @@ package com.example.buybuy.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.domain.model.User
+import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.domain.usecase.login.SignUpUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

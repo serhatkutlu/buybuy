@@ -2,7 +2,7 @@ package com.example.buybuy.ui.productdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
@@ -25,7 +25,8 @@ class ProductDetailViewModel @Inject constructor(
     val isFavoriteFlow: MutableStateFlow<Boolean?> = _isFavorite
 
 
-    fun addToFavorite(productDetail: ProductDetail) {
+    fun addToFavorite(productDetail: ProductDetailUI) {
+        if (productDetail.id==null) return
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite){
                 deleteFavoriteUseCase.invoke(productDetail.id)
@@ -45,7 +46,7 @@ class ProductDetailViewModel @Inject constructor(
         }
     }
 
-    fun buyNow(product: ProductDetail) {
+    fun buyNow(product: ProductDetailUI) {
         viewModelScope.launch {
 
         }

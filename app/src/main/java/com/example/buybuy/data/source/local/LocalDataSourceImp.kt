@@ -1,24 +1,24 @@
 package com.example.buybuy.data.source.local
 
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.data.model.entity.ProductDetailEntity
 import com.example.buybuy.domain.datasource.local.LocalDataSource
 import javax.inject.Inject
 
 class LocalDataSourceImp @Inject constructor(
     private val productDAO: ProductDAO,
 ) : LocalDataSource {
-    override suspend fun saveProducts(products: List<ProductDetail>) {
+    override suspend fun saveProducts(products: List<ProductDetailEntity>) {
         products.forEach {
             productDAO.insert(it)
         }
 
     }
 
-    override suspend fun searchProducts(query: String): List<ProductDetail>? {
+    override suspend fun searchProducts(query: String): List<ProductDetailEntity>? {
         return productDAO.searchAll(query)
     }
 
-    override suspend fun addToFavorite(product: ProductDetail) {
+    override suspend fun addToFavorite(product: ProductDetailEntity) {
         productDAO.addToFavorite(product.id)
     }
 
@@ -26,7 +26,11 @@ class LocalDataSourceImp @Inject constructor(
         productDAO.deleteFromFavorite(product)
     }
 
-    override suspend fun getAllFavoriteProducts(): List<ProductDetail> =
+    override suspend fun getAllProductsWithCategory(category: String): List<ProductDetailEntity> {
+        return productDAO.getAllProducts(category)
+    }
+
+    override suspend fun getAllFavoriteProducts(): List<ProductDetailEntity> =
 
         productDAO.getAllFavoriteProducts()
 
@@ -34,11 +38,11 @@ class LocalDataSourceImp @Inject constructor(
     override suspend fun isProductFavorite(productId: Int): Boolean =
         productDAO.isProductFavorite(productId)
 
-    override suspend fun searchFavoriteProducts(query: String): List<ProductDetail>? {
+    override suspend fun searchFavoriteProducts(query: String): List<ProductDetailEntity>? {
        return productDAO.searchFavoriteProducts(query)
     }
 
-    override suspend fun getCartProducts(): List<ProductDetail> {
+    override suspend fun getCartProducts(): List<ProductDetailEntity> {
         return productDAO.getCartProducts()
     }
 

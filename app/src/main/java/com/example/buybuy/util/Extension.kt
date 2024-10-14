@@ -94,7 +94,9 @@ fun Context.showAlertDialog(
 
 
 fun ImageView.setImage(url:String){
-    Picasso.get().load(url).into(this)
+    if (url.isNotEmpty()){
+        Picasso.get().load(url).into(this)
+    }
 
 }
 infix fun Int.calculateDiscount(discount:Int)=this.toFloat()-(this.toFloat()*discount/100)

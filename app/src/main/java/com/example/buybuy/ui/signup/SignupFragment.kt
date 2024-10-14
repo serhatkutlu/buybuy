@@ -20,7 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
-import com.example.buybuy.domain.model.User
+import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.databinding.FragmentSignupBinding
 import com.example.buybuy.util.checkNullorEmpty
 import com.example.buybuy.util.checkEmail

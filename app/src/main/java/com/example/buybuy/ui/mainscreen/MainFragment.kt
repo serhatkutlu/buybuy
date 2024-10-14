@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentMainBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.Constant
@@ -97,7 +97,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         rvAdapter.contentFavoriteClickListener = ::addToFavorite
     }
 
-    private fun addToFavorite(productDetail: ProductDetail) {
+    private fun addToFavorite(productDetail: ProductDetailUI) {
         viewModel.addToFavorite(productDetail)
     }
 
@@ -110,8 +110,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun updateVpBannerData(mainRecycleViewData: List<MainRecycleViewTypes>) {
         rvAdapter.submitList(mainRecycleViewData)
-
-
     }
 
     private fun initObservers() {
@@ -131,7 +129,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun fetchContentDataForRecycleView(category: String) =
         viewModel.fetchContentForCategory(category)
 
-    private fun openProductDetailScreen(product: ProductDetail) {
+    private fun openProductDetailScreen(product: ProductDetailUI) {
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToProductDetailFragment(
                 product

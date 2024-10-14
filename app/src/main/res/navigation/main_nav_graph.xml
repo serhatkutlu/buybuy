@@ -35,7 +35,7 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false"/>
         <argument android:name="product"
-            app:argType="com.example.buybuy.data.model.data.ProductDetail" />
+            app:argType="com.example.buybuy.domain.model.data.ProductDetailUI" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

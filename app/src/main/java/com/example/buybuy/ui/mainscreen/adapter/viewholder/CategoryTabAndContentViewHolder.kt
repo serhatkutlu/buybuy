@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.ui.mainscreen.adapter.TabAdapter
 import com.example.buybuy.ui.mainscreen.adapter.TabContentAdapter
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
 import com.example.buybuy.util.gone
@@ -33,9 +33,9 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
         coroutineScope: CoroutineScope,
-        fetchDataContent: (category: String) -> Flow<Resource<List<ProductDetail>>>,
-        contentClickListener: (ProductDetail) -> Unit,
-        contentFavoriteClickListener: (ProductDetail) -> Unit
+        fetchDataContent: (category: String) -> Flow<Resource<List<ProductDetailUI>>>,
+        contentClickListener: (ProductDetailUI) -> Unit,
+        contentFavoriteClickListener: (ProductDetailUI) -> Unit
     ) {
         item as MainRecycleViewTypes.RVCategory
         currentCategory=currentCategoryParent ?: item.categories?.get(0)
@@ -62,7 +62,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
         val shimmerFrameLayout = binding.shimmer
         suspend fun initCollect(
-            result: Resource<List<ProductDetail>>,
+            result: Resource<List<ProductDetailUI>>,
             isNewData: Boolean,
             position: Int
         ) {

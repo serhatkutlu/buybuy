@@ -1,4 +1,4 @@
-package com.example.buybuy.data.model.data
+package com.example.buybuy.domain.model.data
 
 
 data class  UserData (

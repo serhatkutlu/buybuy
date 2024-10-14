@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -17,8 +16,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.DETAIL_CARD_MAX_HEIGHT
 import com.example.buybuy.util.Constant.DETAIL_CARD_MIN_HEIGHT
@@ -39,7 +38,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private val binding by viewBinding(FragmentProductDetailScreenBinding::bind)
     private val viewModel: ProductDetailViewModel by viewModels()
     //private val args: ProductDetailFragmentArgs by navArgs()
-    private lateinit var args: ProductDetail
+    private lateinit var args: ProductDetailUI
     private val tabs: MutableMap<String, String> = mutableMapOf()
     private var isExpanded = false
     private var isDetailopen = false
@@ -76,9 +75,14 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
         with(args) {
             tabs.apply {
 
-                if (color != null) put(::color.name, color)
-                put(::category.name, category)
-                if (popular) put(::POPULAR.name.lowercase(), POPULAR)
+                color?.let{
+                    put(::color.name, color)
+                }
+
+                category?.let{
+                    put(::category.name, category)
+                }
+                if (popular==true) put(::POPULAR.name.lowercase(), POPULAR)
             }
 
         }
@@ -86,9 +90,11 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     }
 
     private fun initUi() {
+
+
         with(binding) {
             with(args) {
-                imageView.setImage(image)
+                imageView.setImage(image?: "")
                 rating.rating = star ?: 0.0f
                 tvRating.text = star.toString()
                 setFavoriteBackground(isFavorite)
@@ -108,6 +114,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     initDetailButton()
                 }
                 var newprice = price.toString()
+                val discount = discount ?: 0
                 if (discount != 0) {
                     tvPriceOld.visible()
                     newprice = (price calculateDiscount discount).toString()

@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FakeStoreApi {
-
     @GET("products")
     suspend fun getAllProducts():Response<Product>
 

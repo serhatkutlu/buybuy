@@ -2,7 +2,7 @@ package com.example.buybuy.ui.searchscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
 import com.example.buybuy.domain.usecase.main.PerformSearchUseCase
@@ -22,9 +22,9 @@ class SearchFragmentViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private var _searchData: MutableStateFlow<Resource<List<ProductDetail>>> =
+    private var _searchData: MutableStateFlow<Resource<List<ProductDetailUI>>> =
         MutableStateFlow(Resource.Empty)
-    val searchData: StateFlow<Resource<List<ProductDetail>>> = _searchData
+    val searchData: StateFlow<Resource<List<ProductDetailUI>>> = _searchData
     fun performSearch(query: String) {
 
         viewModelScope.launch {
@@ -37,7 +37,7 @@ class SearchFragmentViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite(productDetail: ProductDetail) {
+    fun addToFavorite(productDetail: ProductDetailUI) {
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite) {
                 deletefavoriteUseCase.invoke(productDetail.id)

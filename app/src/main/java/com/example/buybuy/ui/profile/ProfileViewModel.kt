@@ -3,7 +3,7 @@ package com.example.buybuy.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProfileOption
+import com.example.buybuy.domain.model.data.ProfileOption
 import com.example.buybuy.domain.usecase.login.LogOutUseCase
 import com.example.buybuy.enums.ProfileOptionsEnum
 import com.example.buybuy.util.Constant.ABOUT

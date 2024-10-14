@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProduct2Binding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.enums.CartClickEnums
 import com.example.buybuy.util.Constant.ALERT_CANCEL
 import com.example.buybuy.util.Constant.ALERT_MESSAGE_CART
@@ -21,7 +21,7 @@ import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showAlertDialog
 
 class CartAdapter :
-    ListAdapter<ProductDetail, CartAdapter.CartViewHolder>(ProductComparator()) {
+    ListAdapter<ProductDetailUI, CartAdapter.CartViewHolder>(ProductComparator()) {
 
     var productCartCountClickListener: (CartClickEnums, Int) -> Unit = { _, _ -> }
 
@@ -29,15 +29,17 @@ class CartAdapter :
     inner class CartViewHolder(private val binding: ItemProduct2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         private var pieceCount = 0
-        fun bind(product: ProductDetail) {
+        fun bind(product: ProductDetailUI) {
             with(binding) {
-                ivProduct.setImage(product.image)
+
+                val discount = product.discount ?: 0
+                ivProduct.setImage(product.image?:"")
                 tvBrand.text = product.brand
                 tvTitle.text = product.title
                 tvRating.text = product.star.toString()
                 rating.rating = product.star ?: 0f
                 tvPrice.text = (product.star ?: 0f).toString()
-                tvPrice.text = product.price.calculateDiscount(product.discount).toString()
+                tvPrice.text = product.price?.calculateDiscount(discount).toString()
                 tvCount.text = product.pieceCount.toString()
 
                 calculateIvMinusColor(product.pieceCount)

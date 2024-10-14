@@ -1,7 +1,8 @@
 package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
-import com.example.buybuy.data.model.data.SingleBannerData
+import com.example.buybuy.data.model.entity.ProductDetailEntity
+import com.example.buybuy.domain.model.data.SingleBannerData
 import com.example.buybuy.domain.datasource.local.LocalDataSource
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
@@ -48,7 +49,6 @@ class MainRepositoryImp @Inject constructor(
         flow {
             emit(Resource.Loading())
             try {
-
                 val response = remoteDataSource.getProductByCategory(category)
                 if (response.isSuccessful) {
                     emit(Resource.Success(response.body()?.products))
@@ -79,14 +79,15 @@ class MainRepositoryImp @Inject constructor(
 
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun saveAllProduct(productDetail: List<ProductDetail>) {
+    override suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>) {
         try {
             localDataSource.saveProducts(productDetail)
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    override fun searchProduct(query: String): Flow<Resource<List<ProductDetail>>> = flow {
+    override fun searchProduct(query: String): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
         try {
             val response = localDataSource.searchProducts(query)
@@ -94,14 +95,13 @@ class MainRepositoryImp @Inject constructor(
                 emit(Resource.Error(NODATAFOUND))
             } else {
                 emit(Resource.Success(response))
-
             }
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun addToFavorite(productDetail: ProductDetail) {
+    override suspend fun addToFavorite(productDetail: ProductDetailEntity) {
         localDataSource.addToFavorite(productDetail)
     }
 
@@ -109,7 +109,7 @@ class MainRepositoryImp @Inject constructor(
         localDataSource.deleteFromFavorite(productDetail)
     }
 
-    override fun getAllFavorite(): Flow<Resource<List<ProductDetail>>> = flow {
+    override fun getAllFavorite(): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
 
         try {
@@ -124,7 +124,7 @@ class MainRepositoryImp @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun searchFavorites(query: String): Flow<Resource<List<ProductDetail>>> = flow {
+    override fun searchFavorites(query: String): Flow<Resource<List<ProductDetailEntity>>> = flow {
 
         emit(Resource.Loading())
 
@@ -140,7 +140,17 @@ class MainRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getCartProducts(): Flow<Resource<List<ProductDetail>>> = flow {
+    override suspend fun getAllProductFromDbWithCategory(category: String):Resource<List<ProductDetailEntity>> {
+        return try {
+            val response = localDataSource.getAllProductsWithCategory(category)
+            Resource.Success(response)
+
+        }catch (e:Exception){
+            Resource.Error(e.message.toString())
+        }
+    }
+
+    override fun getCartProducts(): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
         try {
             val response = localDataSource.getCartProducts()

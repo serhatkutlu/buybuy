@@ -1,42 +1,53 @@
 package com.example.buybuy.domain.usecase.main
 
+import com.example.buybuy.domain.model.data.ProductDetailUI
+import com.example.buybuy.domain.model.mapper.ProductDetailToEntityMapper
+import com.example.buybuy.domain.model.mapper.ProductEntityToUiMapper
 import com.example.buybuy.domain.repository.MainRepository
 import com.example.buybuy.util.Resource
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import kotlin.random.Random
 
-class GetProductByCategoriesUseCase @Inject constructor(private val mainRepository: MainRepository) {
+class GetProductByCategoriesUseCase @Inject constructor(
+    private val mainRepository: MainRepository,
+    private val productEntityToUiMapper: ProductEntityToUiMapper,
+    private val productDetailToEntityMapper: ProductDetailToEntityMapper
 
-    operator fun invoke(category: String) =
-        mainRepository.getProductByCategory(category).map { resource ->
+) {
+    operator fun invoke(category: String): Flow<Resource<List<ProductDetailUI>>> = flow {
+        emit(Resource.Loading())
 
+        mainRepository.getProductByCategory(category).collect { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    val updatedProducts = resource.data?.map {
-                        if (mainRepository.isFavorite(it.id)) it.isFavorite=true
-                        if (it.star == null ) it.star=generateRandomFloat()
-                        it
+                    val productEntity = productDetailToEntityMapper.mapToModelList(resource.data ?: emptyList())
+                    mainRepository.saveAllProduct(productEntity)
+
+                    val dbResource = mainRepository.getAllProductFromDbWithCategory(category)
+
+                    when (dbResource) {
+                        is Resource.Success -> emit(Resource.Success(productEntityToUiMapper.mapToModelList(dbResource.data ?: emptyList())))
+                        is Resource.Loading -> emit(Resource.Loading())
+                        is Resource.Error -> emit(Resource.Error(dbResource.message))
+                        is Resource.Empty -> emit(Resource.Empty)
                     }
-                    mainRepository.saveAllProduct(updatedProducts ?: emptyList())
-                    Resource.Success(updatedProducts)
-
                 }
-
-                else -> resource
+                is Resource.Loading -> {
+                    emit(Resource.Loading())
+                }
+                is Resource.Error -> {
+                    emit(Resource.Error(resource.message))
+                }
+                is Resource.Empty -> {
+                    emit(Resource.Empty)
+                }
             }
-
         }
-
-    private fun generateRandomFloat(): Float {
-        val min = 0.0f
-        val max = 5.0f
-
-        val randomFloat = Random.nextFloat() * (max - min) + min
-        val roundedFloat = (Math.round(randomFloat * 2) / 2.0).toFloat()
-
-        return roundedFloat
     }
+
+
 }
 
 

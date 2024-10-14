@@ -1,12 +1,10 @@
 package com.example.buybuy.ui.mainscreen.productbycategoryFragment
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
-import com.example.buybuy.domain.usecase.favorite.IsFavoriteUseCase
 import com.example.buybuy.domain.usecase.main.GetProductByCategoriesUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,9 +24,9 @@ class ProductByCategoryViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _productByCategories: MutableStateFlow<Resource<List<ProductDetail>>> =
+    private val _productByCategories: MutableStateFlow<Resource<List<ProductDetailUI>>> =
         MutableStateFlow(Resource.Loading())
-    val productByCategories: StateFlow<Resource<List<ProductDetail>>> = _productByCategories
+    val productByCategories: StateFlow<Resource<List<ProductDetailUI>>> = _productByCategories
 
 
     fun getProductByCategories(category: String) {
@@ -41,7 +39,7 @@ class ProductByCategoryViewModel @Inject constructor(
 }
 
 
-fun addToFavorite(productDetail: ProductDetail) {
+fun addToFavorite(productDetail: ProductDetailUI) {
     viewModelScope.launch(Dispatchers.IO) {
         val value = productByCategories.value
         if (!productDetail.isFavorite) {

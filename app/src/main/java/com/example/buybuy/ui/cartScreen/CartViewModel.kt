@@ -2,7 +2,7 @@ package com.example.buybuy.ui.cartScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
 import com.example.buybuy.domain.usecase.cart.ClearCartUseCase
 import com.example.buybuy.domain.usecase.cart.DeleteProductFromCartUseCase
@@ -25,9 +25,9 @@ class CartViewModel @Inject constructor(
     private val getCartProductsUseCase: GetCartProductsUseCase,
     private val deleteFromCartUseCase: DeleteProductFromCartUseCase
 ) : ViewModel() {
-    private val _cartItems: MutableStateFlow<Resource<List<ProductDetail>>> =
+    private val _cartItems: MutableStateFlow<Resource<List<ProductDetailUI>>> =
         MutableStateFlow(Resource.Empty)
-    val cartItems: StateFlow<Resource<List<ProductDetail>>> = _cartItems
+    val cartItems: StateFlow<Resource<List<ProductDetailUI>>> = _cartItems
 
     init {
 

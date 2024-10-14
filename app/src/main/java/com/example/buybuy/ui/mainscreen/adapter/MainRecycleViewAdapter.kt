@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
 import com.example.buybuy.databinding.ItemSingleBannerBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
@@ -32,9 +32,9 @@ class MainRecycleViewAdapter :
     private var selectedPageVpBanner = 1
 
 
-    var contentClickListener: (ProductDetail) -> Unit = {}
-    var contentFavoriteClickListener: (ProductDetail) -> Unit = {}
-    lateinit var fetchContentData: (content: String) -> Flow<Resource<List<ProductDetail>>>
+    var contentClickListener: (ProductDetailUI) -> Unit = {}
+    var contentFavoriteClickListener: (ProductDetailUI) -> Unit = {}
+    lateinit var fetchContentData: (content: String) -> Flow<Resource<List<ProductDetailUI>>>
 
     private val coroutineScopeContent = CoroutineScope(Dispatchers.IO + SupervisorJob())
 

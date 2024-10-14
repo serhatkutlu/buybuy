@@ -1,7 +1,7 @@
 package com.example.buybuy.data.repository
 
-import com.example.buybuy.data.model.data.UserData
-import com.example.buybuy.domain.model.User
+import com.example.buybuy.domain.model.data.UserData
+import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.domain.repository.FirebaseRepository
 import com.example.buybuy.util.Constant.COLLECTION_PATH
 import com.example.buybuy.util.Constant.EMAIL

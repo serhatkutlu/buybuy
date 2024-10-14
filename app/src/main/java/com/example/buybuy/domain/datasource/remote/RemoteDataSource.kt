@@ -2,7 +2,7 @@ package com.example.buybuy.domain.datasource.remote
 
 import com.example.buybuy.data.model.data.Category
 import com.example.buybuy.data.model.data.Product
-import com.example.buybuy.data.model.data.SingleBannerData
+import com.example.buybuy.domain.model.data.SingleBannerData
 import retrofit2.Response
 
 interface RemoteDataSource {

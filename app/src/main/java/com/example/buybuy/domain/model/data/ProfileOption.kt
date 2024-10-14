@@ -1,4 +1,4 @@
-package com.example.buybuy.data.model.data
+package com.example.buybuy.domain.model.data
 
 import androidx.annotation.DrawableRes
 import com.example.buybuy.enums.ProfileOptionsEnum

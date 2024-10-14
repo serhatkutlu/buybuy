@@ -6,22 +6,22 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.databinding.ItemProductBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class SearchScreenAdapter:ListAdapter<ProductDetail, SearchScreenAdapter.SearchScreenViewHolder>(
+class SearchScreenAdapter:ListAdapter<ProductDetailUI, SearchScreenAdapter.SearchScreenViewHolder>(
     ProductComparator()
 ){
 
-    var onClickListener: (ProductDetail) -> Unit = {}
-    var onFavoriteClickListener: (ProductDetail) -> Unit = {}
+    var onClickListener: (ProductDetailUI) -> Unit = {}
+    var onFavoriteClickListener: (ProductDetailUI) -> Unit = {}
 
     inner class SearchScreenViewHolder(private val binding:ItemProductBinding):RecyclerView.ViewHolder(binding.root) {
-        fun bind(productDetail: ProductDetail) {
+        fun bind(productDetail: ProductDetailUI) {
             val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)

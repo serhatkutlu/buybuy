@@ -10,13 +10,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentLoginBinding
-import com.example.buybuy.util.checkNullorEmpty
+import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.viewBinding
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -68,7 +69,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             with(loginViewModel) {
                 buttonlogin.setOnClickListener {
                     if (etEmail.checkEmail(getString(R.string.invalid_email)) &&
-                        etPassword.checkNullorEmpty(getString(R.string.invalid_password))
+                        etPassword.checkNullOrEmpty(getString(R.string.invalid_password))
                     ) {
                         loginEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
                         buttonlogin.isEnabled = false

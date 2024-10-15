@@ -22,7 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.databinding.FragmentSignupBinding
-import com.example.buybuy.util.checkNullorEmpty
+import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.Constant.ALERT_CANCEL
 import com.example.buybuy.util.Constant.ALERT_MESSAGE
@@ -118,9 +118,9 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
             }
 
             buttonLogin.setOnClickListener {
-                if (etName.checkNullorEmpty(UNKNOWN_ERROR) && etEmail.checkEmail(UNKNOWN_ERROR) && etPassword.checkNullorEmpty(
+                if (etName.checkNullOrEmpty(UNKNOWN_ERROR) && etEmail.checkEmail(UNKNOWN_ERROR) && etPassword.checkNullOrEmpty(
                         UNKNOWN_ERROR
-                    ) && etPassword2.checkNullorEmpty(UNKNOWN_ERROR)
+                    ) && etPassword2.checkNullOrEmpty(UNKNOWN_ERROR)
                 ) {
                     if (etPassword.text.toString() == etPassword2.text.toString()) {
                         val user = User(

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+ object RepositoryModule {
 
 
     @Provides
@@ -21,7 +21,7 @@ object RepositoryModule {
     fun provideMainRepository(
         remoteDataSource: RemoteDataSource,
         localDataSource: LocalDataSource
-        ): MainRepository = MainRepositoryImp(remoteDataSource,localDataSource)
+        ): MainRepository= MainRepositoryImp(remoteDataSource,localDataSource)
 
 
 }

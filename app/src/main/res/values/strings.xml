@@ -13,6 +13,7 @@
 
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="empty_field">Empty Field</string>
 
     <string name="fragment_login_login">Login</string>
     <string name="fragment_login_email">Email</string>">

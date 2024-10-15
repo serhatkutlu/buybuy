@@ -48,7 +48,7 @@ fun TextInputEditText.checkEmail(error: String): Boolean {
     }
 
 }
-fun TextInputEditText.checkNullorEmpty(error: String): Boolean {
+fun TextInputEditText.checkNullOrEmpty(error: String): Boolean {
     val textInputLayout = this.parent.parent as TextInputLayout
     return if (text.toString().isNotEmpty() && text.toString().isNotBlank()) {
         textInputLayout.isErrorEnabled = false

@@ -3,7 +3,7 @@ package com.example.buybuy.data.repository
 import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.domain.repository.FirebaseRepository
-import com.example.buybuy.util.Constant.COLLECTION_PATH
+import com.example.buybuy.util.Constant.COLLECTION_PATH_USERS
 import com.example.buybuy.util.Constant.EMAIL
 import com.example.buybuy.util.Constant.ID
 import com.example.buybuy.util.Constant.IMAGE
@@ -53,7 +53,7 @@ class LoginRepositoryImp @Inject constructor(
                 NAME to user.name,
                 IMAGE to imageUrl,
             )
-            firestore.collection(COLLECTION_PATH).document(uid)
+            firestore.collection(COLLECTION_PATH_USERS).document(uid)
                 .set(userModel).await()
             emit(Resource.Success())
 
@@ -68,7 +68,7 @@ class LoginRepositoryImp @Inject constructor(
             try {
                 emit(Resource.Loading())
                 val uid = authentication.currentUser?.uid.toString()
-                val snapshot = firestore.collection(COLLECTION_PATH).document(uid).get().await()
+                val snapshot = firestore.collection(COLLECTION_PATH_USERS).document(uid).get().await()
                 val user = snapshot.toObject(UserData::class.java)
                 if (user != null) {
                     emit(Resource.Success(user))

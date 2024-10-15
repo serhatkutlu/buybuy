@@ -89,8 +89,12 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
+                        android:maxLength="30"
                         android:hint="@string/fragment_new_address_name" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,8 +124,12 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_surname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
+                        android:maxLength="30"
                         android:hint="@string/fragment_new_address_surname" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,9 +161,12 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="phone"
+                        android:maxLength="15"
+                        android:maxLines="1"
                         android:hint="@string/fragment_new_address_phone_number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -204,13 +215,13 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="25dp"
-
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:maxLines="5"
+                    android:maxLength="100"
                     android:hint="@string/fragment_new_address_address" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,8 +253,12 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_address_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:maxLength="30"
                     android:hint="@string/fragment_new_address_address_name" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -260,6 +275,7 @@
         android:layout_marginBottom="20dp"
         android:background="@color/white">
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
@@ -273,6 +289,7 @@
     </FrameLayout>
 
 </LinearLayout>
+
 
     </ScrollView>
 

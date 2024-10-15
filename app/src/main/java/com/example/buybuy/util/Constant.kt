@@ -9,7 +9,10 @@ object Constant {
     const val NAME="name"
     const val IMAGE="image"
     const val IMAGES="images"
-    const val COLLECTION_PATH="users"
+    const val COLLECTION_PATH_USERS="users"
+    const val COLLECTION_PATH_ADDRESS="address"
+    const val COLLECTION_PATH_ADDRESS_NAME="address_name"
+
     const val UNKNOWN_ERROR:String="Unknown Error"
     const val USER_NOT_FOUND:String="User not found"
     const val PERMISSION_DENIED_GALLERY:String="Permission is required to access the gallery."

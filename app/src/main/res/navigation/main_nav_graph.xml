@@ -29,12 +29,8 @@
         android:id="@+id/productDetailFragment"
         android:name="com.example.buybuy.ui.productdetail.ProductDetailFragment"
         android:label="ProductDetailFragment" >
-        <action
-            android:id="@+id/action_productDetailFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
-        <argument android:name="product"
+
+        <argument android:name="Product"
             app:argType="com.example.buybuy.domain.model.data.ProductDetailUI" />
     </fragment>
     <fragment
@@ -85,5 +81,11 @@
     <fragment
         android:id="@+id/newAddressFragment"
         android:name="com.example.buybuy.ui.address.newAddressScreen.NewAddressFragment"
-        android:label="NewAddressFragment" />
+        android:label="NewAddressFragment" >
+        <argument
+            android:name="address_data"
+            app:argType="com.example.buybuy.data.model.data.AddressData"
+            app:nullable="true"
+ />
+    </fragment>
 </navigation>

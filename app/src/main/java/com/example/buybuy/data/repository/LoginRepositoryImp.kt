@@ -15,10 +15,12 @@ import com.example.buybuy.util.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 
 import javax.inject.Inject
@@ -61,7 +63,7 @@ class LoginRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getUserData(): Flow<Resource<UserData>> {
         return flow {
@@ -79,11 +81,11 @@ class LoginRepositoryImp @Inject constructor(
                 emit(Resource.Error(e.message.toString()))
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
     }
     override fun checkUserLogin() = flow {
         emit(authentication.currentUser?.uid != null)
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun checkUserEmailAndPassword(email: String, password: String) = flow {
         emit(Resource.Loading())
@@ -96,7 +98,7 @@ class LoginRepositoryImp @Inject constructor(
         }
 
 
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun resetPassword(email: String): Flow<Resource<Nothing>> = callbackFlow {
         authentication.sendPasswordResetEmail(email).addOnCompleteListener { task ->
@@ -108,7 +110,7 @@ class LoginRepositoryImp @Inject constructor(
             close()
         }
         awaitClose {}
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun logOut(): Flow<Resource<Nothing>> = flow {
         emit(Resource.Loading())
@@ -121,7 +123,7 @@ class LoginRepositoryImp @Inject constructor(
         }
 
 
-    }
+    }.flowOn(Dispatchers.IO)
 
 
 }

@@ -14,10 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
-import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.DETAIL_CARD_MAX_HEIGHT
 import com.example.buybuy.util.Constant.DETAIL_CARD_MIN_HEIGHT
@@ -37,23 +37,17 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
     private val binding by viewBinding(FragmentProductDetailScreenBinding::bind)
     private val viewModel: ProductDetailViewModel by viewModels()
-    //private val args: ProductDetailFragmentArgs by navArgs()
-    private lateinit var args: ProductDetailUI
+    private val  args: ProductDetailFragmentArgs by navArgs()
     private val tabs: MutableMap<String, String> = mutableMapOf()
     private var isExpanded = false
     private var isDetailopen = false
     private var isRotated = false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-          args=arguments?.getParcelable("product")!!
 
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         createTabsList()
         initUi()
-        args.isFavorite
         initObservers()
 
     }
@@ -63,7 +57,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isFavoriteFlow.collect {
                     it?.let {
-                        args.isFavorite = it
+                        args.product.isFavorite = it
                     }
 
                 }
@@ -72,17 +66,17 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     }
 
     private fun createTabsList() {
-        with(args) {
+        with(args.product) {
             tabs.apply {
 
-                color?.let{
-                    put(::color.name, color)
-                }
 
-                category?.let{
+                    put(::color.name, color)
+
+
+
                     put(::category.name, category)
-                }
-                if (popular==true) put(::POPULAR.name.lowercase(), POPULAR)
+
+                if (popular) put(::POPULAR.name.lowercase(), POPULAR)
             }
 
         }
@@ -93,14 +87,14 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
 
         with(binding) {
-            with(args) {
-                imageView.setImage(image?: "")
-                rating.rating = star ?: 0.0f
+            with(args.product) {
+                imageView.setImage(image)
+                rating.rating = star
                 tvRating.text = star.toString()
                 setFavoriteBackground(isFavorite)
                 includedLayout.cvFavorite.cardElevation = 30F
                 includedLayout.cvFavorite.setOnClickListener {
-                    viewModel.addToFavorite(args)
+                    viewModel.addToFavorite(this)
                     setFavoriteBackground(!isFavorite)
 
                 }
@@ -114,7 +108,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                     initDetailButton()
                 }
                 var newprice = price.toString()
-                val discount = discount ?: 0
+                val discount = discount
                 if (discount != 0) {
                     tvPriceOld.visible()
                     newprice = (price calculateDiscount discount).toString()
@@ -125,7 +119,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 tvPriceNew.text = getString(R.string.currency_symbol, newprice)
 
                 buttonAddToCart.setOnClickListener {
-                    viewModel.addCart(args.id)
+                    viewModel.addCart(args.product.id)
                     requireContext().showToast(SNACKBAR_MESSAGE_CART)
                 }
 

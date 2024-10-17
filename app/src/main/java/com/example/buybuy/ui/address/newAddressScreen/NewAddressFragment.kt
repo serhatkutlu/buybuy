@@ -8,10 +8,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.buybuy.R
-import com.example.buybuy.data.model.data.Address
+import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.databinding.FragmentNewAddressBinding
 import com.example.buybuy.enums.ToastType
+import com.example.buybuy.ui.address.newAddressScreen.NewAddressFragmentArgs
 import com.example.buybuy.util.Resource
 
 import com.example.buybuy.util.checkNullOrEmpty
@@ -25,11 +27,11 @@ import kotlinx.coroutines.launch
 class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
 
     private val binding: FragmentNewAddressBinding by viewBinding(FragmentNewAddressBinding::bind)
-
     private val viewmodel: NewAddressViewModel by viewModels()
+    private val args: NewAddressFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         collectData()
         initUi()
     }
@@ -37,7 +39,7 @@ class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
     private fun collectData() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewmodel.saveAddressResponse.collect{
+                viewmodel.addressResponse.collect{
                     when(it){
                         is Resource.Loading -> {
                             binding.btnSave.isClickable=false
@@ -59,6 +61,8 @@ class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
     }
 
     private fun initUi() {
+
+        setupUiElements()
         binding.btnSave.setOnClickListener {
             val name = binding.etName
             val surname = binding.etSurname
@@ -70,17 +74,37 @@ class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
                 address.checkNullOrEmpty(getString(R.string.empty_field)) &&
                 addressName.checkNullOrEmpty(getString(R.string.empty_field))
             ) {
-                val addressModel = Address(
+                val addressDataModel = AddressData(
                     address = address.text.toString(),
                     addressName = addressName.text.toString(),
                     name = name.text.toString(),
                     surname = surname.text.toString(),
                     phone = phoneNumber.text.toString()
                 )
-                viewmodel.savaAddress(addressModel)
+                if (args.addressData?.id != null) {
+                    viewmodel.updateAddress(addressDataModel, args.addressData!!.id!!)
+                }
+                else{
+                    viewmodel.savaAddress(addressDataModel)
+                }
+                binding.btnSave.isClickable = false
             }
         }
 
+    }
+
+
+    private fun setupUiElements() {
+        with(binding){
+            args.addressData?.let{
+                etName.setText(it.name)
+                etSurname.setText(it.surname)
+                etAddress.setText(it.address)
+                etAddressName.setText(it.addressName)
+                etPhone.setText(it.phone)
+            }
+
+        }
     }
 
 

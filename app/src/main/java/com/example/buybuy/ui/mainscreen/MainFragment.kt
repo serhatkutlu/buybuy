@@ -133,7 +133,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToProductDetailFragment(
                 product
-            )
+            ), navOptions = NavOptions.navOption1
         )
     }
 

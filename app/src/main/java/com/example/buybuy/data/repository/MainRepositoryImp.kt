@@ -43,7 +43,7 @@ class MainRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             Resource.Error(e.message.toString())
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getProductByCategory(category: String): Flow<Resource<List<ProductDetail>>> =
         flow {
@@ -138,7 +138,7 @@ class MainRepositoryImp @Inject constructor(
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getAllProductFromDbWithCategory(category: String):Resource<List<ProductDetailEntity>> {
         return try {
@@ -163,7 +163,7 @@ class MainRepositoryImp @Inject constructor(
             emit(Resource.Error(e.message.toString()))
         }
 
-    }
+    }.flowOn(Dispatchers.IO)
 
 
     override suspend fun addToCart(product: Int) {

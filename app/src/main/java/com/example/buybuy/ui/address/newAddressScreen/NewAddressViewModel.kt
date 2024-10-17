@@ -2,11 +2,11 @@ package com.example.buybuy.ui.address.newAddressScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.buybuy.data.model.data.Address
+import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.domain.usecase.address.SaveAddressUseCase
+import com.example.buybuy.domain.usecase.address.UpdateAddressUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,16 +15,32 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class NewAddressViewModel @Inject constructor(private val saveAddressUseCase: SaveAddressUseCase) :
+class NewAddressViewModel @Inject constructor(
+    private val saveAddressUseCase: SaveAddressUseCase,
+    private val updateAddressUseCase: UpdateAddressUseCase
+) :
     ViewModel() {
-    private val _saveAddressResponse: MutableStateFlow<Resource<Nothing>> =
+    private val _addressResponse: MutableStateFlow<Resource<Nothing>> =
         MutableStateFlow(Resource.Empty)
-    val saveAddressResponse: StateFlow<Resource<Nothing>> = _saveAddressResponse
-    fun savaAddress(address: Address) {
+    val addressResponse: StateFlow<Resource<Nothing>> = _addressResponse
+
+
+
+
+    fun savaAddress(addressData: AddressData) {
         viewModelScope.launch(Dispatchers.IO) {
-            saveAddressUseCase.invoke(address).collect {
-                _saveAddressResponse.value = it
+            saveAddressUseCase.invoke(addressData).collect {
+                _addressResponse.value = it
             }
+        }
+    }
+
+    fun updateAddress(addressData: AddressData, id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateAddressUseCase.invoke(addressData, id).collect {
+                _addressResponse.emit(it)
+            }
+
         }
     }
 }

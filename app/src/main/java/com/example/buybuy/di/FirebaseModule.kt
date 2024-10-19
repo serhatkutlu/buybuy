@@ -31,9 +31,5 @@ object FirebaseModule {
     @Singleton
     fun provideFirebaseStorage()= Firebase.storage
 
-    @Provides
-    @Singleton
-    fun provideFirebaseRepository (firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore, storage: FirebaseStorage): FirebaseRepository =
-        LoginRepositoryImp(firebaseAuth,fireStore,storage )
 
 }

@@ -152,9 +152,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 //            ProfileOptionsEnum.ORDER->{
 //                findNavController().navigate(R.id.action_profileFragment_to_orderFragment,null,NavOptions.navOption1)
 //            }
-//            ProfileOptionsEnum.COUPONS->{
-//                findNavController().navigate(R.id.action_profileFragment_to_couponFragment,null,NavOptions.navOption1)
-//            }
+            ProfileOptionsEnum.COUPONS->{
+                findNavController().navigate(R.id.action_profileFragment_to_couponsFragment,null,NavOptions.navOption1)
+            }
 //            ProfileOptionsEnum.PAYMENT->{
 //                findNavController().navigate(R.id.action_profileFragment_to_paymentFragment,null,NavOptions.navOption1)
 //            }

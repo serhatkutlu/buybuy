@@ -10,6 +10,7 @@ object Constant {
     const val IMAGE="image"
     const val IMAGES="images"
     const val COLLECTION_PATH_USERS="users"
+    const val COLLECTION_PATH_COUPON="coupon"
     const val COLLECTION_PATH_ADDRESS="address"
     const val COLLECTION_PATH_ADDRESS_NAME="address_name"
 
@@ -51,6 +52,8 @@ object Constant {
     const val SETTINGS="settings"
     const val HELP="help"
     const val ABOUT="about"
+
+    const val  COUPON_NAME="BUY30"
 
 
 }

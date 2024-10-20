@@ -3,6 +3,7 @@ package com.example.buybuy.di
 import android.content.Context
 import androidx.room.Room
 import com.example.buybuy.data.source.local.ProductRoomDB
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,10 @@ object RoomDBModule {
     @Singleton
     @Provides
     fun provideSearchDao(productRoomDB: ProductRoomDB) = productRoomDB.searchDAO()
+
+    @Singleton
+    @Provides
+    fun provideFlashSaleDao(productRoomDB: ProductRoomDB) = productRoomDB.flashSaleDAO()
 
 
 

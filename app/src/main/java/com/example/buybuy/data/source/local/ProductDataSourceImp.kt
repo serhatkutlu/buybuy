@@ -1,12 +1,12 @@
 package com.example.buybuy.data.source.local
 
 import com.example.buybuy.data.model.entity.ProductDetailEntity
-import com.example.buybuy.domain.datasource.local.LocalDataSource
+import com.example.buybuy.domain.datasource.local.ProductDataSource
 import javax.inject.Inject
 
-class LocalDataSourceImp @Inject constructor(
+class ProductDataSourceImp @Inject constructor(
     private val productDAO: ProductDAO,
-) : LocalDataSource {
+) : ProductDataSource {
     override suspend fun saveProducts(products: List<ProductDetailEntity>) {
         products.forEach {
             productDAO.insert(it)
@@ -56,6 +56,10 @@ class LocalDataSourceImp @Inject constructor(
 
     override suspend fun deleteProductFromCart(product: Int) {
         productDAO.deleteProductFromCart(product)
+    }
+
+    override suspend fun getRandomFlashSaleProducts(): List<ProductDetailEntity> {
+        return productDAO.getRandomFlashSaleProducts()
     }
 
     override suspend fun deleteAllProductsFromCart() {

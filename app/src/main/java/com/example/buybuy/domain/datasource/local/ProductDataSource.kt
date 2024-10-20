@@ -2,7 +2,7 @@ package com.example.buybuy.domain.datasource.local
 
 import com.example.buybuy.data.model.entity.ProductDetailEntity
 
-interface LocalDataSource {
+interface ProductDataSource {
 
     suspend fun saveProducts(products: List<ProductDetailEntity>)
 
@@ -23,6 +23,7 @@ interface LocalDataSource {
     suspend fun deleteProductFromCart(product: Int)
 
 
+    suspend fun getRandomFlashSaleProducts(): List<ProductDetailEntity>
 
     suspend fun deleteAllProductsFromCart()
 

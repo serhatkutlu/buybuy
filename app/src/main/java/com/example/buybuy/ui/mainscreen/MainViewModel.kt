@@ -1,11 +1,13 @@
 package com.example.buybuy.ui.mainscreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.usecase.favorite.AddToFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
+import com.example.buybuy.domain.usecase.main.FlashSaleUseCase
 import com.example.buybuy.domain.usecase.main.GetAllSingleBannerUseCase
 import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetProductByCategoriesUseCase
@@ -13,10 +15,12 @@ import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -27,7 +31,8 @@ class MainViewModel @Inject constructor(
     private val getProductByCategoriesUseCase: GetProductByCategoriesUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
-    private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase
+    private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase,
+    private val createFlashSaleList: FlashSaleUseCase
 ) : ViewModel() {
     private val _vpBannerDataFlow: MutableStateFlow<List<MainRecycleViewTypes>> = MutableStateFlow(
         listOf()
@@ -37,12 +42,13 @@ class MainViewModel @Inject constructor(
 
     init {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val getVpBannerImages = getVpBannerImages()
             val getCategories = getCategories()
             val getAllSingleBanner = getAllSingleBanner()
+            val getFlashSale = createFlashSaleList()
             val combinedList =
-                (getVpBannerImages + getCategories + getAllSingleBanner).toMutableList()
+                (getVpBannerImages + getCategories + getAllSingleBanner +getFlashSale).filterNotNull().toMutableList()
             val divider = MainRecycleViewTypes.Divider
             combinedList.sortBy { it.ordinal }
             combinedList.add(divider)
@@ -145,6 +151,27 @@ class MainViewModel @Inject constructor(
             }
         }
         return result
+    }
+
+
+    private suspend fun createFlashSaleList():MainRecycleViewTypes?{
+        return withContext(Dispatchers.IO) {
+            var RVType: MainRecycleViewTypes? = null
+            createFlashSaleList.invoke().collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let {
+                            RVType = MainRecycleViewTypes.FlashSaleDataUi(it)
+                        }
+                    }
+                    else -> {
+
+                        RVType = null
+                    }
+                }
+            }
+            return@withContext RVType
+        }
     }
 
 

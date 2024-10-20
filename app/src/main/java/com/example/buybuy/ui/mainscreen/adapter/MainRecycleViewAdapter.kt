@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.databinding.ItemDividerMainRvBinding
+import com.example.buybuy.databinding.ItemFlashSaleRvBinding
 import com.example.buybuy.databinding.ItemSingleBannerBinding
 import com.example.buybuy.databinding.ItemVpBannerBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.CategoryTabAndContentViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.FlashSaleViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.SingleBannerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
 import com.example.buybuy.util.ProductComparatorMainRV
@@ -49,6 +51,9 @@ class MainRecycleViewAdapter :
     private val tabContentAdapter: TabContentAdapter by lazy {
         TabContentAdapter()
     }
+    private val flasSaleAdapter: TabContentAdapter by lazy {
+        TabContentAdapter()
+    }
 
 
     override fun getItemViewType(position: Int): Int {
@@ -61,8 +66,13 @@ class MainRecycleViewAdapter :
             ViewType.CATEGORY -> {
                 ViewType.CATEGORY.ordinal
             }
+
             ViewType.SINGLE_BANNER -> {
                 ViewType.SINGLE_BANNER.ordinal
+            }
+
+            ViewType.FLASH_SALE -> {
+                ViewType.FLASH_SALE.ordinal
             }
 
             else -> {
@@ -72,7 +82,6 @@ class MainRecycleViewAdapter :
 
 
     }
-
 
 
     fun saveState() {
@@ -105,6 +114,11 @@ class MainRecycleViewAdapter :
 
             }
 
+            ViewType.FLASH_SALE.ordinal -> {
+                val binding = ItemFlashSaleRvBinding.inflate(inflater, parent, false)
+                return FlashSaleViewHolder(binding)
+            }
+
             else -> {
                 val binding = ItemDividerMainRvBinding.inflate(inflater, parent, false)
                 DividerViewHolder(binding)
@@ -120,10 +134,10 @@ class MainRecycleViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        getItem(position).let {item->
+        getItem(position).let { item ->
             when (holder) {
                 is VpBannerViewHolder -> {
-                    (holder ).apply {
+                    (holder).apply {
                         selectedPage = selectedPageVpBanner
                         bind(item) {
                             selectedPageVpBanner = it
@@ -134,14 +148,13 @@ class MainRecycleViewAdapter :
 
                 is CategoryTabAndContentViewHolder -> {
 
-                    (holder ).bind(
+                    holder.bind(
                         item,
                         tabAdapter,
                         currentCategory,
                         ::setCurrentCategory,
                         tabContentAdapter,
                         scrollState,
-                        coroutineScopeContent,
                         fetchContentData,
                         contentClickListener,
                         contentFavoriteClickListener
@@ -150,8 +163,14 @@ class MainRecycleViewAdapter :
                 }
 
                 is SingleBannerViewHolder -> {
-                    holder.bind(item )
+                    holder.bind(item)
                 }
+
+                is FlashSaleViewHolder -> {
+                    val data = item as MainRecycleViewTypes.FlashSaleDataUi
+                    holder.bind(data.data, flasSaleAdapter, scrollState)
+                }
+
                 else -> {
 
                 }

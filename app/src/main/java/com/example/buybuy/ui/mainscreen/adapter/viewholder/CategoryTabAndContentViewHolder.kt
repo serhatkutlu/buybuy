@@ -16,6 +16,7 @@ import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,6 +26,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
     var layoutManager: RecyclerView.LayoutManager? = null
     private var currentCategory: String? = null
+    private val viewHolderScope = CoroutineScope(Dispatchers.IO + Job())
+
     fun bind(
         item: MainRecycleViewTypes,
         tabAdapter: TabAdapter,
@@ -32,7 +35,6 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         currentCategoryClickListener: (String) -> Unit,
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
-        coroutineScope: CoroutineScope,
         fetchDataContent: (category: String) -> Flow<Resource<List<ProductDetailUI>>>,
         contentClickListener: (ProductDetailUI) -> Unit,
         contentFavoriteClickListener: (ProductDetailUI) -> Unit
@@ -51,7 +53,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager = binding.contentRecyclerView.layoutManager
         binding.contentRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 35))
-        binding.contentRecyclerView.itemAnimator = null
+        //binding.contentRecyclerView.itemAnimator = null
 
         if (scrollState != null) {
             binding.contentRecyclerView.layoutManager?.onRestoreInstanceState(scrollState)
@@ -99,7 +101,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         }
 
         fun initSearchData(category: String, isNewData: Boolean, position: Int = 0) {
-            coroutineScope.launch {
+            viewHolderScope.launch {
                 fetchDataContent(
                     category
                 ).collect { initCollect(it, isNewData, position) }

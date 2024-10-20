@@ -1,24 +1,32 @@
 package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
+import com.example.buybuy.data.model.entity.FlashSaleEntity
 import com.example.buybuy.data.model.entity.ProductDetailEntity
+import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.model.data.SingleBannerData
-import com.example.buybuy.domain.datasource.local.LocalDataSource
+import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
+import com.example.buybuy.domain.model.data.FlashSaleUiData
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.repository.MainRepository
+import com.example.buybuy.util.Constant
 import com.example.buybuy.util.Constant.NODATAFOUND
 import com.example.buybuy.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 class MainRepositoryImp @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
+    private val productDataSource: ProductDataSource,
+    private val flashSaleDataSource: FlashSaleDataSource
 ) :
     MainRepository {
     override fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>> = flow {
@@ -51,7 +59,7 @@ class MainRepositoryImp @Inject constructor(
             try {
                 val response = remoteDataSource.getProductByCategory(category)
                 if (response.isSuccessful) {
-                    emit(Resource.Success(response.body()?.products))
+                    emit(Resource.Success(response.body()?.products?: emptyList<ProductDetail>()))
                 } else {
                     emit(Resource.Error(response.message()))
                 }
@@ -81,7 +89,7 @@ class MainRepositoryImp @Inject constructor(
 
     override suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>) {
         try {
-            localDataSource.saveProducts(productDetail)
+            productDataSource.saveProducts(productDetail)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -90,7 +98,7 @@ class MainRepositoryImp @Inject constructor(
     override fun searchProduct(query: String): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
         try {
-            val response = localDataSource.searchProducts(query)
+            val response = productDataSource.searchProducts(query)
             if (response.isNullOrEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
             } else {
@@ -102,18 +110,18 @@ class MainRepositoryImp @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun addToFavorite(productDetail: ProductDetailEntity) {
-        localDataSource.addToFavorite(productDetail)
+        productDataSource.addToFavorite(productDetail)
     }
 
     override suspend fun deleteFromFavorite(productDetail: Int) {
-        localDataSource.deleteFromFavorite(productDetail)
+        productDataSource.deleteFromFavorite(productDetail)
     }
 
     override fun getAllFavorite(): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
 
         try {
-            val response = localDataSource.getAllFavoriteProducts()
+            val response = productDataSource.getAllFavoriteProducts()
             if (response.isEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
             } else {
@@ -129,7 +137,7 @@ class MainRepositoryImp @Inject constructor(
         emit(Resource.Loading())
 
         try {
-            val response = localDataSource.searchFavoriteProducts(query)
+            val response = productDataSource.searchFavoriteProducts(query)
             if (response.isNullOrEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
             } else {
@@ -140,12 +148,12 @@ class MainRepositoryImp @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getAllProductFromDbWithCategory(category: String):Resource<List<ProductDetailEntity>> {
+    override suspend fun getAllProductFromDbWithCategory(category: String): Resource<List<ProductDetailEntity>> {
         return try {
-            val response = localDataSource.getAllProductsWithCategory(category)
+            val response = productDataSource.getAllProductsWithCategory(category)
             Resource.Success(response)
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Resource.Error(e.message.toString())
         }
     }
@@ -153,7 +161,7 @@ class MainRepositoryImp @Inject constructor(
     override fun getCartProducts(): Flow<Resource<List<ProductDetailEntity>>> = flow {
         emit(Resource.Loading())
         try {
-            val response = localDataSource.getCartProducts()
+            val response = productDataSource.getCartProducts()
             if (response.isEmpty()) {
                 emit(Resource.Error(NODATAFOUND))
             } else {
@@ -167,23 +175,57 @@ class MainRepositoryImp @Inject constructor(
 
 
     override suspend fun addToCart(product: Int) {
-        localDataSource.addToCart(product)
+        productDataSource.addToCart(product)
     }
 
     override suspend fun reduceProductInCart(product: Int) {
-        localDataSource.reduceProductInCart(product)
+        productDataSource.reduceProductInCart(product)
     }
 
     override suspend fun deleteProductFromCart(product: Int) {
-        localDataSource.deleteProductFromCart(product)
+        productDataSource.deleteProductFromCart(product)
     }
 
     override suspend fun clearCart() {
-        localDataSource.deleteAllProductsFromCart()
+        productDataSource.deleteAllProductsFromCart()
     }
 
 
     override suspend fun isFavorite(productDetail: Int): Boolean =
-        localDataSource.isProductFavorite(productDetail)
+        productDataSource.isProductFavorite(productDetail)
+
+
+    override suspend fun getAllFlashSaleProduct(): Resource<FlashSaleEntity>  {
+
+
+        try {
+            if (!flashSaleDataSource.isFlashSaleEmpty()) {
+                createFlashSaleItem()
+            } else {
+                val flashSaleEntity = flashSaleDataSource.getFlashSale()
+                val datetime = LocalDateTime.parse(flashSaleEntity.endTime)
+                if (datetime >= LocalDateTime.now()) {
+                    createFlashSaleItem()
+                }
+            }
+            val flashSaleEntity = flashSaleDataSource.getFlashSale()
+
+            return Resource.Success(flashSaleEntity)
+
+        }catch (e:java.lang.Exception){
+            return  Resource.Error(e.localizedMessage ?: Constant.UNKNOWN_ERROR)
+        }
+
+
+    }
+
+    private suspend fun createFlashSaleItem() {
+        flashSaleDataSource.clearAll()
+        val productDetail = productDataSource.getRandomFlashSaleProducts().shuffled()
+        val endTime = LocalDateTime.now().plusDays(1).toString()
+        val flashSaleItem = FlashSaleEntity(endTime = endTime, data = productDetail)
+        flashSaleDataSource.saveFlashSale(flashSaleItem)
+
+    }
 
 }

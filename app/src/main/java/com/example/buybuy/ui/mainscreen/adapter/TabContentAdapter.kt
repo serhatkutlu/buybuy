@@ -22,10 +22,6 @@ class TabContentAdapter :
     }
     private var layoutManager:LayoutManager? = null
 
-
-
-
-
     inner class ContentViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productDetail: ProductDetailUI) {

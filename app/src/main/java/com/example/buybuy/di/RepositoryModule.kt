@@ -3,7 +3,8 @@ package com.example.buybuy.di
 import com.example.buybuy.data.repository.CouponRepositoryImp
 import com.example.buybuy.data.repository.LoginRepositoryImp
 import com.example.buybuy.data.repository.MainRepositoryImp
-import com.example.buybuy.domain.datasource.local.LocalDataSource
+import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
+import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.domain.repository.CouponRepository
 import com.example.buybuy.domain.repository.FirebaseRepository
@@ -16,8 +17,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 
 @Module
@@ -29,8 +28,9 @@ import javax.inject.Singleton
     @ViewModelScoped
     fun provideMainRepository(
         remoteDataSource: RemoteDataSource,
-        localDataSource: LocalDataSource
-        ): MainRepository= MainRepositoryImp(remoteDataSource,localDataSource)
+        productDataSource: ProductDataSource,
+        flashSaleDataSource: FlashSaleDataSource
+        ): MainRepository= MainRepositoryImp(remoteDataSource,productDataSource,flashSaleDataSource)
 
 
     @Provides

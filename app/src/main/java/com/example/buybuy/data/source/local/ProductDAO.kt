@@ -51,5 +51,8 @@ interface ProductDAO {
     fun deleteAllProductCart()
 
 
+    @Query("SELECT * FROM productdetail ORDER BY RANDOM() LIMIT 10")
+    fun getRandomFlashSaleProducts(): List<ProductDetailEntity>
+
 
 }

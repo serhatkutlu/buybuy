@@ -8,14 +8,6 @@ import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.usecase.login.LogOutUseCase
 import com.example.buybuy.domain.usecase.main.GetUserDataUseCase
 import com.example.buybuy.enums.ProfileOptionsEnum
-import com.example.buybuy.util.Constant.ABOUT
-import com.example.buybuy.util.Constant.ADDRESS
-import com.example.buybuy.util.Constant.COUPONS
-import com.example.buybuy.util.Constant.HELP
-import com.example.buybuy.util.Constant.LOGOUT
-import com.example.buybuy.util.Constant.ORDER
-import com.example.buybuy.util.Constant.PAYMENT
-import com.example.buybuy.util.Constant.SETTINGS
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,14 +47,14 @@ class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseC
         try {
             _profileOptions.value = Resource.Loading()
             listOf(
-                ProfileOption(ProfileOptionsEnum.ORDER, R.drawable.nav_order, ORDER),
-                ProfileOption(ProfileOptionsEnum.COUPONS, R.drawable.coupon, COUPONS),
-                ProfileOption(ProfileOptionsEnum.ADDRESS, R.drawable.location, ADDRESS),
-                ProfileOption(ProfileOptionsEnum.PAYMENT, R.drawable.payment, PAYMENT),
-                ProfileOption(ProfileOptionsEnum.LOGOUT, R.drawable.nav_logout, LOGOUT),
-                ProfileOption(ProfileOptionsEnum.SETTINGS, R.drawable.settings, SETTINGS),
-                ProfileOption(ProfileOptionsEnum.HELP, R.drawable.help, HELP),
-                ProfileOption(ProfileOptionsEnum.ABOUT, R.drawable.about, ABOUT)
+                ProfileOption(ProfileOptionsEnum.ORDER, R.drawable.nav_order,R.string.order),
+                ProfileOption(ProfileOptionsEnum.COUPONS, R.drawable.coupon, R.string.coupons),
+                ProfileOption(ProfileOptionsEnum.ADDRESS, R.drawable.location, R.string.address),
+                ProfileOption(ProfileOptionsEnum.PAYMENT, R.drawable.payment, R.string.payment),
+                ProfileOption(ProfileOptionsEnum.LOGOUT, R.drawable.nav_logout, R.string.logout),
+                ProfileOption(ProfileOptionsEnum.SETTINGS, R.drawable.settings, R.string.settings),
+                ProfileOption(ProfileOptionsEnum.HELP, R.drawable.help, R.string.help),
+                ProfileOption(ProfileOptionsEnum.ABOUT, R.drawable.about, R.string.about)
             )
                 .let {
                     _profileOptions.value = Resource.Success(it)

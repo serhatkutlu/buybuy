@@ -11,9 +11,7 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemProduct2Binding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.enums.CartClickEnums
-import com.example.buybuy.util.Constant.ALERT_CANCEL
-import com.example.buybuy.util.Constant.ALERT_MESSAGE_CART
-import com.example.buybuy.util.Constant.ALERT_TITLE_CART
+
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
@@ -32,14 +30,14 @@ class CartAdapter :
         fun bind(product: ProductDetailUI) {
             with(binding) {
 
-                val discount = product.discount ?: 0
-                ivProduct.setImage(product.image?:"")
+                val discount = product.discount
+                ivProduct.setImage(product.image)
                 tvBrand.text = product.brand
                 tvTitle.text = product.title
                 tvRating.text = product.star.toString()
-                rating.rating = product.star ?: 0f
-                tvPrice.text = (product.star ?: 0f).toString()
-                tvPrice.text = product.price?.calculateDiscount(discount).toString()
+                rating.rating = product.star
+                tvPrice.text = (product.star).toString()
+                tvPrice.text = product.price.calculateDiscount(discount).toString()
                 tvCount.text = product.pieceCount.toString()
 
                 calculateIvMinusColor(product.pieceCount)
@@ -49,7 +47,6 @@ class CartAdapter :
                 pieceCount=product.pieceCount
 
                 ivMinus.setOnClickListener {
-                    Log.d("serhat", "bind: $pieceCount")
                     if (pieceCount == 1) return@setOnClickListener
 
                     productCartCountClickListener(CartClickEnums.MINUS, product.id)
@@ -61,14 +58,16 @@ class CartAdapter :
 
                 }
                 ivDelete.setOnClickListener {
-                    binding.root.context.showAlertDialog(
-                        ALERT_TITLE_CART,
-                        ALERT_MESSAGE_CART,
-                        negativeButtonText = ALERT_CANCEL,
-                        positiveButtonAction = {
-                            productCartCountClickListener(CartClickEnums.DELETE, product.id)
+                    binding.root.context.apply{
+                        showAlertDialog(
+                            getString(R.string.alert_title_cart),
+                            getString(R.string.alert_message_cart),
+                            negativeButtonText = getString(R.string.alert_cancel),
+                            positiveButtonAction = {
+                                productCartCountClickListener(CartClickEnums.DELETE, product.id)
 
-                        })
+                            })
+                    }
                 }
 
 

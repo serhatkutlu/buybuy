@@ -60,8 +60,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         )
                     } else {
                         requireContext().showAlertDialog(
-                            Constant.ALERT_TITLE_EXIT,
-                            Constant.ALERT_MESSAGE_EXIT,
+                            getString(R.string.alert_title_exit),
+                            getString(R.string.alert_message_exit),
                             positiveButtonAction = {
                                 requireActivity().finish()
                             })

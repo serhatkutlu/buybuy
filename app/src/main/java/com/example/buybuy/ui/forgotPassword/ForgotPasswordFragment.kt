@@ -12,10 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentForgotPasswordBinding
 import com.example.buybuy.util.checkEmail
-import com.example.buybuy.util.Constant.ALERT_CANCEL
-import com.example.buybuy.util.Constant.ALERT_MESSAGE_RESET_PASSWORD
-import com.example.buybuy.util.Constant.ALERT_RESET_PASSWORD_OPEN_EMAIL
-import com.example.buybuy.util.Constant.ALERT_TITLE_RESET_PASSWORD
+
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
@@ -52,11 +49,11 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                                 is Resource.Success -> {
                                     progressBar.visible()
                                     requireContext().showAlertDialog(
-                                        ALERT_TITLE_RESET_PASSWORD,
-                                        ALERT_MESSAGE_RESET_PASSWORD,
-                                        ALERT_RESET_PASSWORD_OPEN_EMAIL,
+                                        getString(R.string.alert_title_reset_password),
+                                        getString(R.string.alert_message_reset_password),
+                                        getString(R.string.alert_reset_password_open_email),
                                         ::openEmailIntent,
-                                        ALERT_CANCEL
+                                        getString(R.string.alert_cancel)
                                     )
                                     findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
                                 }

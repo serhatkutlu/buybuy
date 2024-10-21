@@ -15,7 +15,7 @@ class ProfileAdapter(val optionClickListener:(ProfileOptionsEnum)->Unit
     inner class ProfileViewHolder(private val binding:ItemProfileBinding):ViewHolder(binding.root){
         fun bind(item: ProfileOption){
             binding.ivIcon.setImageResource(item.iconResId)
-            binding.tvTitle.text=item.title
+            binding.tvTitle.text=binding.root.context.getString(item.title)
             binding.root.setOnClickListener {
                 optionClickListener(item.type)
             }

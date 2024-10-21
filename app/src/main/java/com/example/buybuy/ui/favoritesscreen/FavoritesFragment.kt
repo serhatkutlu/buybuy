@@ -14,7 +14,6 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentFavoritesBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
-import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
@@ -101,6 +100,6 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
     private fun onItemClicked(productDetail: ProductDetailUI) {
         viewModel.addToCart(productDetail)
-        requireContext().showToast(SNACKBAR_MESSAGE_CART)
+        requireContext().showToast(getString(R.string.snackbar_message_cart))
     }
 }

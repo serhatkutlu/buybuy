@@ -22,7 +22,6 @@ import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.DETAIL_CARD_MAX_HEIGHT
 import com.example.buybuy.util.Constant.DETAIL_CARD_MIN_HEIGHT
 import com.example.buybuy.util.Constant.POPULAR
-import com.example.buybuy.util.Constant.SNACKBAR_MESSAGE_CART
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
@@ -76,7 +75,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
                     put(::category.name, category)
 
-                if (popular) put(::POPULAR.name.lowercase(), POPULAR)
+                if (popular) put(::popular.name.lowercase(), POPULAR)
             }
 
         }
@@ -120,7 +119,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
                 buttonAddToCart.setOnClickListener {
                     viewModel.addCart(args.product.id)
-                    requireContext().showToast(SNACKBAR_MESSAGE_CART)
+                    requireContext().showToast(getString(R.string.snackbar_message_cart))
                 }
 
 

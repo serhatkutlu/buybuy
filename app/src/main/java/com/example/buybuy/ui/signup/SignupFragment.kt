@@ -24,12 +24,6 @@ import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.databinding.FragmentSignupBinding
 import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
-import com.example.buybuy.util.Constant.ALERT_CANCEL
-import com.example.buybuy.util.Constant.ALERT_MESSAGE
-import com.example.buybuy.util.Constant.ALERT_OK
-import com.example.buybuy.util.Constant.ALERT_TITLE
-import com.example.buybuy.util.Constant.PASSWORD_NOT_MATCH
-import com.example.buybuy.util.Constant.PERMISSION_DENIED_GALLERY
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
@@ -64,7 +58,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
             if (isGranted) {
                 openGallery()
             } else {
-                requireContext().showToast(PERMISSION_DENIED_GALLERY)
+                requireContext().showToast(getString(R.string.permission_denied_gallery))
             }
         }
 
@@ -133,7 +127,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                         buttonLogin.isEnabled = false
 
                     } else {
-                        requireContext().showToast(PASSWORD_NOT_MATCH)
+                        requireContext().showToast(getString(R.string.password_not_match))
                     }
                 }
 
@@ -158,9 +152,12 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         ) {
-            requireContext().showAlertDialog(ALERT_TITLE, ALERT_MESSAGE, ALERT_OK,
+            requireContext().showAlertDialog(getString(R.string.alert_title),
+                getString(R.string.alert_message),
+                getString(R.string.alert_ok),
                 { requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) },
-                ALERT_CANCEL, { openAppSettings(requireContext()) })
+                getString(R.string.alert_cancel),
+                { openAppSettings(requireContext()) })
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }

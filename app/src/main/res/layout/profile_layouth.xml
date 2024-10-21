@@ -16,23 +16,23 @@
         android:src="@drawable/profile" />
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="serhat kutlu"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tv_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="serhatkutlu@mail.com"
         android:textColor="@color/black"
         android:textSize="14sp" />
 </LinearLayout>

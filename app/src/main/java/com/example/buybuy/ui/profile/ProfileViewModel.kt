@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.R
 import com.example.buybuy.domain.model.data.ProfileOption
+import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.usecase.login.LogOutUseCase
+import com.example.buybuy.domain.usecase.main.GetUserDataUseCase
 import com.example.buybuy.enums.ProfileOptionsEnum
 import com.example.buybuy.util.Constant.ABOUT
 import com.example.buybuy.util.Constant.ADDRESS
@@ -23,16 +25,31 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(val LogOutUseCase: LogOutUseCase) : ViewModel() {
+class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseCase,private val getUserDataUseCase: GetUserDataUseCase) : ViewModel() {
     private val _profileOptions = MutableStateFlow<Resource<List<ProfileOption>>>(Resource.Empty)
     val profileOptions: StateFlow<Resource<List<ProfileOption>>> = _profileOptions
 
     private val _logOutState = MutableStateFlow<Resource<Nothing>>(Resource.Empty)
     val logOutState: StateFlow<Resource<Nothing>> = _logOutState
 
+
+    private val _user = MutableStateFlow<Resource<UserData>>(Resource.Empty)
+    val user: StateFlow<Resource<UserData>> = _user
     init {
+        getUserData()
         initProfileOption()
+
     }
+
+    private fun getUserData() {
+        viewModelScope.launch {
+            getUserDataUseCase().collect {
+                _user.emit(it)
+            }
+        }
+    }
+
+
 
     private fun initProfileOption() {
         try {

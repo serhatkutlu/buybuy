@@ -38,7 +38,6 @@ class MainRecycleViewAdapter :
     var contentFavoriteClickListener: (ProductDetailUI) -> Unit = {}
     lateinit var fetchContentData: (content: String) -> Flow<Resource<List<ProductDetailUI>>>
 
-    private val coroutineScopeContent = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private var scrollState: Parcelable? = null
     var layoutManager: LayoutManager? = null

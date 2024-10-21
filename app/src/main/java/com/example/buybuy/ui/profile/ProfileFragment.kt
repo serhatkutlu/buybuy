@@ -19,6 +19,9 @@ import com.example.buybuy.ui.profile.adapter.ProfileAdapter
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.invisible
+import com.example.buybuy.util.setImage
+import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
@@ -37,7 +40,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      // handleOnBackPressed()
+        // handleOnBackPressed()
         initUi()
         initObservers()
         initLogOutObserver()
@@ -45,38 +48,77 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
 
     private fun handleOnBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                //findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    //findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
+                }
+            })
     }
 
     private fun initObservers() {
+
+            collectProfileOptions()
+
+            collectUserData()
+
+
+    }
+
+    private   fun collectUserData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.profileOptions.collect {
-                    when (it) {
-                        is Resource.Loading -> {
-                            binding.includeProgressBar.progressBar.visible()
-                        }
-
-                        is Resource.Success -> {
-                            binding.includeProgressBar.progressBar.gone()
-                            adapter.submitList(it.data)
-                        }
-
-                        is Resource.Error -> {
-                            requireContext().showToast(it.message)
-
-                        }
-
-                        else -> {}
+            viewModel.user.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.includeProgressBar.progressBar.invisible()
+                        binding.includedProfile.ivProfile.setImage(it.data?.image ?: "")
+                        binding.includedProfile.tvName.text = it.data?.name
+                        binding.includedProfile.tvMail.text = it.data?.email
                     }
 
+                    is Resource.Loading -> {
+                        binding.includeProgressBar.progressBar.visible()
+                    }
+
+                    is Resource.Error -> {
+                        binding.includeProgressBar.progressBar.invisible()
+                        requireContext().showToast(it.message)
+                    }
+
+                    else -> {
+                        binding.includeProgressBar.progressBar.invisible()
+                    }
                 }
             }
         }
+
+    }
+
+    private  fun collectProfileOptions() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.profileOptions.collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.includeProgressBar.progressBar.visible()
+                    }
+
+                    is Resource.Success -> {
+                        binding.includeProgressBar.progressBar.gone()
+                        adapter.submitList(it.data)
+                    }
+
+                    is Resource.Error -> {
+                        requireContext().showToast(it.message)
+
+                    }
+
+                    else -> {}
+                }
+
+            }
+        }
+
     }
 
     private fun initUi() {
@@ -147,13 +189,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.rvProfile.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun optionClickListener(type: ProfileOptionsEnum){
-        when(type){
+    private fun optionClickListener(type: ProfileOptionsEnum) {
+        when (type) {
 //            ProfileOptionsEnum.ORDER->{
 //                findNavController().navigate(R.id.action_profileFragment_to_orderFragment,null,NavOptions.navOption1)
 //            }
-            ProfileOptionsEnum.COUPONS->{
-                findNavController().navigate(R.id.action_profileFragment_to_couponsFragment,null,NavOptions.navOption1)
+            ProfileOptionsEnum.COUPONS -> {
+                findNavController().navigate(
+                    R.id.action_profileFragment_to_couponsFragment,
+                    null,
+                    NavOptions.navOptions1
+                )
             }
 //            ProfileOptionsEnum.PAYMENT->{
 //                findNavController().navigate(R.id.action_profileFragment_to_paymentFragment,null,NavOptions.navOption1)
@@ -167,14 +213,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 //            ProfileOptionsEnum.ABOUT->{
 //                findNavController().navigate(R.id.action_profileFragment_to_aboutFragment,null,NavOptions.navOption1)
 //            }
-            ProfileOptionsEnum.LOGOUT->{
-                viewModel.logOut()
+            ProfileOptionsEnum.LOGOUT -> {
+                requireContext().showAlertDialog(getString(R.string.fragment_profile_alert_title), getString(R.string.fragment_profile_alert_message), positiveButtonAction = {
+                    viewModel.logOut()
+                })
+
 
             }
-            ProfileOptionsEnum.ADDRESS->{
-                findNavController().navigate(R.id.action_profileFragment_to_addressFragment,null,NavOptions.navOption1)
+
+            ProfileOptionsEnum.ADDRESS -> {
+                findNavController().navigate(
+                    R.id.action_profileFragment_to_addressFragment,
+                    null,
+                    NavOptions.navOptions1
+                )
             }
-            else->{}
+
+            else -> {}
 
         }
     }

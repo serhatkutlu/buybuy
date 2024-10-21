@@ -1,7 +1,6 @@
 package com.example.buybuy.ui.address.addressScreen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +16,6 @@ import com.example.buybuy.enums.ToastType
 import com.example.buybuy.ui.address.addressScreen.adapter.AddressRvAdapter
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
-import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -76,7 +74,7 @@ class AddressFragment : Fragment(R.layout.fragment_address) {
         with(binding) {
             tvNew.setOnClickListener {
                 findNavController().navigate(
-                AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(AddressData()), navOptions = NavOptions.navOption1
+                AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(AddressData()), navOptions = NavOptions.navOptions1
             )
             }
             ivBack.setOnClickListener {
@@ -95,7 +93,7 @@ class AddressFragment : Fragment(R.layout.fragment_address) {
     private fun onItemClick(address: AddressData?) {
 
         findNavController().navigate(
-           AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(address), navOptions = NavOptions.navOption1
+           AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(address), navOptions = NavOptions.navOptions1
         )
 
     }

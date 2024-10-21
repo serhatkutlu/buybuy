@@ -204,7 +204,7 @@ class MainRepositoryImp @Inject constructor(
             } else {
                 val flashSaleEntity = flashSaleDataSource.getFlashSale()
                 val datetime = LocalDateTime.parse(flashSaleEntity.endTime)
-                if (datetime >= LocalDateTime.now()) {
+                if (datetime <= LocalDateTime.now()) {
                     createFlashSaleItem()
                 }
             }

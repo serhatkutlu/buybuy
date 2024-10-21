@@ -76,7 +76,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.ivMenu.setOnClickListener {
             (requireActivity() as MainActivity).openDrawerClick()
         }
-        binding.ivSearch.setOnClickListener {
+        binding.cvSearch.setOnClickListener {
             findNavController().navigate(
                 R.id.action_mainFragment_to_searchFragment,
                 null,
@@ -133,7 +133,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToProductDetailFragment(
                 product
-            ), navOptions = NavOptions.navOption1
+            ), navOptions = NavOptions.navOptions1
         )
     }
 

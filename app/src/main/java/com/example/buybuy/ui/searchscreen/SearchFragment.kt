@@ -107,7 +107,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         with(binding.includedLayout.recyclerView){
             adapter=rVadapter
             layoutManager= GridLayoutManager(requireContext(),2)
-            addItemDecoration(SpacesItemDecoration(25, spaceleft = 35))
+            addItemDecoration(SpacesItemDecoration(25, spaceleft = 30, spaceright = 30))
             rVadapter.onFavoriteClickListener=::onFavoriteClick
             rVadapter.onClickListener=::onItemClick
         }
@@ -118,7 +118,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
     private fun onItemClick(product:ProductDetailUI){
         val action=SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(product)
-        findNavController().navigate(action,NavOptions.navOption1)
+        findNavController().navigate(action,NavOptions.navOptions1)
     }
 
     private fun handleBackButton() {

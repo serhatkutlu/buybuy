@@ -105,9 +105,9 @@ fun View.showSnackbar(
 fun Context.showAlertDialog(
     title: String? = null,
     message: String,
-    positiveButtonText: String = "OK",
+    positiveButtonText: String = getString(R.string.alert_positive_button_text),
     positiveButtonAction: (() -> Unit)? = null,
-    negativeButtonText: String? = null,
+    negativeButtonText: String? =  getString(R.string.alert_negative_button_text),
     negativeButtonAction: (() -> Unit)? = null,
     cancelable: Boolean = true
 ) {

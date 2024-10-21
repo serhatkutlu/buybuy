@@ -6,7 +6,7 @@ import com.example.buybuy.R
 object NavOptions {
 
 
-    val navOption1 = NavOptions.Builder()
+    val navOptions1 = NavOptions.Builder()
         .setEnterAnim(R.anim.slide_in_right)
         .setExitAnim(R.anim.slide_out_left)
         .setPopEnterAnim(R.anim.slide_in_left)

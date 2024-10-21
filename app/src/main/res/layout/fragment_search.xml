@@ -6,5 +6,6 @@
 
     <include layout="@layout/common_search_layouth"
         android:id="@+id/included_layout"
+
         />
 </FrameLayout>

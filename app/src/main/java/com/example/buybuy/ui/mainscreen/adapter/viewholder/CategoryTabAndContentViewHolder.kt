@@ -12,6 +12,7 @@ import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
+import com.example.buybuy.util.invisible
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import kotlinx.coroutines.CoroutineScope
@@ -53,7 +54,6 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager = binding.contentRecyclerView.layoutManager
         binding.contentRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 35))
-        //binding.contentRecyclerView.itemAnimator = null
 
         if (scrollState != null) {
             binding.contentRecyclerView.layoutManager?.onRestoreInstanceState(scrollState)
@@ -75,9 +75,9 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
                     is Resource.Success -> {
 
                         tabContentAdapter.submitList(result.data)
-                        shimmerFrameLayout.stopShimmer()
-                        shimmerFrameLayout.gone()
                         binding.contentRecyclerView.visible()
+                        shimmerFrameLayout.stopShimmer()
+                        shimmerFrameLayout.invisible()
                         if (!isNewData) {
                             tabContentAdapter.notifyItemChanged(position)
                         }
@@ -88,7 +88,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
                             tabContentAdapter.submitList(listOf())
                             shimmerFrameLayout.startShimmer()
                             shimmerFrameLayout.visible()
-                            binding.contentRecyclerView.gone()
+                            binding.contentRecyclerView.invisible()
                         }
                     }
 

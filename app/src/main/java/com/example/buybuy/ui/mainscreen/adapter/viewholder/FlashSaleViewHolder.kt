@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 class FlashSaleViewHolder(private val binding: ItemFlashSaleRvBinding) : ViewHolder(binding.root) {
 
     var layoutManager: RecyclerView.LayoutManager? = null
-    private val viewHolderScope = CoroutineScope(Dispatchers.Main + Job())
+    private val viewHolderScope = CoroutineScope(Dispatchers.IO + Job())
     fun bind(
         product: FlashSaleUiData,
         tabContentAdapter

@@ -37,7 +37,7 @@ class CartAdapter :
                 tvRating.text = product.star.toString()
                 rating.rating = product.star
                 tvPrice.text = (product.star).toString()
-                tvPrice.text = product.price.calculateDiscount(discount).toString()
+                tvPrice.text = binding.root.context.getString(R.string.currency_symbol,product.price.calculateDiscount(discount).toString())
                 tvCount.text = product.pieceCount.toString()
 
                 calculateIvMinusColor(product.pieceCount)

@@ -97,6 +97,7 @@
     <string name="fragment_address_title_new">new</string>
 
 
+    <string name="fragment_checkout_title">Checkout</string>
     <string name="alert_positive_button_text">OK</string>
     <string name="alert_negative_button_text">Cancel</string>
     <string name="fragment_profile_alert_title">Log Out</string>

@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_cartFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -95,4 +98,8 @@
         android:id="@+id/couponsFragment"
         android:name="com.example.buybuy.ui.coupons.CouponsFragment"
         android:label="CouponsFragment" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.buybuy.ui.checkout.CheckoutFragment"
+        android:label="checkoutFragment" />
 </navigation>

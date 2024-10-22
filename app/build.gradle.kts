@@ -20,7 +20,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        buildConfigField("String", "BASE_URL", "\"https://fakestoreapi.in/api/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,6 +44,9 @@ android {
     viewBinding{
         enable = true
     }
+    buildFeatures{
+        buildConfig=true
+    }
 }
 
 dependencies {
@@ -52,7 +55,6 @@ dependencies {
 
 
     implementation (libs.androidx.activity.ktx)
-
     implementation (libs.androidx.navigation.fragment.ktx.v240)
     implementation (libs.androidx.navigation.ui.ktx.v240)
     implementation(libs.androidx.core.ktx)
@@ -65,6 +67,7 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.lifecycle.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

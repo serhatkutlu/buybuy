@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemProduct2Binding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.util.ProductComparator
@@ -25,7 +26,8 @@ class FavoritesAdapter:
                 tvTitle.text = product.title
                 rating.rating = product.star
                 tvPrice.text = (product.star ).toString()
-                tvPrice.text = product.price.calculateDiscount(product.discount).toString()
+                tvPrice.text = binding.root.context.getString(
+                    R.string.currency_symbol,product.price.calculateDiscount(product.discount).toString())
                 tvCount.text = product.pieceCount.toString()
                 buttonAddToCart.visible()
                 buttonAddToCart.setOnClickListener {

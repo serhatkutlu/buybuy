@@ -12,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.databinding.FragmentNewAddressBinding
-import com.example.buybuy.enums.ToastType
+import com.example.buybuy.enums.ToastMessage
 import com.example.buybuy.ui.address.newAddressScreen.NewAddressFragmentArgs
 import com.example.buybuy.util.Resource
 
@@ -45,13 +45,13 @@ class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
                             binding.btnSave.isClickable=false
                         }
                         is Resource.Success -> {
-                            ToastType.SUCCESS.showToast(requireContext())
+                            ToastMessage.SUCCESS.showToast(requireContext())
                             findNavController().popBackStack()
                         }
                         is Resource.Error -> {
                             binding.btnSave.isClickable=true
                             requireContext().showToast(it.message.toString())
-                            ToastType.ERROR.showToast(requireContext())
+                            ToastMessage.ERROR.showToast(requireContext())
                         }
                         else ->{}
                     }

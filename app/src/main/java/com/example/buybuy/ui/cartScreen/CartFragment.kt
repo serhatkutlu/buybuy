@@ -14,6 +14,7 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCartBinding
 import com.example.buybuy.enums.CartClickEnums
 import com.example.buybuy.ui.cartScreen.adapter.CartAdapter
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
@@ -51,29 +52,44 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartItems.collect {
-                    when(it){
-                        is Resource.Success->{
-                            binding.progressBar.gone()
-                            cartAdapter.submitList(it.data)
-                        }
-                        is Resource.Error->{
-                            cartAdapter.submitList(emptyList())
-                            binding.progressBar.gone()
-                            requireContext().showToast(it.message)
-                        }
-                        is Resource.Loading->{
-                            binding.progressBar.visible()
-                        }
-                        is Resource.Empty->{}
-                    }
+                launch { observeCardItems() }
+                launch { observeTotalPrice() }
+
+            }
+        }
+    }
+
+    private suspend fun observeTotalPrice() {
+        viewModel.totalPrice.collect{
+          binding.tvPriceNew.text=getString(R.string.currency_symbol,it.toString())
+        }
+    }
+
+    private suspend fun observeCardItems() {
+        viewModel.cartItems.collect {
+            when(it){
+                is Resource.Success->{
+                    binding.progressBar.gone()
+                    cartAdapter.submitList(it.data)
                 }
+                is Resource.Error->{
+                    cartAdapter.submitList(emptyList())
+                    binding.progressBar.gone()
+                    requireContext().showToast(it.message)
+                }
+                is Resource.Loading->{
+                    binding.progressBar.visible()
+                }
+                is Resource.Empty->{}
             }
         }
     }
 
     private fun initUi() {
         initRV()
+        binding.buttonBuyNow.setOnClickListener {
+            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment,null,NavOptions.navOptions1)
+        }
     }
 
     private fun initRV() {

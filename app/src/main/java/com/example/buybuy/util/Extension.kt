@@ -23,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 private var job: kotlinx.coroutines.Job? = null
 
@@ -138,7 +140,11 @@ fun ImageView.setImage(url: String) {
 
 }
 
-infix fun Int.calculateDiscount(discount: Int) = this.toFloat() - (this.toFloat() * discount / 100)
+infix fun Int.calculateDiscount(discount: Int):Float {
+    val price = this.toDouble() - (this.toDouble() * discount / 100)
+
+    return BigDecimal(price).setScale(2,RoundingMode.HALF_UP).toFloat()
+}
 
 
 val Context.sharedPreferences: SharedPreferences

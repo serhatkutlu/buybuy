@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.databinding.FragmentAddressBinding
-import com.example.buybuy.enums.ToastType
+import com.example.buybuy.enums.ToastMessage
 import com.example.buybuy.ui.address.addressScreen.adapter.AddressRvAdapter
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
@@ -56,7 +56,7 @@ class AddressFragment : Fragment(R.layout.fragment_address) {
 
                         is Resource.Error -> {
                             binding.includeProgressBar.progressBar.visibility = View.GONE
-                            ToastType.ERROR.showToast(requireContext())
+                            ToastMessage.ERROR.showToast(requireContext())
                         }
 
                         else -> Unit

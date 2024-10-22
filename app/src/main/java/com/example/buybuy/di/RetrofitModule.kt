@@ -1,5 +1,6 @@
 package com.example.buybuy.di
 
+import com.example.buybuy.BuildConfig
 import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.util.Constant.BASE_URL
 import dagger.Module
@@ -32,7 +33,7 @@ object RetrofitModule {
     @Singleton
     fun provideFakeStoreApi(okHttpClient: OkHttpClient): FakeStoreApi {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

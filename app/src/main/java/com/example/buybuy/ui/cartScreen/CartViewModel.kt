@@ -9,6 +9,7 @@ import com.example.buybuy.domain.usecase.cart.DeleteProductFromCartUseCase
 import com.example.buybuy.domain.usecase.cart.ReduceProductInCartUseCase
 import com.example.buybuy.domain.usecase.cart.GetCartProductsUseCase
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.calculateDiscount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,15 +30,28 @@ class CartViewModel @Inject constructor(
         MutableStateFlow(Resource.Empty)
     val cartItems: StateFlow<Resource<List<ProductDetailUI>>> = _cartItems
 
+    private val _totalPrice: MutableStateFlow<Float> = MutableStateFlow(0.0f)
+    val totalPrice: StateFlow<Float> = _totalPrice
+
     init {
 
         getAllCartItems()
+
     }
 
     private fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             getCartProductsUseCase.invoke().collect {
                 _cartItems.emit(it)
+                if (it is Resource.Success) {
+                    calculateTotalPrice(it.data)
+                }
+                when (it) {
+                    is Resource.Success -> {
+                        calculateTotalPrice(it.data)
+                    }
+                    else -> {_totalPrice.emit(0.0f)}
+                }
             }
         }
     }
@@ -80,5 +94,15 @@ class CartViewModel @Inject constructor(
 
             getAllCartItems()
         }
+    }
+    private suspend  fun calculateTotalPrice(list: List<ProductDetailUI>?) {
+        var totalPrice = 0.0f
+        list?.let { products ->
+            for (product in products) {
+                totalPrice += product.price.calculateDiscount(product.discount)*product.pieceCount
+            }
+            _totalPrice.emit(totalPrice)
+        }
+
     }
 }

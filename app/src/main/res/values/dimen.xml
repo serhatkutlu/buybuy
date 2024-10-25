@@ -72,6 +72,7 @@
 
     <dimen name="card_corner_radius">30dp</dimen>
     <dimen name="small_card_corner_radius">10dp</dimen>
+    <dimen name="x_small_card_corner_radius">5dp</dimen>
     <dimen name="card_height">40dp</dimen>
     <dimen name="medium_card_height">120dp</dimen>
     <dimen name="large_card_height">150dp</dimen>

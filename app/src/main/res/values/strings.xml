@@ -97,7 +97,12 @@
     <string name="fragment_address_title_new">new</string>
 
 
+
+    <string name="item_checkout_cart_title">Cart</string>
+    <string name="item_checkout_shipping_address_title">Shipping Address</string>
     <string name="fragment_checkout_title">Checkout</string>
+    <string name="fragment_checkout_choose_address">Choose Address</string>
+    <string name="fragment_checkout_edit_addresses">Edit Addresses</string>
     <string name="alert_positive_button_text">OK</string>
     <string name="alert_negative_button_text">Cancel</string>
     <string name="fragment_profile_alert_title">Log Out</string>

@@ -16,13 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AddressViewModel @Inject constructor(private val getAllAddressUseCase: GetAllAddressUseCase): ViewModel() {
 
-    init {
-        getAllAddress()
-    }
+
 
     private val _getAllAddressResponse: MutableStateFlow<Resource<List<AddressData>>> =
         MutableStateFlow(Resource.Empty)
     val getAllAddressResponse: StateFlow<Resource<List<AddressData>>> = _getAllAddressResponse
+
+    init {
+        getAllAddress()
+    }
 
      fun getAllAddress(){
         viewModelScope.launch() {

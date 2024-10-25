@@ -7,20 +7,20 @@
     android:layout_marginTop="@dimen/large_margin"
     app:cardCornerRadius="@dimen/small_card_corner_radius"
     >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/tv_cart_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+
             android:layout_marginTop="@dimen/small_margin"
             android:layout_marginStart="@dimen/default_margin"
             android:textStyle="bold"
             android:textSize="@dimen/subheader_text_size"
-            android:text="Cart"/>
+            android:text="@string/item_checkout_cart_title"/>
 
         <View
             android:id="@+id/titleDivider"
@@ -29,7 +29,7 @@
             android:background="@color/light_grey"
             android:layout_marginTop="@dimen/default_margin"
             android:elevation="1dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_cart_title" />
+ />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -39,9 +39,6 @@
             android:clipChildren="false"
             android:layout_marginVertical="@dimen/small_margin"
             android:layout_marginHorizontal="@dimen/default_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleDivider" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+ />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

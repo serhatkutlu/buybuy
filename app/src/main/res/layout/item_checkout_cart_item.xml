@@ -40,7 +40,7 @@
         android:backgroundTint="@color/white"
         app:cardCornerRadius="5dp"
         app:strokeColor="@color/orange"
-        app:cardElevation="5dp">
+        app:cardElevation="@dimen/x_small_card_corner_radius">
 
         <TextView
             android:id="@+id/tv_piece_count"

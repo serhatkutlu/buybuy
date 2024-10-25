@@ -101,5 +101,9 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.buybuy.ui.checkout.CheckoutFragment"
-        android:label="checkoutFragment" />
+        android:label="checkoutFragment" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
 </navigation>

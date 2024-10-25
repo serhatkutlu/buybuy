@@ -37,6 +37,10 @@
                 android:id="@+id/included_item_cart"
                 layout="@layout/item_checkout_cart" />
 
+            <include
+                android:id="@+id/included_item_shipping_address"
+                layout="@layout/item_checkout_shippingaddress" />
+
 
         </LinearLayout>
     </ScrollView>

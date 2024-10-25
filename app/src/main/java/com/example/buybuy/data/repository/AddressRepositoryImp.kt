@@ -39,9 +39,9 @@ class AddressRepositoryImp @Inject constructor(
             val snapshot = firestore.collection(Constant.COLLECTION_PATH_ADDRESS).document(uid)
                 .collection(Constant.COLLECTION_PATH_ADDRESS_NAME).get().await()
 
-            val address = snapshot.documents.map {
+            val address = snapshot.documents.mapNotNull {
                 it.toObject(AddressData::class.java)?.copy(id = it.id)
-            }.filterNotNull()
+            }
             emit(Resource.Success(address))
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))

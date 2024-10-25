@@ -9,7 +9,7 @@ import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class checkoutCartAdapter():RecyclerView.Adapter<checkoutCartAdapter.CartViewHolder>() {
+class CheckoutCartAdapter():RecyclerView.Adapter<CheckoutCartAdapter.CartViewHolder>() {
 
     private val list:MutableList<ProductDetailUI> = mutableListOf()
      class CartViewHolder(private val binding: ItemCheckoutCartItemBinding):ViewHolder(binding.root){
@@ -17,6 +17,8 @@ class checkoutCartAdapter():RecyclerView.Adapter<checkoutCartAdapter.CartViewHol
              binding.ivProductImage.setImage(productDetailUI.image)
              binding.tvPrice.text = productDetailUI.price.calculateDiscount(productDetailUI.discount).toString()
              binding.tvPieceCount.text=productDetailUI.pieceCount.toString()
+
+
          }
     }
 

@@ -29,7 +29,7 @@ class CheckoutCartFragment(): Fragment(R.layout.fragment_checkout_cart) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewmodel.getCartData()
         initObservers()
         initUi()
     }

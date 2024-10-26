@@ -33,7 +33,7 @@ class CheckOutViewModel @Inject constructor(
         // getAddressData()
     }
 
-    private fun getCartData() {
+     fun getCartData() {
         viewModelScope.launch {
             getCartProductsUseCase.invoke().collect {
                 _cartProducts.emit(it)

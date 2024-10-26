@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.productDetailFragment,
                 R.id.splashFragment,
                 R.id.addressFragment,
+                R.id.checkoutFragment,
                 R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

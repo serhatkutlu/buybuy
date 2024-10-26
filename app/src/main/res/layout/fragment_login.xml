@@ -24,7 +24,6 @@
         style="@style/CustomTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="@dimen/layout_margin"
         android:layout_marginHorizontal="@dimen/default_margin"
         app:boxStrokeColor="@color/orange"

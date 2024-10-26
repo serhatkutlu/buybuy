@@ -33,14 +33,23 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/included_item_cart"
-                layout="@layout/item_checkout_cart" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/card_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-            <include
-                android:id="@+id/included_item_shipping_address"
-                layout="@layout/item_checkout_shippingaddress" />
 
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/shipping_address_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/cart_information_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
 
         </LinearLayout>
     </ScrollView>

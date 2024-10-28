@@ -58,9 +58,6 @@ class ProductDataSourceImp @Inject constructor(
         productDAO.deleteProductFromCart(product)
     }
 
-    override suspend fun getRandomFlashSaleProducts(): List<ProductDetailEntity> {
-        return productDAO.getRandomFlashSaleProducts()
-    }
 
     override suspend fun deleteAllProductsFromCart() {
         productDAO.deleteAllProductCart()

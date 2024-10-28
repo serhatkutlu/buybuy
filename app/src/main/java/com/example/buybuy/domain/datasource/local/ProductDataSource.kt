@@ -22,9 +22,6 @@ interface ProductDataSource {
     suspend fun reduceProductInCart(product: Int)
     suspend fun deleteProductFromCart(product: Int)
 
-
-    suspend fun getRandomFlashSaleProducts(): List<ProductDetailEntity>
-
     suspend fun deleteAllProductsFromCart()
 
 }

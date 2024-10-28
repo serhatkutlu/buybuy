@@ -1,9 +1,8 @@
 package com.example.buybuy.domain.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
-import com.example.buybuy.data.model.entity.FlashSaleEntity
+import com.example.buybuy.data.model.data.FlashSaleData
 import com.example.buybuy.data.model.entity.ProductDetailEntity
-import com.example.buybuy.domain.model.data.FlashSaleUiData
 import com.example.buybuy.domain.model.data.SingleBannerData
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
@@ -36,6 +35,6 @@ interface MainRepository {
     suspend fun clearCart()
     suspend fun isFavorite(productDetail: Int): Boolean
 
-    suspend fun getAllFlashSaleProduct():Resource<FlashSaleEntity>
+    suspend fun getAllFlashSaleProduct():Resource<FlashSaleData>
 
 }

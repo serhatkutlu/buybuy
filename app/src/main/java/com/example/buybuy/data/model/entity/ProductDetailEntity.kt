@@ -23,5 +23,6 @@ data class ProductDetailEntity(
     val title: String,
     var star: Float,
     var isFavorite: Boolean,
-    var pieceCount: Int
+    var pieceCount: Int,
+    val isFlashSale:Boolean=false
 )

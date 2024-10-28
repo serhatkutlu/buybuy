@@ -1,14 +1,14 @@
 package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
-import com.example.buybuy.data.model.entity.FlashSaleEntity
+import com.example.buybuy.data.model.data.FlashSaleData
 import com.example.buybuy.data.model.entity.ProductDetailEntity
+import com.example.buybuy.data.source.local.PreferencesHelper
 import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.model.data.SingleBannerData
 import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.enums.ViewType
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
-import com.example.buybuy.domain.model.data.FlashSaleUiData
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.domain.repository.MainRepository
 import com.example.buybuy.util.Constant
@@ -18,15 +18,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import javax.inject.Inject
 
 class MainRepositoryImp @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val productDataSource: ProductDataSource,
-    private val flashSaleDataSource: FlashSaleDataSource
+    private val flashSaleDataSource: FlashSaleDataSource,
+    private val preferencesHelper: PreferencesHelper
+
 ) :
     MainRepository {
     override fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>> = flow {
@@ -195,22 +195,22 @@ class MainRepositoryImp @Inject constructor(
         productDataSource.isProductFavorite(productDetail)
 
 
-    override suspend fun getAllFlashSaleProduct(): Resource<FlashSaleEntity>  {
+    override suspend fun getAllFlashSaleProduct(): Resource<FlashSaleData>  {
 
 
         try {
-            if (!flashSaleDataSource.isFlashSaleEmpty()) {
+            if (preferencesHelper.getEndTime() == null) {
                 createFlashSaleItem()
-            } else {
-                val flashSaleEntity = flashSaleDataSource.getFlashSale()
-                val datetime = LocalDateTime.parse(flashSaleEntity.endTime)
+            }else{
+                val datetime = LocalDateTime.parse(preferencesHelper.getEndTime())
                 if (datetime <= LocalDateTime.now()) {
                     createFlashSaleItem()
                 }
             }
-            val flashSaleEntity = flashSaleDataSource.getFlashSale()
 
-            return Resource.Success(flashSaleEntity)
+            val flashSaleData = flashSaleDataSource.getFlashSale()
+            val endTime=preferencesHelper.getEndTime()?:""
+            return Resource.Success(FlashSaleData(endTime,flashSaleData))
 
         }catch (e:java.lang.Exception){
             return  Resource.Error(e.localizedMessage ?: Constant.UNKNOWN_ERROR)
@@ -221,11 +221,8 @@ class MainRepositoryImp @Inject constructor(
 
     private suspend fun createFlashSaleItem() {
         flashSaleDataSource.clearAll()
-        val productDetail = productDataSource.getRandomFlashSaleProducts().shuffled()
-        val endTime = LocalDateTime.now().plusDays(1).toString()
-        val flashSaleItem = FlashSaleEntity(endTime = endTime, data = productDetail)
-        flashSaleDataSource.saveFlashSale(flashSaleItem)
-
+        flashSaleDataSource.createFlashSale()
+        preferencesHelper.createEndTime()
     }
 
 }

@@ -16,6 +16,7 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
+import com.example.buybuy.enums.ViewType
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.Constant
 import com.example.buybuy.util.NavOptions
@@ -30,7 +31,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
 
     private val rvAdapter: MainRecycleViewAdapter by lazy {
-        MainRecycleViewAdapter()
+        MainRecycleViewAdapter(
+            contentClickListener = ::openProductDetailScreen,
+            contentFavoriteClickListener = ::addToFavorite,
+            fetchContentData = ::fetchContentDataForRecycleView
+        )
     }
 
 
@@ -92,13 +97,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
-        rvAdapter.fetchContentData = ::fetchContentDataForRecycleView
-        rvAdapter.contentClickListener = ::openProductDetailScreen
-        rvAdapter.contentFavoriteClickListener = ::addToFavorite
+
     }
 
     private fun addToFavorite(productDetail: ProductDetailUI) {
         viewModel.addToFavorite(productDetail)
+        fetchContentDataForRecycleView(productDetail.category)
     }
 
     override fun onStop() {
@@ -126,8 +130,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun fetchContentDataForRecycleView(category: String) =
-        viewModel.fetchContentForCategory(category)
+    private fun fetchContentDataForRecycleView(category: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fetchContentForCategory(category).collect {
+                    it?.let {
+                        rvAdapter.updateCategoryItem( it)
+                    }
+
+                }
+            }
+        }
+    }
 
     private fun openProductDetailScreen(product: ProductDetailUI) {
         findNavController().navigate(

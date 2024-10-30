@@ -59,7 +59,7 @@ class MainRepositoryImp @Inject constructor(
             try {
                 val response = remoteDataSource.getProductByCategory(category)
                 if (response.isSuccessful) {
-                    emit(Resource.Success(response.body()?.products?: emptyList<ProductDetail>()))
+                    emit(Resource.Success(response.body()?.products ?: emptyList<ProductDetail>()))
                 } else {
                     emit(Resource.Error(response.message()))
                 }
@@ -68,23 +68,15 @@ class MainRepositoryImp @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override fun getAllCategory(): Flow<Resource<MainRecycleViewTypes.RVCategory>> = flow {
-
-        emit(Resource.Loading())
-        try {
-            val response = remoteDataSource.getAllCategory()
-            if (response.isSuccessful) {
-                val category =
-                    MainRecycleViewTypes.RVCategory(response.body()?.categories, ViewType.CATEGORY)
-                emit(Resource.Success(category))
-            } else {
-                emit(Resource.Error(response.message()))
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
+    override fun getAllCategory(): Flow<Resource<List<String>>> = flow {
+        val response = remoteDataSource.getAllCategory()
+        if (response.isSuccessful) {
+            val category =
+                response.body()?.categories
+            emit(Resource.Success(category))
+        } else {
+            emit(Resource.Error(response.message()))
         }
-
-
     }.flowOn(Dispatchers.IO)
 
     override suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>) {
@@ -195,13 +187,13 @@ class MainRepositoryImp @Inject constructor(
         productDataSource.isProductFavorite(productDetail)
 
 
-    override suspend fun getAllFlashSaleProduct(): Resource<FlashSaleData>  {
+    override suspend fun getAllFlashSaleProduct(): Resource<FlashSaleData> {
 
 
         try {
             if (preferencesHelper.getEndTime() == null) {
                 createFlashSaleItem()
-            }else{
+            } else {
                 val datetime = LocalDateTime.parse(preferencesHelper.getEndTime())
                 if (datetime <= LocalDateTime.now()) {
                     createFlashSaleItem()
@@ -209,11 +201,11 @@ class MainRepositoryImp @Inject constructor(
             }
 
             val flashSaleData = flashSaleDataSource.getFlashSale()
-            val endTime=preferencesHelper.getEndTime()?:""
-            return Resource.Success(FlashSaleData(endTime,flashSaleData))
+            val endTime = preferencesHelper.getEndTime() ?: ""
+            return Resource.Success(FlashSaleData(endTime, flashSaleData))
 
-        }catch (e:java.lang.Exception){
-            return  Resource.Error(e.localizedMessage ?: Constant.UNKNOWN_ERROR)
+        } catch (e: java.lang.Exception) {
+            return Resource.Error(e.localizedMessage ?: Constant.UNKNOWN_ERROR)
         }
 
 

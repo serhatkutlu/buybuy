@@ -33,5 +33,7 @@ object Constant {
 
     const val  COUPON_NAME="BUY30"
 
+    const val MAIN_RV_TYPE_RV_CATEGORY=3
+
 
 }

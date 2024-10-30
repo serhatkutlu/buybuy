@@ -14,7 +14,7 @@ interface MainRepository {
     fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>>
 
     fun getProductByCategory(category: String):Flow<Resource<List<ProductDetail>>>
-    fun getAllCategory():  Flow<Resource<MainRecycleViewTypes.RVCategory>>
+    fun getAllCategory():  Flow<Resource<List<String>>>
     fun getAllSingleBanner(): Flow<Resource<List<SingleBannerData>>>
     suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>)
 

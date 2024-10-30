@@ -22,7 +22,10 @@ object NavOptions {
 
     val navOptions3 = NavOptions.Builder()
         .setLaunchSingleTop(true)
-        .setPopUpTo(R.id.mainFragment, false).build()
+        .setPopUpTo(R.id.mainFragment, false)
+        .setEnterAnim(R.anim.slide_in_right)
+        .setExitAnim(R.anim.slide_out_left)
+        .build()
 
     val navOptions4 = NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).setRestoreState(true).build()
 

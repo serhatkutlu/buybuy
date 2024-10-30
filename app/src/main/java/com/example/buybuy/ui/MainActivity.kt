@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
@@ -24,6 +25,7 @@ import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.setImage
+import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.splashFragment,
                 R.id.addressFragment,
                 R.id.checkoutFragment,
+                R.id.orderSuccessful,
                 R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -99,7 +102,14 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_logout -> {
-                    viewmodel.logOut()
+                    showAlertDialog(
+                        getString(R.string.fragment_profile_alert_title),
+                        getString(R.string.fragment_profile_alert_message),
+                        positiveButtonAction = {
+                            viewmodel.logOut()
+                        })
+
+
                     true
                 }
 
@@ -125,12 +135,14 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.profileFragment, null, NavOptions.navOptions3)
                     true
                 }
-                R.id.favoritesFragment->{
-                    navController.navigate(R.id.favoritesFragment,null,NavOptions.navOptions3)
+
+                R.id.favoritesFragment -> {
+                    navController.navigate(R.id.favoritesFragment, null, NavOptions.navOptions3)
                     true
                 }
-                R.id.cartFragment->{
-                    navController.navigate(R.id.cartFragment,null,NavOptions.navOptions3)
+
+                R.id.cartFragment -> {
+                    navController.navigate(R.id.cartFragment, null, NavOptions.navOptions3)
                     true
                 }
 

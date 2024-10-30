@@ -90,6 +90,10 @@ class NewAddressFragment : Fragment(R.layout.fragment_new_address) {
                 binding.btnSave.isClickable = false
             }
         }
+        binding.ivBack.setOnClickListener{
+            findNavController().popBackStack()
+
+        }
 
     }
 

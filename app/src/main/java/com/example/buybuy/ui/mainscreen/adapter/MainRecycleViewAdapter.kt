@@ -22,23 +22,20 @@ import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
 import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 
-class MainRecycleViewAdapter :
+class MainRecycleViewAdapter(
+    val contentClickListener: (ProductDetailUI) -> Unit,
+    val contentFavoriteClickListener: (ProductDetailUI) -> Unit,
+    val fetchContentData: (content: String) -> Unit,
+
+) :
     ListAdapter<MainRecycleViewTypes, ViewHolder>(ProductComparatorMainRV()) {
 
 
     private var selectedPageVpBanner = 1
 
-
-    var contentClickListener: (ProductDetailUI) -> Unit = {}
-    var contentFavoriteClickListener: (ProductDetailUI) -> Unit = {}
-    lateinit var fetchContentData: (content: String) -> Flow<Resource<List<ProductDetailUI>>>
-
-
+    private var isFavoriteUpdate=true
     private var scrollState: Parcelable? = null
     var layoutManager: LayoutManager? = null
 
@@ -48,10 +45,10 @@ class MainRecycleViewAdapter :
         TabAdapter()
     }
     private val tabContentAdapter: TabContentAdapter by lazy {
-        TabContentAdapter()
+        TabContentAdapter(contentClickListener)
     }
-    private val flasSaleAdapter: TabContentAdapter by lazy {
-        TabContentAdapter()
+    private val flashSaleAdapter: TabContentAdapter by lazy {
+        TabContentAdapter(contentClickListener)
     }
 
 
@@ -154,9 +151,8 @@ class MainRecycleViewAdapter :
                         ::setCurrentCategory,
                         tabContentAdapter,
                         scrollState,
-                        fetchContentData,
-                        contentClickListener,
-                        contentFavoriteClickListener
+                        ::changeCategoryFavoriteItemPos,
+                        isFavoriteUpdate
                     )
                     layoutManager = holder.layoutManager
                 }
@@ -165,10 +161,10 @@ class MainRecycleViewAdapter :
                     holder.bind(item)
                 }
 
-                is FlashSaleViewHolder -> {
-                    val data = item as MainRecycleViewTypes.FlashSaleDataUi
-                    holder.bind(data.data, flasSaleAdapter, scrollState)
-                }
+//                is FlashSaleViewHolder -> {
+//                    val data = item as MainRecycleViewTypes.FlashSaleDataUi
+//                    holder.bind(data.data, flashSaleAdapter, scrollState)
+//                }
 
                 else -> {
 
@@ -179,6 +175,24 @@ class MainRecycleViewAdapter :
 
     private fun setCurrentCategory(category: String) {
         currentCategory = category
+        fetchContentData(category)
+        isFavoriteUpdate=true
+
+    }
+
+    private fun  changeCategoryFavoriteItemPos(Product:ProductDetailUI?){
+        Product?.let{
+            contentFavoriteClickListener(Product)
+        }
+        saveState()
+        isFavoriteUpdate=false
+    }
+
+    fun updateCategoryItem( newItem: MainRecycleViewTypes) {
+        val position = currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+        val currentList = currentList.toMutableList()
+        currentList[position] = newItem
+        submitList(currentList)
     }
 
 

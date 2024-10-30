@@ -26,34 +26,35 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
     RecyclerView.ViewHolder(binding.root) {
 
     var layoutManager: RecyclerView.LayoutManager? = null
-    private var currentCategory: String? = null
-    private val viewHolderScope = CoroutineScope(Dispatchers.IO + Job())
 
     fun bind(
         item: MainRecycleViewTypes,
         tabAdapter: TabAdapter,
-        currentCategoryParent: String?,
+        currentCategory: String?,
         currentCategoryClickListener: (String) -> Unit,
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
-        fetchDataContent: (category: String) -> Flow<Resource<List<ProductDetailUI>>>,
-        contentClickListener: (ProductDetailUI) -> Unit,
-        contentFavoriteClickListener: (ProductDetailUI) -> Unit
-    ) {
+        changeFavoriteItem: (ProductDetailUI?) -> Unit,
+        isFavoriteCheck:Boolean
+    ){
         item as MainRecycleViewTypes.RVCategory
-        currentCategory=currentCategoryParent ?: item.categories?.get(0)
 
         binding.tabRecyclerView.adapter = tabAdapter
         binding.tabRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
         tabAdapter.submitList(item.categories)
-        binding.tabRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 30))
+
 
         binding.contentRecyclerView.adapter = tabContentAdapter
         binding.contentRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager = binding.contentRecyclerView.layoutManager
-        binding.contentRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 35))
+
+
+        if (binding.tabRecyclerView.itemDecorationCount == 0 && binding.contentRecyclerView.itemDecorationCount == 0) {
+            binding.tabRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 30))
+            binding.contentRecyclerView.addItemDecoration(SpacesItemDecoration(spaceleft = 35))
+        }
 
         if (scrollState != null) {
             binding.contentRecyclerView.layoutManager?.onRestoreInstanceState(scrollState)
@@ -63,64 +64,45 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
 
         val shimmerFrameLayout = binding.shimmer
-        suspend fun initCollect(
-            result: Resource<List<ProductDetailUI>>,
-            isNewData: Boolean,
-            position: Int
-        ) {
-            withContext(Dispatchers.Main) {
 
 
-                when (result) {
-                    is Resource.Success -> {
 
-                        tabContentAdapter.submitList(result.data)
-                        binding.contentRecyclerView.visible()
-                        shimmerFrameLayout.stopShimmer()
-                        shimmerFrameLayout.invisible()
-                        if (!isNewData) {
-                            tabContentAdapter.notifyItemChanged(position)
-                        }
-                    }
+        when (item.data) {
+            is Resource.Success -> {
+                tabContentAdapter.submitList(item.data.data)
+                shimmerFrameLayout.invisible()
+                binding.contentRecyclerView.visible()
 
-                    is Resource.Loading -> {
-                        if (isNewData) {
-                            tabContentAdapter.submitList(listOf())
-                            shimmerFrameLayout.startShimmer()
-                            shimmerFrameLayout.visible()
-                            binding.contentRecyclerView.invisible()
-                        }
-                    }
+            }
 
-                    is Resource.Error -> {
-                        binding.root.context.showToast(result.message)
-                    }
-                    is Resource.Empty->{}
+            is Resource.Loading -> {
+                if (isFavoriteCheck) {
+                    binding.contentRecyclerView.invisible()
+                    shimmerFrameLayout.visible()
+                    tabContentAdapter.submitList(listOf())
+                }else {
+                    shimmerFrameLayout.invisible()
+                    binding.contentRecyclerView.visible()
                 }
             }
-        }
 
-        fun initSearchData(category: String, isNewData: Boolean, position: Int = 0) {
-            viewHolderScope.launch {
-                fetchDataContent(
-                    category
-                ).collect { initCollect(it, isNewData, position) }
+            is Resource.Error -> {
+                binding.root.context.showToast(item.data.message)
             }
-        }
 
-        initSearchData(currentCategory ?: "", false)
+            is Resource.Empty -> {}
+        }
 
 
         tabAdapter.onTabSelected = {
-            currentCategory = it
-            initSearchData(it, true)
-            currentCategoryClickListener(it)
+            if (it != currentCategory) {
+                currentCategoryClickListener(it)
+            }
+
         }
 
-        tabContentAdapter.onClickListener = contentClickListener
-        tabContentAdapter.onFavoriteClickListener = { product, position ->
-            contentFavoriteClickListener(product)
-            initSearchData(currentCategory ?: "", false, position)
+        tabContentAdapter.onFavoriteClickListener = { product ->
+            changeFavoriteItem(product)
         }
 
 

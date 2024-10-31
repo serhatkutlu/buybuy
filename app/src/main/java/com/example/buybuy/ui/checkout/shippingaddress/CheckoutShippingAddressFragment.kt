@@ -12,15 +12,19 @@ import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCheckoutShippingaddressBinding
 import com.example.buybuy.ui.checkout.CheckOutViewModel
+import com.example.buybuy.ui.checkout.CheckoutFragment
 import com.example.buybuy.ui.checkout.dialog.AddressDialogFragment
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.viewBinding
+import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shippingaddress) {
+class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shippingaddress),
+    CheckoutFragment.CheckoutFragmentInterface {
 
 
     private val binding: FragmentCheckoutShippingaddressBinding by viewBinding(FragmentCheckoutShippingaddressBinding::bind)
@@ -64,6 +68,7 @@ class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shipp
                             binding.tvAddress.text=it.address
                             dialogFragment.dismiss()
                             viewmodel.lastAddressId=it.id
+                            binding.tvAddressNotSelected.gone()
                         }
                         dialogFragment.show(parentFragmentManager, ADDRESS_DATA )
 
@@ -88,9 +93,18 @@ class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shipp
         }
     }
 
+
     companion object{
         private const val ADDRESS_DATA="addressData"
 
     }
+
+    override fun onConfirmButtonClicked():Boolean {
+        return if(binding.tvNameSurname.text.isNullOrEmpty()){
+            binding.tvAddressNotSelected.visible()
+            false
+        }else true
+    }
+
 
 }

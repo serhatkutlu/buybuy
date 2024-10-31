@@ -46,12 +46,19 @@
            android:textColor="@color/orange"/>
 
 
+       <TextView
+           android:id="@+id/tv_address_not_selected"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:visibility="gone"
+           android:text="@string/fragment_checkout_address_not_selected"
+           android:textColor="@color/red"
+           android:gravity="center"/>
        <LinearLayout
            android:id="@+id/ll_address"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:orientation="horizontal"
-           android:layout_marginTop="@dimen/default_margin"
            android:layout_marginHorizontal="@dimen/default_margin"
            android:paddingVertical="@dimen/small_padding"
            >

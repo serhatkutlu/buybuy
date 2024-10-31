@@ -70,6 +70,7 @@
     <string name="alert_message">We need storage permission to access the gallery. Please grant the permission.</string>
     <string name="alert_message_reset_password">You can reset your password using the link sent to your email.</string>
     <string name="alert_message_cart">Are you sure you want to delete this product?</string>
+    <string name="alert_message_order_successful">Order Successful</string>
     <string name="alert_ok">Allow</string>
     <string name="alert_reset_password_open_email">Open Email</string>
     <string name="alert_cancel">Cancel</string>
@@ -113,6 +114,9 @@
     <string name="fragment_checkout_cart_year_hint">year</string>
     <string name="fragment_checkout_cart_cvc_hint">CVC</string>
     <string name="fragment_checkout_cart_error_message">invalid  number</string>
+
+
+    <string name="fragment_order_successful_title">You can see your order on the orders screen.</string>
 
 
     <string name="alert_positive_button_text">OK</string>

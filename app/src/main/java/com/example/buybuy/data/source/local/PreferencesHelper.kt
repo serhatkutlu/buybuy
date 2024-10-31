@@ -1,9 +1,13 @@
 package com.example.buybuy.data.source.local
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PreferencesHelper(private val context:Context) {
+@Singleton
+class PreferencesHelper @Inject constructor(@ApplicationContext private val context:Context) {
 
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     companion object {

@@ -3,6 +3,7 @@ package com.example.buybuy.di
 import com.example.buybuy.data.repository.CouponRepositoryImp
 import com.example.buybuy.data.repository.LoginRepositoryImp
 import com.example.buybuy.data.repository.MainRepositoryImp
+import com.example.buybuy.data.source.local.PreferencesHelper
 import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
@@ -29,8 +30,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
     fun provideMainRepository(
         remoteDataSource: RemoteDataSource,
         productDataSource: ProductDataSource,
-        flashSaleDataSource: FlashSaleDataSource
-        ): MainRepository= MainRepositoryImp(remoteDataSource,productDataSource,flashSaleDataSource)
+        flashSaleDataSource: FlashSaleDataSource,
+        preferencesHelper: PreferencesHelper
+        ): MainRepository= MainRepositoryImp(remoteDataSource,productDataSource,flashSaleDataSource,preferencesHelper)
 
 
     @Provides

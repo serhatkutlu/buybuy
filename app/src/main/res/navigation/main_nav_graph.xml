@@ -105,5 +105,16 @@
         <action
             android:id="@+id/action_checkoutFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderSuccessful"
+            app:destination="@id/orderSuccessful" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderSuccessful"
+        android:name="com.example.buybuy.ui.ordersuccessful.OrderSuccessful"
+        android:label="OrderSuccessful" >
+        <action
+            android:id="@+id/action_orderSuccessful_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

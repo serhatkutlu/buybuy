@@ -4,56 +4,93 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
+import com.example.buybuy.databinding.FragmentCheckoutBinding
 import com.example.buybuy.ui.checkout.cardinformation.CheckoutCardInformationFragment
 import com.example.buybuy.ui.checkout.cart.CheckoutCartFragment
 import com.example.buybuy.ui.checkout.shippingaddress.CheckoutShippingAddressFragment
+import com.example.buybuy.util.NavOptions
+import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
     private val viewmodel: CheckOutViewModel by viewModels()
+    private val binding by viewBinding(FragmentCheckoutBinding::bind)
 
+    private lateinit var cartFragment: CheckoutCartFragment
+    private lateinit var shippingAddressFragment: CheckoutShippingAddressFragment
+    private lateinit var cardInformationFragment: CheckoutCardInformationFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        initObservers()
         initUi()
+
+    }
+
+    private fun initObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewmodel.totalPrice.collect{
+                    binding.tvTotalPriceValue.text=getString(R.string.currency_symbol,it.toString())
+                }
+
+            }
+        }
     }
 
     private fun initUi() {
         initCardInformationFragment()
         initShippingAddressFragment()
         initCheckoutCartFragment()
+        binding.buttonConfirm.setOnClickListener{
+
+            if (shippingAddressFragment.onConfirmButtonClicked()&&cardInformationFragment.onConfirmButtonClicked()){
+                findNavController().navigate(R.id.action_checkoutFragment_to_orderSuccessful,null,NavOptions.navOptions3)
+            }
+
+        }
+        binding.ivBack.setOnClickListener{
+            findNavController().popBackStack()
+        }
 
     }
 
     private fun initCheckoutCartFragment() {
-        val childFragment = CheckoutCartFragment()
+        cartFragment = CheckoutCartFragment()
         childFragmentManager.beginTransaction()
-            .replace(R.id.cart_container, childFragment)
+            .replace(R.id.cart_container, cartFragment)
             .commit()
     }
 
     private fun initShippingAddressFragment() {
-        val childFragment = CheckoutShippingAddressFragment()
+        shippingAddressFragment = CheckoutShippingAddressFragment()
         childFragmentManager.beginTransaction()
-            .replace(R.id.shipping_address_container, childFragment)
+            .replace(R.id.shipping_address_container, shippingAddressFragment)
             .commit()
     }
 
     private fun initCardInformationFragment() {
-        val childFragment = CheckoutCardInformationFragment()
+        cardInformationFragment = CheckoutCardInformationFragment()
         childFragmentManager.beginTransaction()
-            .replace(R.id.cart_information_container, childFragment)
+            .replace(R.id.cart_information_container, cardInformationFragment)
             .commit()
 
 
     }
 
 
-
+    interface CheckoutFragmentInterface {
+        fun onConfirmButtonClicked():Boolean
+    }
 
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCheckoutCartBinding
 import com.example.buybuy.ui.checkout.CheckOutViewModel
+import com.example.buybuy.ui.checkout.CheckoutFragment
 import com.example.buybuy.ui.checkout.adapter.CheckoutCartAdapter
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showAlertDialog
@@ -81,4 +82,5 @@ class CheckoutCartFragment(): Fragment(R.layout.fragment_checkout_cart) {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
     }
+
 }

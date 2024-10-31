@@ -10,12 +10,14 @@ import androidx.fragment.app.viewModels
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentCheckoutCardinformationBinding
 import com.example.buybuy.ui.checkout.CheckOutViewModel
+import com.example.buybuy.ui.checkout.CheckoutFragment
 
 import com.example.buybuy.util.CardNumberTextWatcher
 import com.example.buybuy.util.viewBinding
 import java.time.LocalDate
 
-class CheckoutCardInformationFragment() : Fragment(R.layout.fragment_checkout_cardinformation) {
+class CheckoutCardInformationFragment() : Fragment(R.layout.fragment_checkout_cardinformation),
+    CheckoutFragment.CheckoutFragmentInterface {
 
 
     private val binding: FragmentCheckoutCardinformationBinding by viewBinding(
@@ -100,7 +102,21 @@ class CheckoutCardInformationFragment() : Fragment(R.layout.fragment_checkout_ca
 
     }
 
-    private fun checkInformation(): Boolean {
-        return binding.etCartNumber.text.toString().length >= 16
+    override fun onConfirmButtonClicked(): Boolean {
+        val errorMessage=requireContext().getString(R.string.fragment_checkout_cart_error_message)
+        return if (binding.etCartNumber.text.toString().length!= 19){
+            binding.tilCartNumber.error=errorMessage
+             false
+        }
+        else if(binding.etCvc.text.toString().length!=3){
+            binding.tilCartNumber.isErrorEnabled=false
+            binding.tilCvc.error=errorMessage
+             false
+        }
+        else{
+            binding.tilCvc.isErrorEnabled=false
+            true
+        }
+
     }
 }

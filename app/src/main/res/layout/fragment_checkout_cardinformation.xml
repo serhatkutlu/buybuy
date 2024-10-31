@@ -57,28 +57,33 @@
 
            <Spinner
                android:id="@+id/spinner_month"
-               android:layout_width="100dp"
+               android:layout_width="0dp"
 
                android:layout_height="0dp"
+               android:layout_marginStart="@dimen/small_margin"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toStartOf="@id/spinner_year"
                app:layout_constraintTop_toTopOf="parent" />
 
            <Spinner
                android:id="@+id/spinner_year"
-               android:layout_width="@dimen/spinner_width"
+               android:layout_width="0dp"
                android:layout_height="0dp"
-               android:layout_marginStart="16dp"
+               android:layout_marginStart="@dimen/small_margin"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintStart_toEndOf="@+id/spinner_month"
+               app:layout_constraintEnd_toStartOf="@id/til_cvc"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintVertical_bias="0.0" />
 
            <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/til_cvc"
-               android:layout_width="100dp"
+               android:layout_width="0dp"
                android:layout_height="wrap_content"
-               android:layout_marginEnd="@dimen/default_margin"
+               android:layout_marginEnd="@dimen/small_margin"
+               android:layout_marginStart="@dimen/small_margin"
+               app:layout_constraintStart_toEndOf="@id/spinner_year"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintTop_toTopOf="parent">

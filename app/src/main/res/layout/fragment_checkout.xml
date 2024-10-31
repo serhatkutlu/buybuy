@@ -4,24 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:indeterminateTint="@color/orange"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/rv_background_color"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline">
@@ -62,6 +50,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/iv_back"
             style="@style/BackImageViewStyle"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="@dimen/small_margin"
@@ -81,7 +70,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.07" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.88" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom" />
+
+    <TextView
+        android:id="@+id/tv_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="total price"
+        android:textStyle="bold"
+        android:textSize="@dimen/subheader_text_size"
+        android:layout_marginStart="@dimen/large_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom" />
+
+    <TextView
+        android:id="@+id/tv_total_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="100"
+
+        android:textColor="@color/orange"
+        android:textSize="@dimen/subheader_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_total_price"
+        app:layout_constraintStart_toStartOf="@id/tv_total_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_price" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:background="@drawable/button_bg_orange"
+        android:paddingHorizontal="@dimen/x_large_padding"
+        android:text="@string/item_checkout_confirm_button"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_total_price_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

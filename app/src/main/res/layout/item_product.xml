@@ -19,7 +19,7 @@
         >
         <include
             android:id="@+id/included_layout"
-            layout="@layout/favorite_button"
+            layout="@layout/item_favorite_button"
             android:layout_margin="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"

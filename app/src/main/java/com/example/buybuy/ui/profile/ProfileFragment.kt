@@ -191,9 +191,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun optionClickListener(type: ProfileOptionsEnum) {
         when (type) {
-//            ProfileOptionsEnum.ORDER->{
-//                findNavController().navigate(R.id.action_profileFragment_to_orderFragment,null,NavOptions.navOption1)
-//            }
+            ProfileOptionsEnum.ORDER->{
+                findNavController().navigate(R.id.myOrdersFragment,null,NavOptions.rightAnim)
+            }
             ProfileOptionsEnum.COUPONS -> {
                 findNavController().navigate(
                     R.id.action_profileFragment_to_couponsFragment,

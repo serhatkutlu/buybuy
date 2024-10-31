@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.addressFragment,
                 R.id.checkoutFragment,
                 R.id.orderSuccessful,
+                R.id.myOrdersFragment,
                 R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -99,6 +100,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.nav_orders -> {
+                    navController.navigate(R.id.myOrdersFragment, null, NavOptions.rightAnim)
+                    true
+                }
+
                 R.id.nav_logout -> {
                     showAlertDialog(
                         getString(R.string.fragment_profile_alert_title),

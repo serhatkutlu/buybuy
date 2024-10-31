@@ -2,6 +2,7 @@ package com.example.buybuy.data.repository
 
 import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.data.model.data.FlashSaleData
+import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.data.model.entity.ProductDetailEntity
 import com.example.buybuy.data.source.local.PreferencesHelper
 import com.example.buybuy.domain.datasource.local.FlashSaleDataSource

@@ -12,6 +12,8 @@ object Constant {
     const val COLLECTION_PATH_USERS="users"
     const val COLLECTION_PATH_COUPON="coupon"
     const val COLLECTION_PATH_ADDRESS="address"
+    const val COLLECTION_PATH_ORDERS="orders"
+    const val COLLECTION_PATH_ORDERS_USER="user_orders"
     const val COLLECTION_PATH_ADDRESS_NAME="address_name"
 
     const val UNKNOWN_ERROR:String="Unknown Error"

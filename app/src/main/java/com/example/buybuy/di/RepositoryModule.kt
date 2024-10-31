@@ -3,6 +3,7 @@ package com.example.buybuy.di
 import com.example.buybuy.data.repository.CouponRepositoryImp
 import com.example.buybuy.data.repository.LoginRepositoryImp
 import com.example.buybuy.data.repository.MainRepositoryImp
+import com.example.buybuy.data.repository.OrdersRepositoryImp
 import com.example.buybuy.data.source.local.PreferencesHelper
 import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.datasource.local.ProductDataSource
@@ -10,6 +11,7 @@ import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.domain.repository.CouponRepository
 import com.example.buybuy.domain.repository.FirebaseRepository
 import com.example.buybuy.domain.repository.MainRepository
+import com.example.buybuy.domain.repository.OrdersRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -22,7 +24,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
- object RepositoryModule {
+object RepositoryModule {
 
 
     @Provides
@@ -32,16 +34,36 @@ import dagger.hilt.android.scopes.ViewModelScoped
         productDataSource: ProductDataSource,
         flashSaleDataSource: FlashSaleDataSource,
         preferencesHelper: PreferencesHelper
-        ): MainRepository= MainRepositoryImp(remoteDataSource,productDataSource,flashSaleDataSource,preferencesHelper)
+    ): MainRepository = MainRepositoryImp(
+        remoteDataSource,
+        productDataSource,
+        flashSaleDataSource,
+        preferencesHelper
+    )
 
 
     @Provides
     @ViewModelScoped
-    fun provideFirebaseRepository (firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore, storage: FirebaseStorage): FirebaseRepository =
-        LoginRepositoryImp(firebaseAuth,fireStore,storage )
+    fun provideFirebaseRepository(
+        firebaseAuth: FirebaseAuth,
+        fireStore: FirebaseFirestore,
+        storage: FirebaseStorage
+    ): FirebaseRepository =
+        LoginRepositoryImp(firebaseAuth, fireStore, storage)
 
 
     @Provides
     @ViewModelScoped
-    fun provideCouponsRepository(authentication:FirebaseAuth,fireStore: FirebaseFirestore): CouponRepository = CouponRepositoryImp(authentication,fireStore)
+    fun provideCouponsRepository(
+        authentication: FirebaseAuth,
+        fireStore: FirebaseFirestore
+    ): CouponRepository = CouponRepositoryImp(authentication, fireStore)
+
+    @Provides
+    @ViewModelScoped
+    fun provideOrdersRepository(
+        authentication: FirebaseAuth,
+        fireStore: FirebaseFirestore,
+        remoteDataSource: RemoteDataSource
+    ): OrdersRepository = OrdersRepositoryImp(fireStore, authentication, remoteDataSource)
 }

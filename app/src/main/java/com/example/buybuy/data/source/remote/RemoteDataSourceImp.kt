@@ -1,5 +1,7 @@
 package com.example.buybuy.data.source.remote
 
+import com.example.buybuy.data.model.data.Product
+import com.example.buybuy.data.model.data.SingleProductData
 import com.example.buybuy.domain.model.data.SingleBannerData
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.example.buybuy.util.Constant.BANNER
@@ -7,6 +9,7 @@ import com.example.buybuy.util.Constant.SINGLEBANNER
 import com.example.buybuy.util.Constant.VPBANNER
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
@@ -27,6 +30,7 @@ class RemoteDataSourceImp @Inject constructor(
 
     override suspend fun getAllCategory() =apiService.getAllCategories()
     override suspend fun getProductByCategory(category: String) = apiService.getProductsByCategory(category)
+    override suspend fun getSingleProduct(id: Int): Response<SingleProductData> =apiService.getSingleProducts(id)
 
 
 }

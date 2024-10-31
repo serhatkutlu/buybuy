@@ -64,7 +64,7 @@
 
             <include
                 android:id="@+id/included_layout"
-                layout="@layout/favorite_button"
+                layout="@layout/item_favorite_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"

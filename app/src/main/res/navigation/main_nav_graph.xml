@@ -111,10 +111,14 @@
     </fragment>
     <fragment
         android:id="@+id/orderSuccessful"
-        android:name="com.example.buybuy.ui.ordersuccessful.OrderSuccessful"
+        android:name="com.example.buybuy.ui.ordersuccessful.OrderSuccessfulFragment"
         android:label="OrderSuccessful" >
         <action
             android:id="@+id/action_orderSuccessful_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myOrdersFragment"
+        android:name="com.example.buybuy.ui.orderscreen.MyOrdersFragment"
+        android:label="MyOrdersFragment" />
 </navigation>

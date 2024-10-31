@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class AddToFavoriteUseCase @Inject constructor(private val repository:MainRepository,private val productUiToEntityMapper: ProductUiToEntityMapper) {
 
-    suspend  operator fun invoke(productDetail: ProductDetailUI){
+    suspend  operator fun invoke(productDetail: ProductDetailUI):Boolean{
         val data=productUiToEntityMapper.mapToModel(productDetail)
-        repository.addToFavorite(data)
+        return repository.addToFavorite(data)
     }
 }

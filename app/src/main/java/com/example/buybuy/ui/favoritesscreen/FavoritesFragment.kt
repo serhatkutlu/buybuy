@@ -14,6 +14,7 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentFavoritesBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.visible
@@ -44,7 +45,7 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
     private fun handleOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().popBackStack(R.id.mainFragment, false )
             }
         })
     }

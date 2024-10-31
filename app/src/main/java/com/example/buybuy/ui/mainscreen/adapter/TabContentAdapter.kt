@@ -9,19 +9,17 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemProductBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class TabContentAdapter :
+class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) :
     ListAdapter<ProductDetailUI, TabContentAdapter.ContentViewHolder>(ProductComparator()) {
-    var onClickListener: (ProductDetailUI) -> Unit = {}
-    var onFavoriteClickListener: (ProductDetailUI,Int) -> Unit = {
-        _,_->
-    }
-    private var layoutManager:LayoutManager? = null
 
+    private var layoutManager:LayoutManager? = null
+    var onFavoriteClickListener: (ProductDetailUI, Int) -> Unit={_,_->}
     inner class ContentViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productDetail: ProductDetailUI) {
@@ -50,7 +48,8 @@ class TabContentAdapter :
                         binding.root.context,
                         R.color.orange
                     )
-                onFavoriteClickListener(productDetail.copy(isFavorite = background),adapterPosition)
+
+                onFavoriteClickListener(productDetail.copy(isFavorite = background), adapterPosition)
 
             }
         }
@@ -95,5 +94,12 @@ class TabContentAdapter :
         super.onCurrentListChanged(previousList, currentList)
     }
 
+    fun updateItem(item: ProductDetailUI, position: Int) {
+
+        val currentList = currentList.toMutableList()
+        currentList[position] = item
+        submitList(currentList)
+
+    }
 
 }

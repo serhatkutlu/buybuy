@@ -101,12 +101,22 @@ class MainRepositoryImp @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun addToFavorite(productDetail: ProductDetailEntity) {
-        productDataSource.addToFavorite(productDetail)
+    override suspend fun addToFavorite(productDetail: ProductDetailEntity):Boolean {
+        try {
+            productDataSource.addToFavorite(productDetail)
+            return true
+        }catch (e:Exception){
+            return false
+        }
     }
 
-    override suspend fun deleteFromFavorite(productDetail: Int) {
-        productDataSource.deleteFromFavorite(productDetail)
+    override suspend fun deleteFromFavorite(productDetail: Int):Boolean {
+        try {
+            productDataSource.deleteFromFavorite(productDetail)
+            return true
+        }catch (e:Exception){
+            return false
+        }
     }
 
     override fun getAllFavorite(): Flow<Resource<List<ProductDetailEntity>>> = flow {

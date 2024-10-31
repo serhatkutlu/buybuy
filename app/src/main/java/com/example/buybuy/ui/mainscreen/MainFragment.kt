@@ -16,9 +16,7 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentMainBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
-import com.example.buybuy.enums.ViewType
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
-import com.example.buybuy.util.Constant
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
@@ -33,8 +31,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val rvAdapter: MainRecycleViewAdapter by lazy {
         MainRecycleViewAdapter(
             contentClickListener = ::openProductDetailScreen,
-            contentFavoriteClickListener = ::addToFavorite,
-            fetchContentData = ::fetchContentDataForRecycleView
+            favoriteClickListener = ::addToFavorite,
+            fetchContentData = ::fetchContentDataForCategoryViewHolder
         )
     }
 
@@ -85,7 +83,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             findNavController().navigate(
                 R.id.action_mainFragment_to_searchFragment,
                 null,
-                NavOptions.navOptions2
+                NavOptions.upAnim
             )
         }
     }
@@ -100,11 +98,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     }
 
-    private fun addToFavorite(productDetail: ProductDetailUI) {
-        viewModel.addToFavorite(productDetail)
-        fetchContentDataForRecycleView(productDetail.category)
-    }
+    private fun addToFavorite(
+        productDetail: ProductDetailUI,
+        position: Int,
+        type: MainRecycleViewTypes
+    ) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (viewModel.addToFavorite(productDetail)) {
+                val isFavorite = !productDetail.isFavorite
+                rvAdapter.updateSingleProductItem(
+                    productDetail.copy(isFavorite = isFavorite),
+                    position,
+                    type
+                )
 
+            }
+
+        }
+
+    }
     override fun onStop() {
         super.onStop()
 
@@ -130,14 +142,28 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun fetchContentDataForRecycleView(category: String) {
+    private fun fetchContentDataForCategoryViewHolder(
+        category: String,
+        isFavoriteClick: Boolean = false
+    ) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchContentForCategory(category).collect {
+                viewModel.fetchContentForCategory(category, isFavoriteClick).collect {
                     it?.let {
-                        rvAdapter.updateCategoryItem( it)
+                        rvAdapter.updateCategoryItem(it)
                     }
 
+                }
+            }
+        }
+    }
+
+    private fun fetchContentDataForFlashSaleViewHolder() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val response = viewModel.getFlashSaleList()
+                response?.let {
+                    rvAdapter.updateCategoryItem(it)
                 }
             }
         }
@@ -147,7 +173,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToProductDetailFragment(
                 product
-            ), navOptions = NavOptions.navOptions1
+            ), navOptions = NavOptions.rightAnim
         )
     }
 

@@ -19,8 +19,8 @@ interface MainRepository {
     suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>)
 
     fun searchProduct(query: String): Flow<Resource<List<ProductDetailEntity>>>
-    suspend fun addToFavorite(productDetail: ProductDetailEntity)
-    suspend fun deleteFromFavorite(productDetail: Int)
+    suspend fun addToFavorite(productDetail: ProductDetailEntity):Boolean
+    suspend fun deleteFromFavorite(productDetail: Int):Boolean
      fun getAllFavorite(): Flow<Resource<List<ProductDetailEntity>>>
     fun searchFavorites(query: String):Flow<Resource<List<ProductDetailEntity>>>
 

@@ -3,24 +3,18 @@ package com.example.buybuy.ui.mainscreen.adapter.viewholder
 import android.os.Parcelable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.buybuy.data.model.entity.ProductDetailEntity
 import com.example.buybuy.ui.mainscreen.adapter.TabAdapter
 import com.example.buybuy.ui.mainscreen.adapter.TabContentAdapter
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
-import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.invisible
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRvBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -34,8 +28,7 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         currentCategoryClickListener: (String) -> Unit,
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
-        changeFavoriteItem: (ProductDetailUI?) -> Unit,
-        isFavoriteCheck:Boolean
+        onFavoriteClickListener: (ProductDetailUI,Int,MainRecycleViewTypes) -> Unit,
     ){
         item as MainRecycleViewTypes.RVCategory
 
@@ -76,14 +69,9 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
             }
 
             is Resource.Loading -> {
-                if (isFavoriteCheck) {
                     binding.contentRecyclerView.invisible()
                     shimmerFrameLayout.visible()
                     tabContentAdapter.submitList(listOf())
-                }else {
-                    shimmerFrameLayout.invisible()
-                    binding.contentRecyclerView.visible()
-                }
             }
 
             is Resource.Error -> {
@@ -101,9 +89,11 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
         }
 
-        tabContentAdapter.onFavoriteClickListener = { product ->
-            changeFavoriteItem(product)
+        tabContentAdapter.onFavoriteClickListener={productDetailUI,position->
+            onFavoriteClickListener(productDetailUI,position,item)
         }
+
+
 
 
     }

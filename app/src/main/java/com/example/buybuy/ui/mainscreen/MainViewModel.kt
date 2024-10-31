@@ -17,9 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -67,7 +65,7 @@ class MainViewModel @Inject constructor(
                 }
             }
             val getAllSingleBanner = getAllSingleBanner()
-            val getFlashSale = createFlashSaleList()
+            val getFlashSale = getFlashSaleList()
             val divider = MainRecycleViewTypes.Divider
             combinedList.addAll((getVpBannerImages + getAllSingleBanner + getFlashSale + divider).filterNotNull())
             combinedList.sortBy { it.ordinal }
@@ -99,20 +97,20 @@ class MainViewModel @Inject constructor(
         return result
     }
 
-    fun addToFavorite(productDetail: ProductDetailUI) {
-        viewModelScope.launch(Dispatchers.IO) {
+    suspend fun addToFavorite(productDetail: ProductDetailUI):Boolean {
+        return withContext(Dispatchers.IO){
             if (productDetail.isFavorite) {
-                deleteFavoriteUseCase.invoke(productDetail.id)
+                 deleteFavoriteUseCase(productDetail.id)
 
             } else {
-                addToFavoriteUseCase.invoke(productDetail)
+                 addToFavoriteUseCase(productDetail)
 
             }
         }
     }
 
-     suspend fun fetchContentForCategory(category: String? =null): Flow<MainRecycleViewTypes?> = flow {
-        getProductByCategoriesUseCase.invoke(category?:categories[0]).collect { response ->
+     suspend fun fetchContentForCategory(category: String ="tv",isFavoriteClick:Boolean=false): Flow<MainRecycleViewTypes?> = flow {
+        getProductByCategoriesUseCase.invoke(category).collect { response ->
             when (response) {
                 is Resource.Success -> {
                     response.data?.let {
@@ -128,14 +126,15 @@ class MainViewModel @Inject constructor(
                 }
 
                 is Resource.Loading -> {
-
-                    emit(
-                        MainRecycleViewTypes.RVCategory(
-                            categories,
-                            Resource.Loading(),
-                            ViewType.CATEGORY
+                    if(!isFavoriteClick){
+                        emit(
+                            MainRecycleViewTypes.RVCategory(
+                                categories,
+                                Resource.Loading(),
+                                ViewType.CATEGORY
+                            )
                         )
-                    )
+                    }
                 }
 
                 is Resource.Error -> {
@@ -194,7 +193,7 @@ class MainViewModel @Inject constructor(
     }
 
 
-    private suspend fun createFlashSaleList(): MainRecycleViewTypes? {
+     suspend fun getFlashSaleList(): MainRecycleViewTypes? {
         return withContext(Dispatchers.IO) {
             var RVType: MainRecycleViewTypes? = null
             createFlashSaleList.invoke().collect { result ->

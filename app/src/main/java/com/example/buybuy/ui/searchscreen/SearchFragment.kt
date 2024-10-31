@@ -118,7 +118,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
     private fun onItemClick(product:ProductDetailUI){
         val action=SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(product)
-        findNavController().navigate(action,NavOptions.navOptions1)
+        findNavController().navigate(action,NavOptions.rightAnim)
     }
 
     private fun handleBackButton() {

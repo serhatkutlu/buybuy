@@ -1,13 +1,11 @@
 package com.example.buybuy.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
@@ -132,17 +130,19 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.profileFragment -> {
-                    navController.navigate(R.id.profileFragment, null, NavOptions.navOptions3)
+                    navController.navigate(R.id.profileFragment, null, NavOptions.rightAnim)
                     true
                 }
 
                 R.id.favoritesFragment -> {
-                    navController.navigate(R.id.favoritesFragment, null, NavOptions.navOptions3)
+                    val navOptions =if (navController.currentDestination?.id != R.id.mainFragment) NavOptions.leftAnim else NavOptions.rightAnim
+                    navController.navigate(R.id.favoritesFragment, null, navOptions)
                     true
                 }
 
                 R.id.cartFragment -> {
-                    navController.navigate(R.id.cartFragment, null, NavOptions.navOptions3)
+                    val navOptions =if (navController.currentDestination?.id != R.id.profileFragment) NavOptions.rightAnim else NavOptions.leftAnim
+                    navController.navigate(R.id.cartFragment, null, navOptions)
                     true
                 }
 

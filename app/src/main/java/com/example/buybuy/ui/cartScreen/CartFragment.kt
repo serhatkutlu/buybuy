@@ -45,7 +45,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
     private fun handleOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().popBackStack(R.id.mainFragment,false)
             }
         })
     }
@@ -88,7 +88,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
     private fun initUi() {
         initRV()
         binding.buttonBuyNow.setOnClickListener {
-            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment,null,NavOptions.navOptions1)
+            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment,null,NavOptions.rightAnim)
         }
     }
 

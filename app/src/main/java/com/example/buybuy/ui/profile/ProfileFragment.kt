@@ -198,7 +198,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 findNavController().navigate(
                     R.id.action_profileFragment_to_couponsFragment,
                     null,
-                    NavOptions.navOptions1
+                    NavOptions.rightAnim
                 )
             }
 //            ProfileOptionsEnum.PAYMENT->{
@@ -225,7 +225,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 findNavController().navigate(
                     R.id.action_profileFragment_to_addressFragment,
                     null,
-                    NavOptions.navOptions1
+                    NavOptions.rightAnim
                 )
             }
 

@@ -74,7 +74,7 @@ class AddressFragment : Fragment(R.layout.fragment_address) {
         with(binding) {
             tvNew.setOnClickListener {
                 findNavController().navigate(
-                AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(AddressData()), navOptions = NavOptions.navOptions1
+                AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(AddressData()), navOptions = NavOptions.rightAnim
             )
             }
             ivBack.setOnClickListener {
@@ -93,7 +93,7 @@ class AddressFragment : Fragment(R.layout.fragment_address) {
     private fun onItemClick(address: AddressData?) {
 
         findNavController().navigate(
-           AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(address), navOptions = NavOptions.navOptions1
+           AddressFragmentDirections.actionAddressFragmentToNewAddressFragment(address), navOptions = NavOptions.rightAnim
         )
 
     }

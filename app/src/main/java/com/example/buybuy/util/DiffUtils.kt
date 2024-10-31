@@ -9,11 +9,11 @@ import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 class ProductComparator : DiffUtil.ItemCallback<ProductDetailUI>() {
 
     override fun areItemsTheSame(oldItem: ProductDetailUI, newItem: ProductDetailUI): Boolean {
-        return oldItem.hashCode()==newItem.hashCode()
+        return oldItem==newItem
     }
 
     override fun areContentsTheSame(oldItem: ProductDetailUI, newItem: ProductDetailUI): Boolean {
-        return oldItem.id==newItem.id
+        return oldItem.id==newItem.id&&oldItem.isFavorite==newItem.isFavorite
     }
 }
 

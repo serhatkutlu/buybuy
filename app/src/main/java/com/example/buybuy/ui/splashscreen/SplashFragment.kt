@@ -33,9 +33,9 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                     viewmodel.checkUserLogin.collect{
 
                         if (it){
-                            findNavController().navigate(R.id.action_splashFragment_to_main_nav_graph, null,NavOptions.navOptions1)
+                            findNavController().navigate(R.id.action_splashFragment_to_main_nav_graph, null,NavOptions.rightAnim)
                         }else{
-                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions1)
+                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.rightAnim)
                         }
                     }
                 }

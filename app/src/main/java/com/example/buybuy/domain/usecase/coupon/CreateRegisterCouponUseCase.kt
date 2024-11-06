@@ -8,5 +8,5 @@ import javax.inject.Inject
 
 class CreateRegisterCouponUseCase @Inject constructor(private val repository: CouponRepository) {
 
-suspend operator fun invoke(coupon:CouponData): Flow<Resource<Nothing>> =repository.createRegisterCoupon(coupon)
+ operator fun invoke(coupon:List<CouponData>): Flow<Resource<Nothing>> =repository.createRegisterCoupon(coupon)
 }

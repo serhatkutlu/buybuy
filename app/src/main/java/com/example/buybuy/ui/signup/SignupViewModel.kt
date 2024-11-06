@@ -18,8 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val signupUseCase: SignUpUseCase,
-    private val createRegisterCouponUseCase: CreateRegisterCouponUseCase
-) : ViewModel() {
+    private val createRegisterCouponUseCase: CreateRegisterCouponUseCase,
+
+    ) : ViewModel() {
 
     private val _user = MutableStateFlow<Resource<Nothing>>(Resource.Empty)
     val user: StateFlow<Resource<Nothing>> = _user
@@ -27,18 +28,19 @@ class SignupViewModel @Inject constructor(
     fun signup(user: User) {
         viewModelScope.launch {
             signupUseCase(user).collect {
-                when(it){
+                when (it) {
                     is Resource.Success -> {
-                        createRegisterCouponUseCase(createCouponData()).collect{_ ->
+                        createRegisterCouponUseCase(createCouponData()).collect{
                             _user.emit(it)
                         }
 
-                        }
-                    else->{
+                    }
+
+                    else -> {
                         _user.emit(it)
                     }
 
-                    }
+                }
 
 
             }
@@ -46,8 +48,15 @@ class SignupViewModel @Inject constructor(
     }
 
 
-    private fun createCouponData():CouponData{
-        val dateTime=java.time.LocalDateTime.now().plusMonths(1).toString()
-        return CouponData(Constant.COUPON_NAME,false,dateTime,0.3f)
+    private fun createCouponData(): List<CouponData> {
+        val list= mutableListOf<CouponData>()
+
+        val activeDate = java.time.LocalDate.now().plusMonths(1).toString()
+        list.add(CouponData(Constant.COUPON_COD, false, activeDate, Constant.COUPON_DISCOUNT))
+
+        val disabledDate = java.time.LocalDate.now().minusMonths(1).toString()
+        list.add(CouponData(Constant.COUPON_COD_DISABLED, false, disabledDate, Constant.COUPON_DISCOUNT_DISABLED))
+        return list
+
     }
 }

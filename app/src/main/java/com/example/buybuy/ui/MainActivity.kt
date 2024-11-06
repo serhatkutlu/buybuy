@@ -121,6 +121,10 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.action_mainFragment_to_profileFragment)
                     true
                 }
+                R.id.nav_coupons -> {
+                    navController.navigate(R.id.couponsFragment)
+                    true
+                }
 
                 else -> {
                     false

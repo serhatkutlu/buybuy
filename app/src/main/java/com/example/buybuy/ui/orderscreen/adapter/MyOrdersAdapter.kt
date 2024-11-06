@@ -11,10 +11,10 @@ import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.visible
 
-class MyOrdersAdapter(private var orderList: List<OrderDataUi>) :
+class MyOrdersAdapter(private var orderList: List<OrderDataUi>, private val onItemClicked: (ProductDetailUI) -> Unit) :
     RecyclerView.Adapter<MyOrdersAdapter.MyOrdersViewHolder>() {
 
-    class MyOrdersViewHolder(private val binding: ItemProduct2Binding) :
+    inner class MyOrdersViewHolder(private val binding: ItemProduct2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: OrderDataUi) {
             with(binding) {
@@ -29,7 +29,10 @@ class MyOrdersAdapter(private var orderList: List<OrderDataUi>) :
                         price.calculateDiscount(discount).toString()
                     )
                     tvCount.text = pieceCount.toString()
-
+                    buttonRate.visible()
+                    buttonRate.setOnClickListener{
+                        onItemClicked(product.data)
+                    }
                 }
 
             }

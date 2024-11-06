@@ -5,7 +5,7 @@ import com.example.buybuy.domain.model.data.User
 import com.example.buybuy.util.Resource
 import kotlinx.coroutines.flow.Flow
 
-interface FirebaseRepository {
+interface LoginRepository {
 
      fun createUser(user: User): Flow<Resource<Nothing>>
 
@@ -15,5 +15,6 @@ interface FirebaseRepository {
      fun logOut():Flow<Resource<Nothing>>
 
      fun getUserData(): Flow<Resource<UserData>>
+
 
 }

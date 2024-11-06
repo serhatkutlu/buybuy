@@ -11,6 +11,7 @@ object Constant {
     const val IMAGES="images"
     const val COLLECTION_PATH_USERS="users"
     const val COLLECTION_PATH_COUPON="coupon"
+    const val COLLECTION_PATH_COUPON_USER="coupon_user"
     const val COLLECTION_PATH_ADDRESS="address"
     const val COLLECTION_PATH_ORDERS="orders"
     const val COLLECTION_PATH_ORDERS_USER="user_orders"
@@ -33,7 +34,11 @@ object Constant {
     const val NODATAFOUND="No Data Found"
 
 
-    const val  COUPON_NAME="BUY30"
+    const val  COUPON_COD="BUY30"
+    const val  COUPON_COD_DISABLED="BUY50"
+    const val  COUPON_DISCOUNT=30f
+    const val  COUPON_DISCOUNT_DISABLED=50f
+
 
     const val MAIN_RV_TYPE_RV_CATEGORY=3
 

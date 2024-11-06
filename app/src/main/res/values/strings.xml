@@ -1,6 +1,8 @@
 <resources>
 
-    <string name="currency_symbol">%1$s$</string>
+    <string name="currency_symbol">%s$</string>
+    <string name="percentage_symbol">%.0f%%</string>
+
 
 
     <string name="invalid_email_password">invalid email or password</string>
@@ -116,6 +118,10 @@
     <string name="fragment_checkout_cart_error_message">invalid  number</string>
 
 
+
+    <string name="fragment_coupons_title">Coupons</string>
+
+
     <string name="fragment_order_successful_title">You can see your order on the orders screen.</string>
 
 
@@ -129,8 +135,15 @@
     <string name="fragment_cart_button_buy_now">Buy now</string>
 
 
-    <string name="fragment_MyOrders_title">My Orders</string>
+    <string name="fragment_my_orders_title">My Orders</string>
+    <string name="fragment_my_orders_button_rate">Rate Your Experience</string>
+    <string name="fragment_my_orders_alert_title">Rate this product</string>
+    <string name="fragment_my_orders_alert_positive_text">Submit</string>
 
-
+    <string name="rating_text_very_bad">Very Bad</string>
+    <string name="rating_text_bad">Bad</string>
+    <string name="rating_text_average">Average</string>
+    <string name="rating_text_good">Good</string>
+    <string name="rating_text_very_good">Very Good</string>
 
 </resources>

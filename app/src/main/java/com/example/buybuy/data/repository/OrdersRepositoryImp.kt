@@ -40,16 +40,17 @@ class OrdersRepositoryImp(
     }
 
     override suspend fun getAllOrder(): Resource<List<OrderData>> {
-        var list = mutableListOf<OrderData>()
+        val list = mutableListOf<OrderData>()
         try {
             val snapshot=firestore.collection(Constant.COLLECTION_PATH_ORDERS).document(uid)
                 .collection("user_orders").get().await()
 
-//                    it.documents().map
-//                list = it.toObjects(OrderData::class.java)
-//            }
+
             snapshot.documents.forEach {
-                list+=it.toObject(OrderData::class.java)!!
+                val order=it.toObject(OrderData::class.java)
+                order?.let {
+                    list.add(it)
+                }
             }
             return Resource.Success(list)
         } catch (e: Exception) {

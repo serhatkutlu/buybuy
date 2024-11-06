@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.buybuy.R
@@ -25,6 +26,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private var job: kotlinx.coroutines.Job? = null
 
@@ -60,7 +66,13 @@ fun TextInputEditText.checkNullOrEmpty(error: String): Boolean {
         false
     }
 }
+fun String.expirationDateCalculate(format: String = "yyyy-MM-dd"):Boolean{
+    val dateFormatter = DateTimeFormatter.ofPattern(format).withLocale(Locale.getDefault())
+    val date= LocalDate.parse(this,dateFormatter)
+    val now= LocalDate.now()
+    return date.isBefore(now)
 
+}
 fun Context.showCustomizeToast(message: String?,@RawRes animUrl: Int,@DrawableRes  background:Int,@ColorInt color:Int?) {
     val binding = LayoutToastMessageBinding.inflate(LayoutInflater.from(this))
     binding.lottieAnimation.setAnimation(animUrl)
@@ -149,4 +161,16 @@ infix fun Int.calculateDiscount(discount: Int):Float {
 
 val Context.sharedPreferences: SharedPreferences
     get() = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+
+fun RatingBar.setRatingText(context: Context): String{
+    val ratingValue=this.rating
+    return when(ratingValue){
+        5f-> context.getString(R.string.rating_text_very_good)
+        4f-> context.getString(R.string.rating_text_good)
+        3f-> context.getString(R.string.rating_text_average)
+        2f-> context.getString(R.string.rating_text_bad)
+        else-> context.getString(R.string.rating_text_very_bad)
+    }
+}
 

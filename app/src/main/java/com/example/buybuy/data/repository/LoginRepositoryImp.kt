@@ -2,7 +2,7 @@ package com.example.buybuy.data.repository
 
 import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.model.data.User
-import com.example.buybuy.domain.repository.FirebaseRepository
+import com.example.buybuy.domain.repository.LoginRepository
 import com.example.buybuy.util.Constant.COLLECTION_PATH_USERS
 import com.example.buybuy.util.Constant.EMAIL
 import com.example.buybuy.util.Constant.ID
@@ -29,7 +29,7 @@ class LoginRepositoryImp @Inject constructor(
     private val authentication: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage
-) : FirebaseRepository {
+) : LoginRepository {
     override fun createUser(user: User): Flow<Resource<Nothing>> = flow {
         try {
             emit(Resource.Loading())
@@ -58,6 +58,7 @@ class LoginRepositoryImp @Inject constructor(
             firestore.collection(COLLECTION_PATH_USERS).document(uid)
                 .set(userModel).await()
             emit(Resource.Success())
+
 
 
         } catch (e: Exception) {
@@ -124,6 +125,7 @@ class LoginRepositoryImp @Inject constructor(
 
 
     }.flowOn(Dispatchers.IO)
+
 
 
 }

@@ -89,6 +89,12 @@
     <dimen name="spinner_width">120dp</dimen>
 
 
+    <dimen name="coupon_circle_radius_middle">5dp</dimen>
+    <dimen name="coupon_circle_radius_outer">7dp</dimen>
+
+
+
+
 
 
 

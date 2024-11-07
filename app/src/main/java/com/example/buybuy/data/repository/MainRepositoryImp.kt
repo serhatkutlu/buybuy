@@ -70,14 +70,19 @@ class MainRepositoryImp @Inject constructor(
         }.flowOn(Dispatchers.IO)
 
     override fun getAllCategory(): Flow<Resource<List<String>>> = flow {
-        val response = remoteDataSource.getAllCategory()
-        if (response.isSuccessful) {
-            val category =
-                response.body()?.categories
-            emit(Resource.Success(category))
-        } else {
-            emit(Resource.Error(response.message()))
+        try {
+            val response = remoteDataSource.getAllCategory()
+            if (response.isSuccessful) {
+                val category =
+                    response.body()?.categories
+                emit(Resource.Success(category))
+            } else {
+                emit(Resource.Error(response.message()))
+            }
+        }catch (e:java.lang.Exception){
+            emit(Resource.Error(e.message.toString()))
         }
+
     }.flowOn(Dispatchers.IO)
 
     override suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>) {
@@ -161,37 +166,7 @@ class MainRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getCartProducts(): Flow<Resource<List<ProductDetailEntity>>> = flow {
-        emit(Resource.Loading())
-        try {
-            val response = productDataSource.getCartProducts()
-            if (response.isEmpty()) {
-                emit(Resource.Error(NODATAFOUND))
-            } else {
-                emit(Resource.Success(response))
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
-        }
 
-    }.flowOn(Dispatchers.IO)
-
-
-    override suspend fun addToCart(product: Int) {
-        productDataSource.addToCart(product)
-    }
-
-    override suspend fun reduceProductInCart(product: Int) {
-        productDataSource.reduceProductInCart(product)
-    }
-
-    override suspend fun deleteProductFromCart(product: Int) {
-        productDataSource.deleteProductFromCart(product)
-    }
-
-    override suspend fun clearCart() {
-        productDataSource.deleteAllProductsFromCart()
-    }
 
 
     override suspend fun isFavorite(productDetail: Int): Boolean =
@@ -220,6 +195,19 @@ class MainRepositoryImp @Inject constructor(
         }
 
 
+    }
+
+    override suspend fun clearAllTables(): Resource<Nothing> {
+
+        return try {
+            productDataSource.clearDao()
+            flashSaleDataSource.clearAll()
+            preferencesHelper.clearEndTime()
+            Resource.Success()
+        }catch (e:Exception){
+             Resource.Error(e.localizedMessage?:Constant.UNKNOWN_ERROR)
+
+        }
     }
 
     private suspend fun createFlashSaleItem() {

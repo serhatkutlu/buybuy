@@ -9,7 +9,7 @@ interface LoginRepository {
 
      fun createUser(user: User): Flow<Resource<Nothing>>
 
-     fun checkUserLogin():Flow<Boolean>
+     fun checkUserLogin():Flow<Resource<Boolean>>
      fun checkUserEmailAndPassword(email: String, password: String):Flow<Resource<Boolean>>
      fun resetPassword(email: String):Flow<Resource<Nothing>>
      fun logOut():Flow<Resource<Nothing>>

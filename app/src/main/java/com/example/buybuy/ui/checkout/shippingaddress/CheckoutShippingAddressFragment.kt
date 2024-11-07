@@ -10,12 +10,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
+import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.databinding.FragmentCheckoutShippingaddressBinding
 import com.example.buybuy.ui.checkout.CheckOutViewModel
 import com.example.buybuy.ui.checkout.CheckoutFragment
 import com.example.buybuy.ui.checkout.dialog.AddressDialogFragment
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.gone
+import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
 import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,14 +26,16 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shippingaddress),
+class CheckoutShippingAddressFragment : Fragment(R.layout.fragment_checkout_shippingaddress),
     CheckoutFragment.CheckoutFragmentInterface {
 
 
-    private val binding: FragmentCheckoutShippingaddressBinding by viewBinding(FragmentCheckoutShippingaddressBinding::bind)
-    private val viewmodel: CheckOutViewModel by viewModels({requireParentFragment()})
+    private val binding: FragmentCheckoutShippingaddressBinding by viewBinding(
+        FragmentCheckoutShippingaddressBinding::bind
+    )
+    private val viewmodel: CheckOutViewModel by viewModels({ requireParentFragment() })
     private lateinit var dialogFragment: DialogFragment
-    private var onClickListener={}
+    private var onClickListener = {}
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,15 +48,15 @@ class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shipp
     }
 
     private fun initUi() {
-        binding.llAddress.setOnClickListener{onClickListener()}
+        binding.llAddress.setOnClickListener { onClickListener() }
 
-        binding.tvEditAddresses.setOnClickListener{findNavController().navigate(R.id.action_checkoutFragment_to_addressFragment)}
+        binding.tvEditAddresses.setOnClickListener { findNavController().navigate(R.id.action_checkoutFragment_to_addressFragment) }
     }
 
     private fun initObservers() {
-        viewLifecycleOwner.lifecycleScope.launch{
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewmodel.addresses.collect{
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewmodel.addresses.collect {
                     observeAddressData()
                 }
             }
@@ -62,28 +67,24 @@ class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shipp
         viewmodel.addresses.collect { data ->
             when (data) {
                 is Resource.Success -> {
-                    onClickListener={
-                        dialogFragment= AddressDialogFragment(data.data!!){
-                            binding.tvNameSurname.text=it.name+" "+it.surname
-                            binding.tvAddress.text=it.address
-                            dialogFragment.dismiss()
-                            viewmodel.lastAddressId=it.id
-                            binding.tvAddressNotSelected.gone()
-                        }
-                        dialogFragment.show(parentFragmentManager, ADDRESS_DATA )
+                    if (data.data.isNullOrEmpty()) {
+                        onClickListener =::onAddressClickedError
+                    } else {
+                        onClickListener = { onAddressClickedSuccess(data.data) }
 
                     }
-                    viewmodel.lastAddressId?.let{id->
-                        data.data?.find{ it.id==id}?.let{lastAddress->
-                            binding.tvNameSurname.text=lastAddress.name+" "+lastAddress.surname
-                            binding.tvAddress.text=lastAddress.address
+                    viewmodel.lastAddressId?.let { id ->
+                        data.data?.find { it.id == id }?.let { lastAddress ->
+                            binding.tvNameSurname.text =
+                                lastAddress.name + " " + lastAddress.surname
+                            binding.tvAddress.text = lastAddress.address
                         }
 
                     }
                 }
 
                 is Resource.Error -> {
-                    onClickListener={
+                    onClickListener = {
                         findNavController().navigate(R.id.action_checkoutFragment_to_addressFragment)
                     }
                 }
@@ -94,16 +95,43 @@ class CheckoutShippingAddressFragment: Fragment(R.layout.fragment_checkout_shipp
     }
 
 
-    companion object{
-        private const val ADDRESS_DATA="addressData"
+    companion object {
+        private const val ADDRESS_DATA = "addressData"
 
     }
 
-    override fun onConfirmButtonClicked():Boolean {
-        return if(binding.tvNameSurname.text.isNullOrEmpty()){
+    override fun onConfirmButtonClicked(): Boolean {
+        return if (binding.tvNameSurname.text.isNullOrEmpty()) {
             binding.tvAddressNotSelected.visible()
             false
-        }else true
+        } else true
+    }
+
+    private fun onAddressClickedSuccess(data: List<AddressData>) {
+        dialogFragment = AddressDialogFragment(data) {
+            binding.tvNameSurname.text = it.name + " " + it.surname
+            binding.tvAddress.text = it.address
+            dialogFragment.dismiss()
+            viewmodel.lastAddressId = it.id
+            binding.tvAddressNotSelected.gone()
+        }
+        dialogFragment.show(parentFragmentManager, ADDRESS_DATA)
+    }
+
+    private fun onAddressClickedError() {
+        requireContext().apply {
+            showAlertDialog(
+                title = getString(R.string.fragment_checkout_address_alert_title),
+                getString(R.string.fragment_checkout_address_alert_message),
+                positiveButtonAction = {
+                    findNavController().navigate(
+                        R.id.action_checkoutFragment_to_addressFragment,
+                        null,
+                        NavOptions.rightAnim
+                    )
+                })
+
+        }
     }
 
 

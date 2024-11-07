@@ -16,6 +16,7 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="empty_field">Empty Field</string>
+    <string name="refresh">Refresh</string>
 
     <string name="fragment_login_login">Login</string>
     <string name="fragment_login_email">Email</string>">
@@ -41,7 +42,6 @@
 
 
 
-    <string name="fragment_favorites_add_to_cart">Add to cart</string>">
 
 
 
@@ -89,8 +89,12 @@
     <string name="about">about</string>
 
 
+    <string name="fragment_Favorites_title">Favorites</string>
+    <string name="fragment_favorites_add_to_cart">Add to cart</string>">
+
+
     <string name="Profile_title">Profile</string>
-    <string name="fragment_new_address_title">Add Adress</string>
+    <string name="fragment_new_address_title">Add Address</string>
     <string name="fragment_new_address_contact_information">contact information</string>
     <string name="fragment_new_address_address">address</string>
     <string name="fragment_new_address_address_information">address information</string>
@@ -116,7 +120,8 @@
     <string name="fragment_checkout_cart_year_hint">year</string>
     <string name="fragment_checkout_cart_cvc_hint">CVC</string>
     <string name="fragment_checkout_cart_error_message">invalid  number</string>
-
+    <string name="fragment_checkout_address_alert_title">address not found</string>
+    <string name="fragment_checkout_address_alert_message">Do you want to add a new address?</string>
 
 
     <string name="fragment_coupons_title">Coupons</string>

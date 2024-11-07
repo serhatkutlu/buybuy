@@ -78,6 +78,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         with(binding.includedLayout) {
 
             initRecyclerView()
+            ivBack.visible()
             ivBack.setOnClickListener {
                     handleBackButton()
                 }

@@ -22,7 +22,7 @@
 
             <include
                 android:id="@+id/included_profile"
-                layout="@layout/profile_layouth"
+                layout="@layout/profile_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax"

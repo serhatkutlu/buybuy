@@ -12,12 +12,14 @@ import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 
-class FavoritesAdapter:
+class FavoritesAdapter :
     ListAdapter<ProductDetailUI, FavoritesAdapter.FavoritesViewHolder>(ProductComparator()) {
 
 
-        var onItemClicked: (ProductDetailUI) -> Unit = {}
-     inner class FavoritesViewHolder(val binding: ItemProduct2Binding) :
+    var onItemClickedCart: (ProductDetailUI) -> Unit = {}
+    var onItemClickedDelete: (ProductDetailUI) -> Unit = {}
+
+    inner class FavoritesViewHolder(val binding: ItemProduct2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductDetailUI) {
             with(binding) {
@@ -25,15 +27,19 @@ class FavoritesAdapter:
                 tvBrand.text = product.brand
                 tvTitle.text = product.title
                 rating.rating = product.star
-                tvPrice.text = (product.star ).toString()
+                tvPrice.text = (product.star).toString()
                 tvPrice.text = binding.root.context.getString(
-                    R.string.currency_symbol,product.price.calculateDiscount(product.discount).toString())
+                    R.string.currency_symbol,
+                    product.price.calculateDiscount(product.discount).toString()
+                )
                 tvCount.text = product.pieceCount.toString()
                 buttonAddToCart.visible()
                 buttonAddToCart.setOnClickListener {
-                    onItemClicked(product)
+                    onItemClickedCart(product)
                 }
-
+                ivDelete.setOnClickListener {
+                    onItemClickedDelete(product)
+                }
 
 
             }

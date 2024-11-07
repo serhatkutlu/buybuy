@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.cart.AddToCartUseCase
+import com.example.buybuy.domain.usecase.favorite.DeleteFromFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.GetAllFavoriteUseCase
 import com.example.buybuy.domain.usecase.favorite.SearchFavoritesUseCase
 import com.example.buybuy.util.Resource
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class FavoritesViewModel @Inject constructor(
     private val getFavoritesUseCase: GetAllFavoriteUseCase,
     private val searchFavoritesUseCase: SearchFavoritesUseCase,
-    private val addToCartUseCase: AddToCartUseCase
+    private val addToCartUseCase: AddToCartUseCase,
+    private val deleteFromFavoriteUseCase:DeleteFromFavoriteUseCase
 ) : ViewModel() {
 
 
@@ -39,7 +41,7 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-    private fun getFavorites() {
+     fun getFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             getFavoritesUseCase.invoke().collect {
                 _favoritesState.emit(it)
@@ -47,9 +49,11 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-     fun addToCart(productDetail: ProductDetailUI) {
+     fun deleteFromFavorites(productDetail: ProductDetailUI) {
          viewModelScope.launch(Dispatchers.IO) {
-             addToCartUseCase(productDetail.id)
+             deleteFromFavoriteUseCase(productDetail.id)
+             getFavorites()
          }
      }
+     suspend fun addToCart(productDetail: ProductDetailUI) =addToCartUseCase(productDetail.id)
 }

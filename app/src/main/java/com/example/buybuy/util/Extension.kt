@@ -3,6 +3,9 @@ package com.example.buybuy.util
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.RawRes
@@ -98,8 +101,14 @@ fun Context.showCustomizeToast(message: String?,@RawRes animUrl: Int,@DrawableRe
 
 }
 
+private var lastToastTime=0L
 fun Context.showToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    val currentTime = System.currentTimeMillis()
+    if ((currentTime - lastToastTime) > 2000) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        lastToastTime=currentTime
+    }
+
 }
 
 
@@ -171,6 +180,21 @@ fun RatingBar.setRatingText(context: Context): String{
         3f-> context.getString(R.string.rating_text_average)
         2f-> context.getString(R.string.rating_text_bad)
         else-> context.getString(R.string.rating_text_very_bad)
+    }
+
+
+}
+
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+    } else {
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 }
 

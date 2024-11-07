@@ -23,6 +23,10 @@ class PreferencesHelper @Inject constructor(@ApplicationContext private val cont
     fun getEndTime(): String? {
         return sharedPreferences.getString(END_TIME_KEY, null)
     }
+    fun clearEndTime() {
+        sharedPreferences.edit().remove(END_TIME_KEY).apply()
+    }
+
 
 
 }

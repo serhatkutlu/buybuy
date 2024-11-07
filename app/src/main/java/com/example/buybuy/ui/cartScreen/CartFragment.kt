@@ -17,6 +17,7 @@ import com.example.buybuy.ui.cartScreen.adapter.CartAdapter
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.invisible
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
@@ -70,9 +71,22 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
             when(it){
                 is Resource.Success->{
                     binding.progressBar.gone()
-                    cartAdapter.submitList(it.data)
+
+                    if (it.data.isNullOrEmpty()) {
+                        binding.recyclerView.invisible()
+                        binding.lottieAnimationView.visible()
+                        binding.lottieAnimationView.playAnimation()
+                    }else{
+                        binding.recyclerView.visible()
+                        binding.lottieAnimationView.gone()
+                        cartAdapter.submitList(it.data)
+
+                    }
                 }
                 is Resource.Error->{
+                    binding.recyclerView.invisible()
+                    binding.lottieAnimationView.visible()
+                    binding.lottieAnimationView.playAnimation()
                     cartAdapter.submitList(emptyList())
                     binding.progressBar.gone()
                     requireContext().showToast(it.message)

@@ -10,6 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.util.NavOptions
+import com.example.buybuy.util.Resource
+import com.example.buybuy.util.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,21 +28,44 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED){
-                    delay(2000)
-                    viewmodel.checkUserLogin.collect{
+        val isNetworkAvailable = requireContext().isNetworkAvailable()
+        //if (isNetworkAvailable)
+        initObservers()
 
-                        if (it){
-                            findNavController().navigate(R.id.action_splashFragment_to_main_nav_graph, null,NavOptions.rightAnim)
-                        }else{
+
+    }
+
+    private fun initObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewmodel.checkUserLogin.collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            if (it.data == true) {
+                                findNavController().navigate(
+                                    R.id.action_splashFragment_to_main_nav_graph,
+                                    null,
+                                    NavOptions.rightAnim
+                                )
+                            } else {
+                                findNavController().navigate(
+                                    R.id.action_splashFragment_to_loginFragment,
+                                    null,
+                                    NavOptions.rightAnim
+                                )
+                            }
+
+                        }
+
+                        else -> {
                             findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.rightAnim)
+
                         }
                     }
                 }
             }
-
         }
+
     }
+
 }

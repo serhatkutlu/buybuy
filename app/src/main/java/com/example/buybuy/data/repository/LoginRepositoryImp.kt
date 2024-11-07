@@ -84,8 +84,14 @@ class LoginRepositoryImp @Inject constructor(
 
         }.flowOn(Dispatchers.IO)
     }
-    override fun checkUserLogin() = flow {
-        emit(authentication.currentUser?.uid != null)
+    override fun checkUserLogin(): Flow<Resource<Boolean>> = flow {
+        try {
+            val isLoggedIn = authentication.currentUser?.uid != null
+            emit(Resource.Success(isLoggedIn))
+
+        }catch (e:java.lang.Exception){
+            emit(Resource.Error(e.message.toString()))
+        }
     }.flowOn(Dispatchers.IO)
 
     override fun checkUserEmailAndPassword(email: String, password: String) = flow {

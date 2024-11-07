@@ -32,6 +32,9 @@
 
         <argument android:name="Product"
             app:argType="com.example.buybuy.domain.model.data.ProductDetailUI" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

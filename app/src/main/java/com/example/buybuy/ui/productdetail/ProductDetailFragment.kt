@@ -14,14 +14,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProductDetailScreenBinding
+import com.example.buybuy.enums.ToastMessage
 import com.example.buybuy.ui.productdetail.adapter.ProductDetailAdapter
 import com.example.buybuy.util.Constant.DETAIL_CARD_MAX_HEIGHT
 import com.example.buybuy.util.Constant.DETAIL_CARD_MIN_HEIGHT
 import com.example.buybuy.util.Constant.POPULAR
+import com.example.buybuy.util.NavOptions
+import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
@@ -29,6 +33,7 @@ import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -54,12 +59,28 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isFavoriteFlow.collect {
-                    it?.let {
-                        args.product.isFavorite = it
-                    }
+                launch {
+                    viewModel.isFavoriteFlow.collect {
+                        it?.let {
+                            args.product.isFavorite = it
+                        }
 
+                    }
                 }
+                launch {
+                    viewModel.buyNowFlow.collect {
+                       when(it){
+                           is Resource.Success->{
+                               findNavController().navigate(R.id.action_productDetailFragment_to_checkoutFragment,null,NavOptions.rightAnim)
+                           }
+                           is Resource.Error->{
+                               ToastMessage.ERROR.showToast(requireContext(),it.message)
+                           }
+                           else->{}
+
+                       }                       }
+                }
+
             }
         }
     }
@@ -120,6 +141,13 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 buttonAddToCart.setOnClickListener {
                     viewModel.addCart(args.product.id)
                     requireContext().showToast(getString(R.string.snackbar_message_cart))
+                }
+                buttonBuyNow.setOnClickListener {
+                    viewModel.buyNow(args.product.id)
+
+                }
+                ivBack.setOnClickListener {
+                    findNavController().popBackStack()
                 }
 
 

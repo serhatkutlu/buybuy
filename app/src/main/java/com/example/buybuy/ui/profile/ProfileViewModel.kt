@@ -6,6 +6,7 @@ import com.example.buybuy.R
 import com.example.buybuy.domain.model.data.ProfileOption
 import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.usecase.login.LogOutUseCase
+import com.example.buybuy.domain.usecase.main.ClearAllTableUseCase
 import com.example.buybuy.domain.usecase.main.GetUserDataUseCase
 import com.example.buybuy.enums.ProfileOptionsEnum
 import com.example.buybuy.util.Resource
@@ -17,7 +18,11 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseCase,private val getUserDataUseCase: GetUserDataUseCase) : ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val logOutUseCase: LogOutUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val clearAllTableUseCase: ClearAllTableUseCase
+) : ViewModel() {
     private val _profileOptions = MutableStateFlow<Resource<List<ProfileOption>>>(Resource.Empty)
     val profileOptions: StateFlow<Resource<List<ProfileOption>>> = _profileOptions
 
@@ -27,6 +32,7 @@ class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseC
 
     private val _user = MutableStateFlow<Resource<UserData>>(Resource.Empty)
     val user: StateFlow<Resource<UserData>> = _user
+
     init {
         getUserData()
         initProfileOption()
@@ -42,12 +48,11 @@ class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseC
     }
 
 
-
     private fun initProfileOption() {
         try {
             _profileOptions.value = Resource.Loading()
             listOf(
-                ProfileOption(ProfileOptionsEnum.ORDER, R.drawable.nav_order,R.string.order),
+                ProfileOption(ProfileOptionsEnum.ORDER, R.drawable.nav_order, R.string.order),
                 ProfileOption(ProfileOptionsEnum.COUPONS, R.drawable.coupon, R.string.coupons),
                 ProfileOption(ProfileOptionsEnum.ADDRESS, R.drawable.location, R.string.address),
                 ProfileOption(ProfileOptionsEnum.PAYMENT, R.drawable.payment, R.string.payment),
@@ -66,10 +71,12 @@ class ProfileViewModel @Inject constructor(private val LogOutUseCase: LogOutUseC
         }
     }
 
-    fun logOut(){
+    fun logOut() {
         viewModelScope.launch {
-            LogOutUseCase().collect{
+            logOutUseCase().collect {
+                clearAllTableUseCase()
                 _logOutState.emit(it)
+
             }
         }
     }

@@ -24,4 +24,6 @@ interface ProductDataSource {
 
     suspend fun deleteAllProductsFromCart()
 
+    suspend fun clearDao()
+
 }

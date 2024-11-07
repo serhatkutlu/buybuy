@@ -63,5 +63,8 @@ class ProductDataSourceImp @Inject constructor(
         productDAO.deleteAllProductCart()
     }
 
+    override suspend fun clearDao()=productDAO.clearAll()
+
+
 
 }

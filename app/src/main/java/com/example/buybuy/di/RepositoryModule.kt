@@ -1,5 +1,6 @@
 package com.example.buybuy.di
 
+import com.example.buybuy.data.repository.CartRepositoryImpl
 import com.example.buybuy.data.repository.CouponRepositoryImp
 import com.example.buybuy.data.repository.LoginRepositoryImp
 import com.example.buybuy.data.repository.MainRepositoryImp
@@ -8,13 +9,15 @@ import com.example.buybuy.data.source.local.PreferencesHelper
 import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
+import com.example.buybuy.domain.repository.CartRepository
 import com.example.buybuy.domain.repository.CouponRepository
-import com.example.buybuy.domain.repository.FirebaseRepository
+import com.example.buybuy.domain.repository.LoginRepository
 import com.example.buybuy.domain.repository.MainRepository
 import com.example.buybuy.domain.repository.OrdersRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,14 +44,24 @@ object RepositoryModule {
         preferencesHelper
     )
 
+    @Provides
+    @ViewModelScoped
+    fun provideCartRepository(
+
+        productDataSource: ProductDataSource,
+
+        ): CartRepository = CartRepositoryImpl(
+        productDataSource
+    )
+
 
     @Provides
     @ViewModelScoped
-    fun provideFirebaseRepository(
+    fun provideLoginRepository(
         firebaseAuth: FirebaseAuth,
         fireStore: FirebaseFirestore,
         storage: FirebaseStorage
-    ): FirebaseRepository =
+    ): LoginRepository =
         LoginRepositoryImp(firebaseAuth, fireStore, storage)
 
 

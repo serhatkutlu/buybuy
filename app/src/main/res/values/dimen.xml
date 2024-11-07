@@ -93,6 +93,10 @@
     <dimen name="coupon_circle_radius_outer">7dp</dimen>
 
 
+    <dimen name="lottie_width">200dp</dimen>
+    <dimen name="lottie_height">200dp</dimen>
+
+
 
 
 

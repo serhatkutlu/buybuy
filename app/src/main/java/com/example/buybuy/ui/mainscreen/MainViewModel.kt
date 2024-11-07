@@ -15,6 +15,7 @@ import com.example.buybuy.enums.ViewType
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -36,40 +37,45 @@ class MainViewModel @Inject constructor(
     private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase,
     private val createFlashSaleList: FlashSaleUseCase
 ) : ViewModel() {
-    private val _vpBannerDataFlow: MutableSharedFlow<List<MainRecycleViewTypes>> =
-        MutableSharedFlow()
-    val vpBannerDataFlow: SharedFlow<List<MainRecycleViewTypes>> = _vpBannerDataFlow
+    private val _mainRvData: MutableSharedFlow<List<MainRecycleViewTypes>> =
+        MutableSharedFlow(replay = 1)
+    val mainRvData: SharedFlow<List<MainRecycleViewTypes>> = _mainRvData
 
     private  val categories =getCategories()
     private val combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
 
     init {
 
+        fetchMainContent()
+
+    }
+
+    private fun fetchMainContent() {
         viewModelScope.launch(Dispatchers.IO) {
-            val getVpBannerImages = getVpBannerImages()
+            val vpBannerDeferred = async { getVpBannerImages() }
+            val allSingleBannerDeferred = async { getAllSingleBanner() }
+            val flashSaleDeferred = async { getFlashSaleList() }
+
+            val getVpBannerImages = vpBannerDeferred.await()
+            val getAllSingleBanner = allSingleBannerDeferred.await()
+            val getFlashSale = flashSaleDeferred.await()
+            val divider = MainRecycleViewTypes.Divider
 
 
             fetchContentForCategory().collect { response ->
                 response?.let { data ->
-                    synchronized(combinedList) {
-                        val index =
-                            combinedList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
-                        if (index != -1) {
-                            combinedList[index] = data
-                        } else {
-                            combinedList.add(data)
-                        }
-                        combinedList.sortBy { it.ordinal }
-                        _vpBannerDataFlow.tryEmit(combinedList)
+                    val index = combinedList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+                    if (index != -1) {
+                        combinedList[index] = data
+                    } else {
+                        combinedList.add(data)
                     }
                 }
             }
-            val getAllSingleBanner = getAllSingleBanner()
-            val getFlashSale = getFlashSaleList()
-            val divider = MainRecycleViewTypes.Divider
+
             combinedList.addAll((getVpBannerImages + getAllSingleBanner + getFlashSale + divider).filterNotNull())
             combinedList.sortBy { it.ordinal }
-            _vpBannerDataFlow.emit(combinedList)
+            _mainRvData.emit(combinedList)
         }
 
 

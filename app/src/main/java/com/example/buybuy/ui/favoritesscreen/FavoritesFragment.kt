@@ -14,9 +14,9 @@ import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentFavoritesBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.favoritesscreen.adapter.FavoritesAdapter
-import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.invisible
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
@@ -57,11 +57,18 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
                     when(it){
                         is Resource.Success -> {
+                            if (it.data.isNullOrEmpty()) {
+                             showAnimation()
+                            }else{
+                               hideAnimation()
+                            }
+
                             binding.includedLayout.progressBar.gone()
                             favoritesAdapter.submitList(it.data)
                         }
                         is Resource.Error -> {
-                            binding.includedLayout.progressBar.gone()
+                            showAnimation()
+                            favoritesAdapter.submitList(listOf())
                             requireContext().showToast(it.message)
                         }
                         is Resource.Loading -> {
@@ -74,33 +81,63 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
         }
     }
 
+
     private fun initUi() {
         with(binding.includedLayout){
             initRV()
             searchView.setOnQueryTextListener(object :androidx.appcompat.widget.SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    viewModel.searchOnFavorites(query ?:"")
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrBlank()) viewModel.getFavorites()
+                    else{
+                        viewModel.searchOnFavorites(newText )
+
+                    }
                 return true}
 
             })
         }
+
+    }
+
+    private fun showAnimation() {
+        binding.includedLayout.root.invisible()
+        binding.llLottie.visible()
+        binding.lottieAnimationsView.playAnimation()
+    }
+
+    private fun hideAnimation() {
+        binding.includedLayout.root.visible()
+        binding.llLottie.invisible()
+        binding.lottieAnimationsView.pauseAnimation()
     }
 
     private fun initRV() {
         with(binding.includedLayout){
             recyclerView.adapter=favoritesAdapter
             recyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-            favoritesAdapter.onItemClicked=::onItemClicked
+            favoritesAdapter.onItemClickedCart=::onItemClicked
+            favoritesAdapter.onItemClickedDelete=::onItemClickedDelete
+
         }
 
     }
 
+    private fun onItemClickedDelete(productDetailUI: ProductDetailUI) {
+        viewModel.deleteFromFavorites(productDetailUI)
+    }
+
     private fun onItemClicked(productDetail: ProductDetailUI) {
-        viewModel.addToCart(productDetail)
-        requireContext().showToast(getString(R.string.snackbar_message_cart))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.addToCart(productDetail).collect{
+                if (it is Resource.Success) requireContext().showToast(getString(R.string.snackbar_message_cart))
+                else requireContext().showToast(getString(R.string.unknown_error))
+
+            }
+        }
+
     }
 }

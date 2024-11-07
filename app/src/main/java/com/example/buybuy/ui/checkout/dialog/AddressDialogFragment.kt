@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
@@ -54,6 +53,6 @@ class AddressDialogFragment(
     }
     private fun setBackground() {
         val window: Window? = dialog?.window
-        window?.setBackgroundDrawableResource(R.drawable.layouth_bg)
+        window?.setBackgroundDrawableResource(R.drawable.layout_bg)
     }
 }

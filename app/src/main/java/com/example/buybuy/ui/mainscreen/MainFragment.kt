@@ -18,9 +18,14 @@ import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.ui.mainscreen.adapter.MainRecycleViewAdapter
 import com.example.buybuy.util.NavOptions
+import com.example.buybuy.util.Resource
+import com.example.buybuy.util.gone
+import com.example.buybuy.util.invisible
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
+import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -86,6 +91,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 NavOptions.upAnim
             )
         }
+        binding.includedError.buttonRefresh.setOnClickListener{
+            viewModel.fetchMainContent()
+        }
     }
 
     private fun initRV() {
@@ -117,6 +125,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
     }
+
     override fun onStop() {
         super.onStop()
 
@@ -132,8 +141,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    vpBannerDataFlow.collect {
-                        updateVpBannerData(it)
+                    mainRvData.collect {
+                        val isError=it.any {
+                            if (it is MainRecycleViewTypes.RVCategory) {
+                                it.data is Resource.Error
+                            } else false
+                        }
+                        if (!isError) {
+                            binding.includedError.root.gone()
+                            binding.recyclerView.visible()
+                            updateVpBannerData(it)
+                        } else {
+                            binding.recyclerView.invisible()
+                            binding.includedError.root.visible()
+                        }
                     }
                 }
 
@@ -158,16 +179,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun fetchContentDataForFlashSaleViewHolder() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val response = viewModel.getFlashSaleList()
-                response?.let {
-                    rvAdapter.updateCategoryItem(it)
-                }
-            }
-        }
-    }
+//    private fun fetchContentDataForFlashSaleViewHolder() {
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                val response = viewModel.getFlashSaleList()
+//                response?.let {
+//                    rvAdapter.updateCategoryItem(it)
+//                }
+//            }
+//        }
+//    }
 
     private fun openProductDetailScreen(product: ProductDetailUI) {
         findNavController().navigate(

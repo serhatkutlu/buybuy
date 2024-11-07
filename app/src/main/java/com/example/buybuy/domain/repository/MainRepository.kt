@@ -26,17 +26,11 @@ interface MainRepository {
     fun searchFavorites(query: String):Flow<Resource<List<ProductDetailEntity>>>
 
     suspend fun getAllProductFromDbWithCategory(category: String): Resource<List<ProductDetailEntity>>
-    fun getCartProducts():Flow<Resource<List<ProductDetailEntity>>>
 
-    suspend fun  addToCart(product: Int)
-
-    suspend fun reduceProductInCart(product: Int)
-    suspend fun deleteProductFromCart(product: Int)
-
-    suspend fun clearCart()
     suspend fun isFavorite(productDetail: Int): Boolean
 
     suspend fun getAllFlashSaleProduct():Resource<FlashSaleData>
+    suspend fun clearAllTables():Resource<Nothing>
 
 
 }

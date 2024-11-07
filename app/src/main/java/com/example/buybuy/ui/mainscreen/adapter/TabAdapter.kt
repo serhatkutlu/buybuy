@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
-import com.example.buybuy.databinding.ItemTabLayouthBinding
+import com.example.buybuy.databinding.ItemTabLayoutBinding
 
 class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparatorTab()) {
 
@@ -18,7 +18,7 @@ class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparat
 
     private var selectedPosition = 0
 
-    class TabViewHolder( binding: ItemTabLayouthBinding) :
+    class TabViewHolder( binding: ItemTabLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val itemTab = binding.cvTab
         val itemText = binding.tabTitle
@@ -28,7 +28,7 @@ class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
         val binding =
-            ItemTabLayouthBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTabLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TabViewHolder(binding)
     }
 

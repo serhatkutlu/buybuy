@@ -15,6 +15,7 @@ import com.example.buybuy.enums.ViewType
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -44,14 +45,17 @@ class MainViewModel @Inject constructor(
     private  val categories =getCategories()
     private val combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
 
+    private var mainContentJob: Job = Job()
     init {
 
         fetchMainContent()
 
     }
 
-    private fun fetchMainContent() {
-        viewModelScope.launch(Dispatchers.IO) {
+     fun fetchMainContent() {
+         if (mainContentJob.isActive) mainContentJob.cancel()
+            mainContentJob =viewModelScope.launch(Dispatchers.IO) {
+            combinedList.clear()
             val vpBannerDeferred = async { getVpBannerImages() }
             val allSingleBannerDeferred = async { getAllSingleBanner() }
             val flashSaleDeferred = async { getFlashSaleList() }

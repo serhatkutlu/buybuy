@@ -87,11 +87,8 @@ class CartViewModel @Inject constructor(
     }
 
     fun addToCart(productDetail: Int) {
-        viewModelScope.launch {
-            async(Dispatchers.IO) {
-                addToCartUseCase.invoke(productDetail)
-            }.await()
-
+        viewModelScope.launch(Dispatchers.IO) {
+            addToCartUseCase.invoke(productDetail)
             getAllCartItems()
         }
     }

@@ -21,6 +21,7 @@ import com.example.buybuy.util.viewBinding
 import com.google.type.DateTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -79,7 +80,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     }
 
     private fun createOrderData(): List<OrderData> {
-        val time = LocalDateTime.now().toString()
+        val time = LocalDate.now().toString()
         val orderDataList = listOf<OrderData>()
         val cartProducts = viewmodel.cartProducts.value
         return when (cartProducts) {

@@ -196,13 +196,12 @@ class MainRecycleViewAdapter(
 
     fun updateCategoryItem(newItem: MainRecycleViewTypes) {
         val position = when (newItem) {
-
             is MainRecycleViewTypes.RVCategory -> {
                  currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
             }
-            is MainRecycleViewTypes.FlashSaleDataUi -> {
-                currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
-            }
+//            is MainRecycleViewTypes.FlashSaleDataUi -> {
+//                currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
+//            }
             else -> {
                 -1
             }

@@ -28,11 +28,14 @@ class MyOrdersAdapter(private var orderList: List<OrderDataUi>, private val onIt
                         R.string.currency_symbol,
                         price.calculateDiscount(discount).toString()
                     )
-                    tvCount.text = pieceCount.toString()
+                    tvPieceCount.text = pieceCount.toString()
+                    tvDate.text=product.time
+                    llOrderDetails.visible()
                     buttonRate.visible()
                     buttonRate.setOnClickListener{
                         onItemClicked(product.data)
                     }
+
                 }
 
             }

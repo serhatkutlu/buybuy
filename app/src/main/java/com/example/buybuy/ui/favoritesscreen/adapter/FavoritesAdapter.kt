@@ -37,6 +37,7 @@ class FavoritesAdapter :
                 buttonAddToCart.setOnClickListener {
                     onItemClickedCart(product)
                 }
+                ivDelete.visible()
                 ivDelete.setOnClickListener {
                     onItemClickedDelete(product)
                 }

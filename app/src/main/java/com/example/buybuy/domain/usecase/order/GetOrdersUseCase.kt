@@ -6,6 +6,7 @@ import com.example.buybuy.domain.model.mapper.ProductDetailToProductDetailUi
 import com.example.buybuy.domain.repository.OrdersRepository
 import com.example.buybuy.util.Constant
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.formatReadableDate
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class GetOrdersUseCase @Inject constructor(
                     val list = response.data.mapNotNull { orderData: OrderData ->
                         val foundProduct = productDetailUi.find { data -> orderData.data == data.id }
                         foundProduct?.let {
-                            OrderDataUi(it, orderData.time!!, orderData.piece!!)
+                            OrderDataUi(it, orderData.time?.formatReadableDate()?:"", orderData.piece!!)
                         }
 
                     }

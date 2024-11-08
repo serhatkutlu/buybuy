@@ -21,6 +21,7 @@ object Constant {
     const val USER_NOT_FOUND:String="User not found"
 
 
+    const val DEFAULT_CATEGORY="tv"
 
     const val BANNER="banner"
     const val SINGLEBANNER="banners"

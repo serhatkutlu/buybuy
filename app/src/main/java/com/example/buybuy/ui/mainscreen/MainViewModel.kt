@@ -12,6 +12,7 @@ import com.example.buybuy.domain.usecase.main.GetCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetProductByCategoriesUseCase
 import com.example.buybuy.domain.usecase.main.GetVpBannerImagesUseCase
 import com.example.buybuy.enums.ViewType
+import com.example.buybuy.util.Constant.DEFAULT_CATEGORY
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -38,23 +41,24 @@ class MainViewModel @Inject constructor(
     private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase,
     private val createFlashSaleList: FlashSaleUseCase
 ) : ViewModel() {
-    private val _mainRvData: MutableSharedFlow<List<MainRecycleViewTypes>> =
-        MutableSharedFlow(replay = 1)
-    val mainRvData: SharedFlow<List<MainRecycleViewTypes>> = _mainRvData
+    private val _mainRvData: MutableStateFlow<List<MainRecycleViewTypes>> =
+        MutableStateFlow(listOf())
+    val mainRvData: StateFlow<List<MainRecycleViewTypes>> = _mainRvData
 
-    private  val categories =getCategories()
+    private val categories = getCategories()
     private val combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
 
     private var mainContentJob: Job = Job()
+
     init {
 
         fetchMainContent()
 
     }
 
-     fun fetchMainContent() {
-         if (mainContentJob.isActive) mainContentJob.cancel()
-            mainContentJob =viewModelScope.launch(Dispatchers.IO) {
+    fun fetchMainContent() {
+        if (mainContentJob.isActive) mainContentJob.cancel()
+        mainContentJob = viewModelScope.launch(Dispatchers.IO) {
             combinedList.clear()
             val vpBannerDeferred = async { getVpBannerImages() }
             val allSingleBannerDeferred = async { getAllSingleBanner() }
@@ -107,36 +111,52 @@ class MainViewModel @Inject constructor(
         return result
     }
 
-    suspend fun addToFavorite(productDetail: ProductDetailUI):Boolean {
-        return withContext(Dispatchers.IO){
+    suspend fun addToFavorite(productDetail: ProductDetailUI): Boolean {
+        return withContext(Dispatchers.IO) {
             if (productDetail.isFavorite) {
-                 deleteFavoriteUseCase(productDetail.id)
+                deleteFavoriteUseCase(productDetail.id)
 
             } else {
-                 addToFavoriteUseCase(productDetail)
+                addToFavoriteUseCase(productDetail)
 
             }
         }
     }
 
-     suspend fun fetchContentForCategory(category: String ="tv",isFavoriteClick:Boolean=false): Flow<MainRecycleViewTypes?> = flow {
-        getProductByCategoriesUseCase.invoke(category).collect { response ->
+    suspend fun fetchContentForCategory(
+        category: String? = null,
+        isFavoriteClick: Boolean = false
+    ): Flow<MainRecycleViewTypes?> = flow {
+        getProductByCategoriesUseCase.invoke(category ?: DEFAULT_CATEGORY).collect { response ->
             when (response) {
                 is Resource.Success -> {
                     response.data?.let {
-                        emit(
-                            MainRecycleViewTypes.RVCategory(
-                                categories,
-                                Resource.Success(it),
-                                ViewType.CATEGORY
-                            )
+                        val viewType = MainRecycleViewTypes.RVCategory(
+                            categories,
+                            Resource.Success(it),
+                            ViewType.CATEGORY
                         )
+
+                        if (category != null) {
+                            val index = mainRvData.value.indexOfFirst {
+                                it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
+                            }
+                            val list = mainRvData.value.toMutableList()
+
+                            list[index] = viewType
+                            _mainRvData.value = list
+                        } else {
+                            emit(
+                                viewType
+                            )
+                        }
+
 
                     }
                 }
 
                 is Resource.Loading -> {
-                    if(!isFavoriteClick){
+                    if (!isFavoriteClick) {
                         emit(
                             MainRecycleViewTypes.RVCategory(
                                 categories,
@@ -165,9 +185,7 @@ class MainViewModel @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-
-
-    private  fun getCategories(): List<String> {
+    private fun getCategories(): List<String> {
         val category = mutableListOf<String>()
         viewModelScope.launch {
             val response = getCategoriesUseCase().firstOrNull()
@@ -203,7 +221,7 @@ class MainViewModel @Inject constructor(
     }
 
 
-     suspend fun getFlashSaleList(): MainRecycleViewTypes? {
+    suspend fun getFlashSaleList(): MainRecycleViewTypes? {
         return withContext(Dispatchers.IO) {
             var RVType: MainRecycleViewTypes? = null
             createFlashSaleList.invoke().collect { result ->

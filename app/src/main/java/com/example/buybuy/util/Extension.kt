@@ -184,6 +184,14 @@ fun RatingBar.setRatingText(context: Context): String{
 
 
 }
+fun String.formatReadableDate (): String {
+    val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
+
+    val dateTime = LocalDate.parse(this, inputFormat)
+    return dateTime.format(outputFormat)
+
+}
 
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

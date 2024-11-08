@@ -25,7 +25,6 @@ import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
 import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -133,7 +132,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     }
 
-    private fun updateVpBannerData(mainRecycleViewData: List<MainRecycleViewTypes>) {
+    private fun updateMainRvList(mainRecycleViewData: List<MainRecycleViewTypes>) {
         rvAdapter.submitList(mainRecycleViewData)
     }
 
@@ -150,7 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         if (!isError) {
                             binding.includedError.root.gone()
                             binding.recyclerView.visible()
-                            updateVpBannerData(it)
+                            updateMainRvList(it)
                         } else {
                             binding.recyclerView.invisible()
                             binding.includedError.root.visible()

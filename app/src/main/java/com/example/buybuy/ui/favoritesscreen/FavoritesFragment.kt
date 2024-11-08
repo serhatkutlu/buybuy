@@ -83,8 +83,8 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
 
     private fun initUi() {
+        initRV()
         with(binding.includedLayout){
-            initRV()
             searchView.setOnQueryTextListener(object :androidx.appcompat.widget.SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return true
@@ -100,7 +100,6 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
 
             })
         }
-
     }
 
     private fun showAnimation() {

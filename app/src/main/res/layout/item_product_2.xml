@@ -18,19 +18,21 @@
             android:background="@color/red"
             android:src="@drawable/trash"
             android:layout_gravity="end"
+            android:visibility="gone"
             android:padding="7dp"
             app:tint="@color/light_grey"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             android:paddingHorizontal="20dp">
 
             <ImageView
                 android:id="@+id/iv_product"
                 android:layout_width="120dp"
-                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="150dp"
                 android:src="@color/dark_grey"
                 />
             <LinearLayout
@@ -106,8 +108,34 @@
                     android:text="@string/fragment_my_orders_button_rate"
                     android:textSize="@dimen/x_small_text_size"
                     android:visibility="gone"
+                    tools:visibility="visible"
                      />
 
+                <LinearLayout
+                    android:id="@+id/ll_order_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/tv_piece_count"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="adet:4"/>
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/small_text_size"
+                        android:layout_weight="7"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_count"
                     android:layout_width="wrap_content"

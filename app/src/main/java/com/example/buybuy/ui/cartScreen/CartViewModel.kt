@@ -43,9 +43,6 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getCartProductsUseCase.invoke().collect {
                 _cartItems.emit(it)
-                if (it is Resource.Success) {
-                    calculateTotalPrice(it.data)
-                }
                 when (it) {
                     is Resource.Success -> {
                         calculateTotalPrice(it.data)
@@ -56,25 +53,13 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun deleteFromCart(productDetail: Int) {
+    fun reduceProduct(productDetail: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            async(Dispatchers.IO) {
                 reduceProductInCartUseCase.invoke(productDetail)
-            }.await()
-
             getAllCartItems()
         }
     }
 
-    fun clearCart() {
-        viewModelScope.launch(Dispatchers.IO) {
-            async(Dispatchers.IO) {
-                clearCartUseCase.invoke()
-            }.await()
-
-            getAllCartItems()
-        }
-    }
 
     fun deleteProductFromCart(productDetail: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -86,10 +71,11 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun addToCart(productDetail: Int) {
+    fun increase(productDetail: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            addToCartUseCase.invoke(productDetail)
-            getAllCartItems()
+            addToCartUseCase.invoke(productDetail).collect{
+                getAllCartItems()
+            }
         }
     }
     private suspend  fun calculateTotalPrice(list: List<ProductDetailUI>?) {

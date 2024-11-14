@@ -11,7 +11,7 @@ sealed class MainRecycleViewTypes(val type: ViewType? = null,val ordinal: Int) {
     data class VpBannerData(val vpType: ViewType, val data: List<String>) :
         MainRecycleViewTypes(vpType,1)
 
-    data class RVCategory(val categories: List<String>,val data:Resource<List<ProductDetailUI>>, val rvType: ViewType? = null) :
+    data class RVCategory(val categories: List<String>,val data:Resource<List<ProductDetailUI>>, val rvType: ViewType? = null,val currentCategory:String) :
         MainRecycleViewTypes(rvType,Constant.MAIN_RV_TYPE_RV_CATEGORY)
 
     data class SingleBannerDataUi(val image: String, val ordinal1: Int) :

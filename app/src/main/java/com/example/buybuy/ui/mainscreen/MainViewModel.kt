@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -41,25 +42,27 @@ class MainViewModel @Inject constructor(
     private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase,
     private val createFlashSaleList: FlashSaleUseCase
 ) : ViewModel() {
-    private val _mainRvData: MutableStateFlow<List<MainRecycleViewTypes>> =
-        MutableStateFlow(listOf())
-    val mainRvData: StateFlow<List<MainRecycleViewTypes>> = _mainRvData
+    private val _mainRvData: MutableSharedFlow<List<MainRecycleViewTypes>> =
+        MutableSharedFlow()
+    val mainRvData: SharedFlow<List<MainRecycleViewTypes>> = _mainRvData
 
     private val categories = getCategories()
-    private val combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
+    private var combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
+    var currentCategory = DEFAULT_CATEGORY
+        private set
+    var mainContentJob: Job = Job()
 
-    private var mainContentJob: Job = Job()
 
     init {
 
-        fetchMainContent()
+        //fetchMainContent()
 
     }
 
     fun fetchMainContent() {
         if (mainContentJob.isActive) mainContentJob.cancel()
         mainContentJob = viewModelScope.launch(Dispatchers.IO) {
-            combinedList.clear()
+            combinedList = mutableListOf()
             val vpBannerDeferred = async { getVpBannerImages() }
             val allSingleBannerDeferred = async { getAllSingleBanner() }
             val flashSaleDeferred = async { getFlashSaleList() }
@@ -83,7 +86,11 @@ class MainViewModel @Inject constructor(
 
             combinedList.addAll((getVpBannerImages + getAllSingleBanner + getFlashSale + divider).filterNotNull())
             combinedList.sortBy { it.ordinal }
+
+
             _mainRvData.emit(combinedList)
+
+
         }
 
 
@@ -120,68 +127,93 @@ class MainViewModel @Inject constructor(
                 addToFavoriteUseCase(productDetail)
 
             }
+
         }
     }
 
     suspend fun fetchContentForCategory(
         category: String? = null,
-        isFavoriteClick: Boolean = false
-    ): Flow<MainRecycleViewTypes?> = flow {
-        getProductByCategoriesUseCase.invoke(category ?: DEFAULT_CATEGORY).collect { response ->
-            when (response) {
-                is Resource.Success -> {
-                    response.data?.let {
-                        val viewType = MainRecycleViewTypes.RVCategory(
-                            categories,
-                            Resource.Success(it),
-                            ViewType.CATEGORY
-                        )
+    ): Flow<MainRecycleViewTypes.RVCategory?> = flow {
+        try {
+            getProductByCategoriesUseCase.invoke(category ?: currentCategory).collect { response ->
+                when (response) {
+                    is Resource.Success -> {
 
-                        if (category != null) {
-                            val index = mainRvData.value.indexOfFirst {
+                        currentCategory = category ?: currentCategory
+                        response.data?.let {
+                            val viewType = MainRecycleViewTypes.RVCategory(
+                                categories,
+                                Resource.Success(it),
+                                ViewType.CATEGORY,
+                                currentCategory
+                            )
+
+                            val index = combinedList.indexOfFirst {
                                 it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
-                            }
-                            val list = mainRvData.value.toMutableList()
 
-                            list[index] = viewType
-                            _mainRvData.value = list
-                        } else {
+                            }
+                            if (index != -1) {
+                                combinedList[index] =viewType
+                                _mainRvData.emit(combinedList.toList())
+
+                            }
                             emit(
                                 viewType
                             )
-                        }
+//                            _mainRvData.replayCache.indexOfFirst {
+//                                it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
+//                            }
+                            //val lastValue=_mainRvData.replayCache.last().toMutableList()
 
+
+
+//                            if (category != null) {
+//                                val index = mainRvData.value.indexOfFirst {
+//                                    it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
+//                                }
+//
+//                                //_mainRvData.value[index]=viewType
+////                                _mainRvData.value[index] =
+////                                    (mainRvData.value[index] as MainRecycleViewTypes.RVCategory).copy(
+////                                        data = Resource.Success(it)
+////                                    )
+//                                currentCategory = category
+//                            }
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        val viewType = MainRecycleViewTypes.RVCategory(
+                            categories,
+                            Resource.Loading(),
+                            ViewType.CATEGORY,
+                            currentCategory
+                        )
+
+                        emit(viewType)
 
                     }
-                }
 
-                is Resource.Loading -> {
-                    if (!isFavoriteClick) {
+                    is Resource.Error -> {
                         emit(
                             MainRecycleViewTypes.RVCategory(
                                 categories,
-                                Resource.Loading(),
-                                ViewType.CATEGORY
+                                Resource.Error(response.message),
+                                ViewType.CATEGORY,
+                                currentCategory
                             )
                         )
                     }
-                }
 
-                is Resource.Error -> {
-                    emit(
-                        MainRecycleViewTypes.RVCategory(
-                            categories,
-                            Resource.Error(response.message),
-                            ViewType.CATEGORY
-                        )
-                    )
-                }
-
-                else -> {
-                    emit(null)
+                    else -> {
+                        emit(null)
+                    }
                 }
             }
+        } catch (e: Exception) {
+
         }
+
     }.flowOn(Dispatchers.IO)
 
 

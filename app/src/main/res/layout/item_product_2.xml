@@ -12,7 +12,7 @@
         >
 
         <ImageView
-            android:id="@id/iv_delete"
+            android:id="@+id/iv_delete_out"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:background="@color/red"

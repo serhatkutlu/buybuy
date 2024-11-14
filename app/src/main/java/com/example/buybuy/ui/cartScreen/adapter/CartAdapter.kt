@@ -13,13 +13,14 @@ import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.enums.CartClickEnums
 
 import com.example.buybuy.util.ProductComparator
+import com.example.buybuy.util.ProductComparatorCart
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
 import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showAlertDialog
 
 class CartAdapter :
-    ListAdapter<ProductDetailUI, CartAdapter.CartViewHolder>(ProductComparator()) {
+    ListAdapter<ProductDetailUI, CartAdapter.CartViewHolder>(ProductComparatorCart()) {
 
     var productCartCountClickListener: (CartClickEnums, Int) -> Unit = { _, _ -> }
 
@@ -27,7 +28,10 @@ class CartAdapter :
     inner class CartViewHolder(private val binding: ItemProduct2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         private var pieceCount = 0
+
         fun bind(product: ProductDetailUI) {
+            var isReduced=false
+
             with(binding) {
 
                 val discount = product.discount
@@ -47,10 +51,10 @@ class CartAdapter :
                 pieceCount=product.pieceCount
 
                 ivMinus.setOnClickListener {
-                    if (pieceCount == 1) return@setOnClickListener
-
-                    productCartCountClickListener(CartClickEnums.MINUS, product.id)
-
+                    if (!isReduced&&pieceCount!=1){
+                        isReduced=true
+                        productCartCountClickListener(CartClickEnums.MINUS, product.id)
+                    }
                 }
                 ivPlus.setOnClickListener {
                     productCartCountClickListener(CartClickEnums.PLUS, product.id)

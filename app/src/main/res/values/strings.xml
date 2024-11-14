@@ -144,6 +144,7 @@
     <string name="fragment_my_orders_button_rate">Rate Your Experience</string>
     <string name="fragment_my_orders_alert_title">Rate this product</string>
     <string name="fragment_my_orders_alert_positive_text">Submit</string>
+    <string name="fragment_my_orders_quantity">Quantity: %s</string>
 
     <string name="rating_text_very_bad">Very Bad</string>
     <string name="rating_text_bad">Bad</string>

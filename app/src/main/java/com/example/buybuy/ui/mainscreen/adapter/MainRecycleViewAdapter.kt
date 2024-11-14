@@ -20,6 +20,7 @@ import com.example.buybuy.ui.mainscreen.adapter.viewholder.FlashSaleViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.SingleBannerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
 import com.example.buybuy.util.ProductComparatorMainRV
+import com.example.buybuy.util.Resource
 
 class MainRecycleViewAdapter(
     val contentClickListener: (ProductDetailUI) -> Unit,
@@ -82,7 +83,7 @@ class MainRecycleViewAdapter(
 
     fun saveState() {
         scrollStateCategory = layoutManager?.onSaveInstanceState()
-        scrollStateFlashSale=flashLayoutManager?.onSaveInstanceState()
+        scrollStateFlashSale = flashLayoutManager?.onSaveInstanceState()
     }
 
 
@@ -97,7 +98,7 @@ class MainRecycleViewAdapter(
             ViewType.CATEGORY.ordinal -> {
                 val binding =
                     ItemCategoryContentRvBinding.inflate(LayoutInflater.from(parent.context))
-                return CategoryTabAndContentViewHolder(binding)
+                CategoryTabAndContentViewHolder(binding)
             }
 
             ViewType.SINGLE_BANNER.ordinal -> {
@@ -113,7 +114,7 @@ class MainRecycleViewAdapter(
 
             ViewType.FLASH_SALE.ordinal -> {
                 val binding = ItemFlashSaleRvBinding.inflate(inflater, parent, false)
-                return FlashSaleViewHolder(binding)
+                FlashSaleViewHolder(binding)
             }
 
             else -> {
@@ -128,10 +129,15 @@ class MainRecycleViewAdapter(
         return currentList.size
     }
 
+    override fun onCurrentListChanged(
+        previousList: MutableList<MainRecycleViewTypes>,
+        currentList: MutableList<MainRecycleViewTypes>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        getItem(position).let { item ->
+        currentList[position].let { item ->
             when (holder) {
                 is VpBannerViewHolder -> {
                     (holder).apply {
@@ -169,7 +175,7 @@ class MainRecycleViewAdapter(
                         favoriteClickListener,
                         scrollStateFlashSale,
                     )
-                    flashLayoutManager=holder.layoutManager
+                    flashLayoutManager = holder.layoutManager
                 }
 
                 else -> {
@@ -177,6 +183,8 @@ class MainRecycleViewAdapter(
                 }
             }
         }
+
+
     }
 
     private fun setCurrentCategory(category: String) {
@@ -185,46 +193,93 @@ class MainRecycleViewAdapter(
         isFavoriteUpdateCategory = true
 
     }
-//
-//    private fun changeCategoryFavoriteItemPos(Product: ProductDetailUI?) {
-//        Product?.let {
-//            favoriteClickListener(Product)
-//        }
-//        //saveState()
-//        //isFavoriteUpdateCategory = false
-//    }
 
+
+    fun updateRvItems(list: List<MainRecycleViewTypes>){
+        val positions= mutableListOf<Int>()
+        val newList = currentList.toMutableList()
+        list.forEach{item->
+            val position = currentList.indexOfFirst { it::class == item::class }
+            if (position != -1) {
+                positions.add(position)
+                newList[position] = item
+
+            }
+
+        }
+        submitList(newList){
+            positions.forEach{
+                notifyItemChanged(it)
+            }
+        }
+    }
     fun updateCategoryItem(newItem: MainRecycleViewTypes) {
-        val position = when (newItem) {
-            is MainRecycleViewTypes.RVCategory -> {
-                 currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+        val positionCategoryItem = currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+        if (positionCategoryItem != -1) {
+            val currentList = currentList.toMutableList()
+            currentList[positionCategoryItem] = newItem
+            submitList(currentList){
+             //   notifyItemChanged(positionCategoryItem)
             }
-//            is MainRecycleViewTypes.FlashSaleDataUi -> {
-//                currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
-//            }
-            else -> {
-                -1
+
+        }
+
+
+    }
+    fun updateFlashSaleItem(newItem: MainRecycleViewTypes) {
+        val positionFlashSaleItem = currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
+
+        if (positionFlashSaleItem != -1) {
+            val currentList = currentList.toMutableList()
+            currentList[positionFlashSaleItem] = newItem
+            submitList(currentList){
+                notifyItemChanged(positionFlashSaleItem)
             }
         }
+    }
+
+    
+
+
+    fun updateSingleProductItem(
+        newItem: ProductDetailUI,
+        position: Int,
+        viewType: MainRecycleViewTypes
+    ) {
+
+
         val currentList = currentList.toMutableList()
-        currentList[position] = newItem
-       submitList(currentList)
-    }
 
 
-    fun updateSingleProductItem(newItem: ProductDetailUI,position: Int,viewType:MainRecycleViewTypes) {
+        when (viewType) {
+            is MainRecycleViewTypes.RVCategory -> {
+                val pos = currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+                if (pos != -1) {
 
-    when(viewType){
-        is MainRecycleViewTypes.RVCategory->{
-            tabContentAdapter.updateItem(newItem,position)
+                    currentList[pos] = viewType
+                    submitList(currentList)
+                    currentList[pos]
+                    if (viewType.data is Resource.Success) {
+                        tabContentAdapter.submitList(viewType.data.data)
+                    }
+                }
+                tabContentAdapter.updateItem(newItem, position)
+
+            }
+
+            is MainRecycleViewTypes.FlashSaleDataUi -> {
+                val pos = currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
+                if (pos != -1) {
+                    currentList[pos] = viewType
+                    submitList(currentList)
+                }
+                flashSaleAdapter.updateItem(newItem, position)
+            }
+
+            else -> {
+
+            }
         }
-        is MainRecycleViewTypes.FlashSaleDataUi->{
-            flashSaleAdapter.updateItem(newItem,position)
-        }
-        else->{
-
-        }
-    }
     }
 
 

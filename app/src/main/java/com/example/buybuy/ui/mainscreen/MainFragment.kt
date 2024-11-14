@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentMainBinding
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
-
+    private var isfirstinit = false
     private val rvAdapter: MainRecycleViewAdapter by lazy {
         MainRecycleViewAdapter(
             contentClickListener = ::openProductDetailScreen,
@@ -43,13 +44,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isfirstinit = true
 
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchMainContent()
+        }
 
         handleOnBackPressed()
         initObservers()
         initUi()
-
-
     }
 
 
@@ -90,7 +94,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 NavOptions.upAnim
             )
         }
-        binding.includedError.buttonRefresh.setOnClickListener{
+        binding.includedError.buttonRefresh.setOnClickListener {
             viewModel.fetchMainContent()
         }
     }
@@ -101,6 +105,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
+
         }
 
     }
@@ -118,7 +123,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     position,
                     type
                 )
-
+                viewModel.fetchContentForCategory().collect {}
             }
 
         }
@@ -127,21 +132,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onStop() {
         super.onStop()
-
         rvAdapter.saveState()
-
+        (rvAdapter.currentList[2] as MainRecycleViewTypes.RVCategory).data
+        viewModel.mainRvData.replayCache
     }
 
-    private fun updateMainRvList(mainRecycleViewData: List<MainRecycleViewTypes>) {
-        rvAdapter.submitList(mainRecycleViewData)
-    }
 
     private fun initObservers() {
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                     mainRvData.collect {
-                        val isError=it.any {
+                        val isError = it.any {
                             if (it is MainRecycleViewTypes.RVCategory) {
                                 it.data is Resource.Error
                             } else false
@@ -149,14 +152,29 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         if (!isError) {
                             binding.includedError.root.gone()
                             binding.recyclerView.visible()
-                            updateMainRvList(it)
+                            rvAdapter.submitList(it)
+                            if (isfirstinit) {
+                                val indexCategory = it.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+                                val indexFlashSale = it.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
+                                isfirstinit = false
+                                rvAdapter.updateRvItems(listOf(it[indexCategory],it[indexFlashSale]))
+//                                if (indexCategory != -1) {
+//                                    rvAdapter.updateCategoryItem(it[indexCategory] as MainRecycleViewTypes.RVCategory)
+//                                }
+//                                if (indexFlashSale != -1) {
+//                                    rvAdapter.updateFlashSaleItem(it[indexFlashSale] as MainRecycleViewTypes.FlashSaleDataUi)
+//                                }
+
+                            }
+
+
                         } else {
                             binding.recyclerView.invisible()
                             binding.includedError.root.visible()
                         }
                     }
-                }
 
+                }
             }
 
         }
@@ -164,13 +182,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun fetchContentDataForCategoryViewHolder(
         category: String,
-        isFavoriteClick: Boolean = false
     ) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchContentForCategory(category, isFavoriteClick).collect {
+                viewModel.fetchContentForCategory(category).collect {
                     it?.let {
-                        rvAdapter.updateCategoryItem(it)
+                        rvAdapter.updateRvItems(listOf(it))
                     }
 
                 }

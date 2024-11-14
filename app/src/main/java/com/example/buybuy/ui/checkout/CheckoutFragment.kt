@@ -81,7 +81,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
     private fun createOrderData(): List<OrderData> {
         val time = LocalDate.now().toString()
-        val orderDataList = listOf<OrderData>()
         val cartProducts = viewmodel.cartProducts.value
         return when (cartProducts) {
             is Resource.Success -> {

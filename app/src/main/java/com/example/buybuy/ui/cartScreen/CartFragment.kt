@@ -116,11 +116,11 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
     private fun addToCartClickListener(isPlus:CartClickEnums, id:Int){
         when(isPlus){
             CartClickEnums.PLUS->{
-                viewModel.addToCart(id)
+                viewModel.increase(id)
 
             }
             CartClickEnums.MINUS->{
-                viewModel.deleteFromCart(id)
+                viewModel.reduceProduct(id)
 
             }
             CartClickEnums.DELETE->{

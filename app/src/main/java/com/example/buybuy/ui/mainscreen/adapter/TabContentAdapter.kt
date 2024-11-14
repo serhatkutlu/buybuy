@@ -23,7 +23,7 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
     inner class ContentViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productDetail: ProductDetailUI) {
-
+            setFavoriteBackground(productDetail.isFavorite)
             val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)
@@ -40,7 +40,7 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
             }
 
 
-            setFavoriteBackground(productDetail.isFavorite)
+
 
             binding.includedLayout.cvFavorite.setOnClickListener {
                 val background =
@@ -70,6 +70,7 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
     }
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
 
 
@@ -91,6 +92,8 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
         previousList: MutableList<ProductDetailUI>,
         currentList: MutableList<ProductDetailUI>
     ) {
+        previousList
+        currentList
         super.onCurrentListChanged(previousList, currentList)
     }
 
@@ -101,5 +104,9 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
         submitList(currentList)
 
     }
+
+
+
+
 
 }

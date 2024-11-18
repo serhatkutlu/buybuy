@@ -6,7 +6,7 @@
     app:middleCircleRadius="@dimen/coupon_circle_radius_middle"
     app:outerCircleRadius="@dimen/coupon_circle_radius_outer"
     android:layout_marginTop="@dimen/default_margin"
-    android:layout_marginHorizontal="35dp"
+    android:layout_marginHorizontal="30dp"
     android:layout_gravity="center"
     android:background="@drawable/ticket_bg">
 

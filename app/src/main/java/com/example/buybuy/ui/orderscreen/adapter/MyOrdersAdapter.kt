@@ -25,8 +25,8 @@ class MyOrdersAdapter(private var orderList: List<OrderDataUi>, private val onIt
                     rating.rating = star
                     tvPrice.text = star.toString()
                     tvPrice.text = binding.root.context.getString(
-                        R.string.currency_symbol,
-                        price.calculateDiscount(discount).toString()
+                        R.string.currency_symbol_detail,
+                        price.calculateDiscount(discount)
                     )
                     tvPieceCount.text = binding.root.context.getString(R.string.fragment_my_orders_quantity,product.piece.toString())
                     tvDate.text=product.time

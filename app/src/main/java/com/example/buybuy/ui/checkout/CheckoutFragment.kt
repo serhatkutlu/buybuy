@@ -11,18 +11,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.databinding.FragmentCheckoutBinding
-import com.example.buybuy.domain.model.data.OrderDataUi
 import com.example.buybuy.ui.checkout.cardinformation.CheckoutCardInformationFragment
 import com.example.buybuy.ui.checkout.cart.CheckoutCartFragment
+import com.example.buybuy.ui.checkout.coupon.CheckoutCouponFragment
 import com.example.buybuy.ui.checkout.shippingaddress.CheckoutShippingAddressFragment
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.viewBinding
-import com.google.type.DateTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 
 @AndroidEntryPoint
@@ -34,6 +32,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     private lateinit var cartFragment: CheckoutCartFragment
     private lateinit var shippingAddressFragment: CheckoutShippingAddressFragment
     private lateinit var cardInformationFragment: CheckoutCardInformationFragment
+    private lateinit var couponFragment: CheckoutCouponFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,7 +47,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
                 viewmodel.totalPrice.collect {
                     binding.tvTotalPriceValue.text =
-                        getString(R.string.currency_symbol, it.toString())
+                        getString(R.string.currency_symbol_detail, it)
                 }
 
             }
@@ -59,6 +58,8 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         initCardInformationFragment()
         initShippingAddressFragment()
         initCheckoutCartFragment()
+        initCouponFragment()
+
         binding.buttonConfirm.setOnClickListener {
 
             if (shippingAddressFragment.onConfirmButtonClicked() && cardInformationFragment.onConfirmButtonClicked()) {
@@ -105,6 +106,12 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 .replace(R.id.cart_container, cartFragment)
                 .commit()
         }
+    private fun initCouponFragment() {
+        couponFragment = CheckoutCouponFragment()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.coupon_container, couponFragment)
+            .commit()
+    }
 
         private fun initShippingAddressFragment() {
             shippingAddressFragment = CheckoutShippingAddressFragment()

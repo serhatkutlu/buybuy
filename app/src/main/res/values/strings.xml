@@ -1,7 +1,10 @@
 <resources>
 
-    <string name="currency_symbol">%s$</string>
+    <string name="currency_symbol">%.0f$</string>
+    <string name="currency_symbol_detail">%.2f$</string>
+    <string name="currency_symbol_detail_minus">-%.2f$</string>
     <string name="percentage_symbol">%.0f%%</string>
+
 
 
 
@@ -122,6 +125,8 @@
     <string name="fragment_checkout_cart_error_message">invalid  number</string>
     <string name="fragment_checkout_address_alert_title">address not found</string>
     <string name="fragment_checkout_address_alert_message">Do you want to add a new address?</string>
+    <string name="fragment_checkout_coupon_title">Coupon</string>
+    <string name="fragment_checkout_coupon_message">Coupon is used</string>
 
 
     <string name="fragment_coupons_title">Coupons</string>
@@ -146,10 +151,16 @@
     <string name="fragment_my_orders_alert_positive_text">Submit</string>
     <string name="fragment_my_orders_quantity">Quantity: %s</string>
 
+
     <string name="rating_text_very_bad">Very Bad</string>
     <string name="rating_text_bad">Bad</string>
     <string name="rating_text_average">Average</string>
     <string name="rating_text_good">Good</string>
     <string name="rating_text_very_good">Very Good</string>
+
+
+    <string name="item_ticket_expiration_date">expiration date: %s</string>
+
+
 
 </resources>

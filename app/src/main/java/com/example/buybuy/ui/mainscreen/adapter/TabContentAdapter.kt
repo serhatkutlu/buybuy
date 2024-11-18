@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemProductBinding
 import com.example.buybuy.domain.model.data.ProductDetailUI
-import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 import com.example.buybuy.util.ProductComparator
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.calculateDiscount
@@ -28,10 +27,10 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
             val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)
             binding.tvTitle.text = productDetail.title
-            binding.tvCurrentPrice.text =context.getString(R.string.currency_symbol, newPrice.toString())
+            binding.tvCurrentPrice.text =context.getString(R.string.currency_symbol, newPrice)
             if (productDetail.discount > 0) {
                 binding.tvLastPrice.visible()
-                binding.tvLastPrice.text =context.getString(R.string.currency_symbol, productDetail.price.toString())
+                binding.tvLastPrice.text =context.getString(R.string.currency_symbol, productDetail.price.toFloat())
 
             }
             binding.tvLastPrice.paint.isStrikeThruText = true

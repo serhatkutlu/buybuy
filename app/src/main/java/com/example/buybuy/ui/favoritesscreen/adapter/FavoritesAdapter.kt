@@ -30,7 +30,7 @@ class FavoritesAdapter :
                 tvPrice.text = (product.star).toString()
                 tvPrice.text = binding.root.context.getString(
                     R.string.currency_symbol,
-                    product.price.calculateDiscount(product.discount).toString()
+                    product.price.calculateDiscount(product.discount)
                 )
                 tvCount.text = product.pieceCount.toString()
                 buttonAddToCart.visible()

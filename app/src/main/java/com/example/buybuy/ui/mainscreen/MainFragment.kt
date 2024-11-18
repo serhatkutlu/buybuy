@@ -133,8 +133,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onStop() {
         super.onStop()
         rvAdapter.saveState()
-        (rvAdapter.currentList[2] as MainRecycleViewTypes.RVCategory).data
-        viewModel.mainRvData.replayCache
     }
 
 

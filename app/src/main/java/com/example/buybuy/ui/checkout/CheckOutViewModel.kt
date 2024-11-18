@@ -3,11 +3,13 @@ package com.example.buybuy.ui.checkout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.data.model.data.AddressData
+import com.example.buybuy.data.model.data.CouponData
 import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.domain.model.data.CardInformationData
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.usecase.address.GetAllAddressUseCase
 import com.example.buybuy.domain.usecase.cart.GetCartProductsUseCase
+import com.example.buybuy.domain.usecase.coupon.GetAllCouponUseCase
 import com.example.buybuy.domain.usecase.order.SaveOrderUseCase
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.calculateDiscount
@@ -21,7 +23,8 @@ import javax.inject.Inject
 class CheckOutViewModel @Inject constructor(
     private val getCartProductsUseCase: GetCartProductsUseCase,
     private val getAllAddressUseCase: GetAllAddressUseCase,
-    private val saveOrderUseCase: SaveOrderUseCase
+    private val saveOrderUseCase: SaveOrderUseCase,
+    private val getAllCouponUseCase: GetAllCouponUseCase
 ) : ViewModel() {
 
     private val _cartProducts = MutableStateFlow<Resource<List<ProductDetailUI>>>(Resource.Empty)
@@ -33,14 +36,25 @@ class CheckOutViewModel @Inject constructor(
     private val _totalPrice = MutableStateFlow(0.0f)
     val totalPrice: StateFlow<Float> = _totalPrice
 
+    private val _couponData = MutableStateFlow<Resource<List<CouponData>>>(Resource.Empty)
+    val couponData: StateFlow<Resource<List<CouponData>>> = _couponData
+
     var lastAddressId: String? = null
      var lastCardInformationData=CardInformationData()
 
     init {
-        // getAddressData()
+        getCouponData()
     }
 
-     fun getCartData() {
+    private fun getCouponData() {
+        viewModelScope.launch {
+            getAllCouponUseCase.invoke().collect{
+                _couponData.emit(it)
+            }
+        }
+    }
+
+    fun getCartData() {
         viewModelScope.launch {
             getCartProductsUseCase.invoke().collect {
                 _cartProducts.emit(it)
@@ -61,6 +75,16 @@ class CheckOutViewModel @Inject constructor(
         }
     }
 
+     fun updateTotalPrice(newPrice: Float){
+        viewModelScope.launch {
+            if (newPrice!=0f){
+                _totalPrice.emit(newPrice)
+
+            }else if(cartProducts.value is Resource.Success ){
+                calculateTotalPrice((cartProducts.value as Resource.Success<List<ProductDetailUI>>).data)
+            }
+        }
+    }
     private suspend  fun calculateTotalPrice(list: List<ProductDetailUI>?) {
         var totalPrice = 0.0f
         list?.let { products ->

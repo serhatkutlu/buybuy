@@ -62,7 +62,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
 
     private suspend fun observeTotalPrice() {
         viewModel.totalPrice.collect{
-          binding.tvPriceNew.text=getString(R.string.currency_symbol,it.toString())
+          binding.tvPriceNew.text=getString(R.string.currency_symbol_detail,it)
         }
     }
 

@@ -135,29 +135,34 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.mainFragment -> {
+                    if (navController.currentDestination?.id==R.id.mainFragment) return@setOnItemSelectedListener true
                     navController.popBackStack(R.id.mainFragment, false)
                     true
                 }
 
                 R.id.profileFragment -> {
+                    if (navController.currentDestination?.id==R.id.profileFragment) return@setOnItemSelectedListener true
+
                     navController.navigate(R.id.profileFragment, null, NavOptions.rightAnim)
                     true
                 }
 
                 R.id.favoritesFragment -> {
+                    if (navController.currentDestination?.id==R.id.favoritesFragment) return@setOnItemSelectedListener true
                     val navOptions =if (navController.currentDestination?.id != R.id.mainFragment) NavOptions.leftAnim else NavOptions.rightAnim
                     navController.navigate(R.id.favoritesFragment, null, navOptions)
                     true
                 }
 
                 R.id.cartFragment -> {
+                    if (navController.currentDestination?.id==R.id.cartFragment) return@setOnItemSelectedListener true
                     val navOptions =if (navController.currentDestination?.id != R.id.profileFragment) NavOptions.rightAnim else NavOptions.leftAnim
                     navController.navigate(R.id.cartFragment, null, navOptions)
                     true
                 }
 
                 else -> {
-                    false
+                    true
                 }
 
             }

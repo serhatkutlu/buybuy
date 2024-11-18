@@ -1,0 +1,25 @@
+<com.example.buybuy.customviews.CouponView
+    android:id="@+id/couponView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="55dp"
+    android:layout_gravity="center"
+    android:paddingVertical="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_grey"
+
+    app:middleCircleRadius="2dp"
+    app:outerCircleRadius="3dp">
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/tv_expiration_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:textColor="@color/white"/>
+</com.example.buybuy.customviews.CouponView>

@@ -14,7 +14,9 @@ import com.example.buybuy.domain.usecase.order.SaveOrderUseCase
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.calculateDiscount
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,8 +41,12 @@ class CheckOutViewModel @Inject constructor(
     private val _couponData = MutableStateFlow<Resource<List<CouponData>>>(Resource.Empty)
     val couponData: StateFlow<Resource<List<CouponData>>> = _couponData
 
+    private val _orderState = MutableSharedFlow<Resource<Nothing>>()
+    val orderState: SharedFlow<Resource<Nothing>> = _orderState
+
     var lastAddressId: String? = null
      var lastCardInformationData=CardInformationData()
+    var couponId:String?=null
 
     init {
         getCouponData()
@@ -96,5 +102,12 @@ class CheckOutViewModel @Inject constructor(
 
     }
 
-    suspend fun saveOrder(order: List<OrderData>)=saveOrderUseCase(order)
+    fun saveOrder(order: List<OrderData>){
+        viewModelScope.launch {
+            saveOrderUseCase(order,couponId).collect{
+                _orderState.emit(it)
+            }
+
+        }
+    }
 }

@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class SplashFragment : Fragment(R.layout.fragment_splash) {
+class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
     private val viewmodel: SplashViewModel by viewModels()
 
@@ -28,8 +28,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val isNetworkAvailable = requireContext().isNetworkAvailable()
-        //if (isNetworkAvailable)
         initObservers()
 
 
@@ -39,6 +37,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewmodel.checkUserLogin.collect {
+                    delay(2000)
                     when (it) {
                         is Resource.Success -> {
                             if (it.data == true) {

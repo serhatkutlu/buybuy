@@ -135,6 +135,9 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
             tvAlready.setOnClickListener {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
+            binding.ivBack.setOnClickListener{
+                findNavController().popBackStack()
+            }
         }
 
 

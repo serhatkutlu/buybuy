@@ -64,20 +64,31 @@
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
 
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:foregroundTint="@color/orange"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/cv_search"
+    android:layout_marginTop="@dimen/default_margin">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/xxlarge_margin"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
         tools:visibility="visible" />
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <include layout="@layout/layout_unknown_error"
         android:layout_height="wrap_content"
@@ -96,11 +107,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:indeterminateTint="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/recyclerView"
+        app:layout_constraintTop_toTopOf="@id/swipeRefreshLayout"
         app:layout_constraintVertical_bias="0.5" />
 
 

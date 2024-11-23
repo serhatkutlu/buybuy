@@ -35,10 +35,12 @@ object Constant {
     const val NODATAFOUND="No Data Found"
 
 
-    const val  COUPON_COD="BUY30"
-    const val  COUPON_COD_DISABLED="BUY50"
-    const val  COUPON_DISCOUNT=30f
-    const val  COUPON_DISCOUNT_DISABLED=50f
+    const val  COUPON_COD_30="BUY30"
+    const val  COUPON_COD_50="BUY50"
+    const val  COUPON_DISCOUNT_30=30f
+    const val  COUPON_DISCOUNT_50=50f
+    const val  COUPON_USED_FIELD_NAME="used"
+
 
 
     const val MAIN_RV_TYPE_RV_CATEGORY=3

@@ -133,6 +133,7 @@
 
 
     <string name="fragment_order_successful_title">You can see your order on the orders screen.</string>
+    <string name="fragment_order_fail_title">"I'm sorry, your order could not be processed."</string>
 
 
     <string name="alert_positive_button_text">OK</string>

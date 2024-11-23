@@ -10,6 +10,8 @@ import com.example.buybuy.util.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.time.withTimeout
+import java.time.Duration
 
 class OrdersRepositoryImp(
     private val firestore: FirebaseFirestore,
@@ -20,7 +22,9 @@ class OrdersRepositoryImp(
 
     private val uid = authentication.currentUser?.uid.toString()
 
-    override suspend fun saveOrder(order: List<OrderData>): Boolean {
+    override suspend fun saveOrder(
+        order: List<OrderData>
+    ): Boolean {
         return try {
             val batch = firestore.batch()
 
@@ -32,10 +36,14 @@ class OrdersRepositoryImp(
                 val docRef = ordersCollection.document()
                 batch.set(docRef, orderItem)
             }
-            batch.commit().await()
-             true
+
+            withTimeout(Duration.ofSeconds(10)) {
+                batch.commit().await()
+            }
+            true
+
         } catch (e: Exception) {
-             false
+            false
         }
     }
 

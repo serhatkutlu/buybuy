@@ -9,4 +9,5 @@ interface CouponRepository {
      fun createRegisterCoupon(couponData:List<CouponData>):Flow<Resource<Nothing>>
 
      fun getAllCoupon():Flow<Resource<List<CouponData>>>
+     suspend fun deactivateCoupon(id:String)
 }

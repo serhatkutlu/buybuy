@@ -127,13 +127,13 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 imDetatilButton.setOnClickListener {
                     initDetailButton()
                 }
-                var newprice = price.toString()
+                var newprice = price.toFloat()
                 val discount = discount
                 if (discount != 0) {
                     tvPriceOld.visible()
-                    newprice = (price calculateDiscount discount).toString()
+                    newprice = price calculateDiscount discount
                     tvPrice.text = getString(R.string.currency_symbol, newprice)
-                    tvPriceOld.text = getString(R.string.currency_symbol, price.toString())
+                    tvPriceOld.text = getString(R.string.currency_symbol, price.toFloat())
                     tvPriceOld.paint.isStrikeThruText = true
                 }
                 tvPriceNew.text = getString(R.string.currency_symbol, newprice)

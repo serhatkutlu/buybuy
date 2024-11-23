@@ -49,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/default_padding"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:background="@color/rv_background_color"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,4 +74,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <LinearLayout
+        android:id="@+id/ll_lottie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/subheader_text_size"
+            android:text="@string/no_data_found"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_marginTop="@dimen/default_margin"
+            android:id="@+id/lottieAnimationsView"
+            android:layout_width="@dimen/lottie_width"
+            android:layout_height="@dimen/lottie_height"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_url="https://lottie.host/6b6e9f0b-a4e7-46a8-8144-edea7f25a4be/zfBPO6HPVT.json" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,13 +56,14 @@ class CheckoutCouponFragment(): Fragment(R.layout.fragment_checkout_coupon) {
         binding.spinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedItem = binding.spinner.getItemAtPosition(p2) as CouponData
+                viewModel.updateTotalPrice(0f)
                 if (selectedItem.used){
                     if ( selectedItem.discount!=null) {
                         requireContext().showToast(requireContext().getString(R.string.fragment_checkout_coupon_message))
                     }
                     binding.tvTotalPrice.text=requireContext().getString(R.string.currency_symbol_detail,viewModel.totalPrice.value)
                     binding.tvDiscountPrice.text=requireContext().getString(R.string.currency_symbol,0f)
-                    viewModel.updateTotalPrice(0f)
+                    viewModel.couponId=null
                 }
                 else{
                     selectedItem.discount?.let{
@@ -71,6 +72,8 @@ class CheckoutCouponFragment(): Fragment(R.layout.fragment_checkout_coupon) {
                         binding.tvDiscountPrice.text=requireContext().getString(R.string.currency_symbol_detail_minus,discountPrice)
                         binding.tvTotalPrice.text=requireContext().getString(R.string.currency_symbol_detail,newPrice)
                         viewModel.updateTotalPrice(newPrice)
+                        viewModel.couponId=selectedItem.id
+
                     }
 
                 }
@@ -79,7 +82,6 @@ class CheckoutCouponFragment(): Fragment(R.layout.fragment_checkout_coupon) {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
 
         }

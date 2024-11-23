@@ -43,7 +43,7 @@ class CheckoutCouponSpinnerAdapter(
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        if(items[position].name.isNullOrEmpty()) return View(context)
+        //if(items[position].name.isNullOrEmpty()) return View(context)
         val binding = if (convertView == null) {
             val inflater = LayoutInflater.from(context)
             ItemCheckoutCouponSpinnerBinding.inflate(inflater, parent, false)

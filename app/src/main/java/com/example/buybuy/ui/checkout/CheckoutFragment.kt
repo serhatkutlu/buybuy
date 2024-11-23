@@ -2,6 +2,7 @@ package com.example.buybuy.ui.checkout
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,13 +12,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.databinding.FragmentCheckoutBinding
+import com.example.buybuy.enums.ToastMessage
 import com.example.buybuy.ui.checkout.cardinformation.CheckoutCardInformationFragment
 import com.example.buybuy.ui.checkout.cart.CheckoutCartFragment
 import com.example.buybuy.ui.checkout.coupon.CheckoutCouponFragment
 import com.example.buybuy.ui.checkout.shippingaddress.CheckoutShippingAddressFragment
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.viewBinding
+import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -45,10 +49,37 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewmodel.totalPrice.collect {
+                launch {  viewmodel.totalPrice.collect {
                     binding.tvTotalPriceValue.text =
                         getString(R.string.currency_symbol_detail, it)
+                } }
+
+                launch {
+                    viewmodel.orderState.collect {
+                        when(it){
+                            is Resource.Success->{
+                                binding.progressBar.gone()
+                                findNavController().navigate(
+                                    R.id.action_checkoutFragment_to_orderSuccessful,
+                                    null,
+                                    NavOptions.navOptions3
+                                )
+                            }
+                            is Resource.Loading->{
+                                binding.flOverlay.visible()
+                                binding.progressBar.visible()
+                            }
+                            is Resource.Error->{
+                                binding.progressBar.gone()
+                                ToastMessage.ERROR.showToast(requireContext(), it.message)
+                                binding.flOverlay.gone()
+                            }
+                            else->{}
+                        }
+
+                    }
                 }
+
 
             }
         }
@@ -66,11 +97,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 lifecycleScope.launch {
                     viewmodel.saveOrder(createOrderData())
                 }
-                findNavController().navigate(
-                    R.id.action_checkoutFragment_to_orderSuccessful,
-                    null,
-                    NavOptions.navOptions3
-                )
+
             }
 
         }
@@ -83,13 +110,15 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     private fun createOrderData(): List<OrderData> {
         val time = LocalDate.now().toString()
         val cartProducts = viewmodel.cartProducts.value
+        val addressId = viewmodel.lastAddressId
         return when (cartProducts) {
             is Resource.Success -> {
                 val list = cartProducts.data?.map {
                     OrderData(
                         time = time,
                         data = it.id,
-                        piece = it.pieceCount
+                        piece = it.pieceCount,
+                        addressId = addressId,
                     )
                 }
                  list?: listOf()

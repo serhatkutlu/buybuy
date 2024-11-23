@@ -1,6 +1,7 @@
 package com.example.buybuy.ui.mainscreen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
@@ -42,9 +43,10 @@ class MainViewModel @Inject constructor(
     private val getAllSingleBannerUseCase: GetAllSingleBannerUseCase,
     private val createFlashSaleList: FlashSaleUseCase
 ) : ViewModel() {
-    private val _mainRvData: MutableSharedFlow<List<MainRecycleViewTypes>> =
+    private val _mainRvData: MutableSharedFlow<Resource<List<MainRecycleViewTypes>>> =
         MutableSharedFlow()
-    val mainRvData: SharedFlow<List<MainRecycleViewTypes>> = _mainRvData
+    val mainRvData: SharedFlow<Resource<List<MainRecycleViewTypes>>> = _mainRvData
+
 
     private val categories = getCategories()
     private var combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
@@ -53,26 +55,14 @@ class MainViewModel @Inject constructor(
     var mainContentJob: Job = Job()
 
 
-    init {
-
-        //fetchMainContent()
-
-    }
 
     fun fetchMainContent() {
         if (mainContentJob.isActive) mainContentJob.cancel()
         mainContentJob = viewModelScope.launch(Dispatchers.IO) {
+
             combinedList = mutableListOf()
-            val vpBannerDeferred = async { getVpBannerImages() }
-            val allSingleBannerDeferred = async { getAllSingleBanner() }
-            val flashSaleDeferred = async { getFlashSaleList() }
 
-            val getVpBannerImages = vpBannerDeferred.await()
-            val getAllSingleBanner = allSingleBannerDeferred.await()
-            val getFlashSale = flashSaleDeferred.await()
-            val divider = MainRecycleViewTypes.Divider
-
-
+            _mainRvData.emit(Resource.Loading())
             fetchContentForCategory().collect { response ->
                 response?.let { data ->
                     val index = combinedList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
@@ -83,12 +73,23 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
+            val vpBannerDeferred = async { getVpBannerImages() }
+            val allSingleBannerDeferred = async { getAllSingleBanner() }
+            val flashSaleDeferred = async { getFlashSaleList() }
+
+            val getVpBannerImages = vpBannerDeferred.await()
+            val getAllSingleBanner = allSingleBannerDeferred.await()
+            val getFlashSale = flashSaleDeferred.await()
+            val divider = MainRecycleViewTypes.Divider
+
+
+
 
             combinedList.addAll((getVpBannerImages + getAllSingleBanner + getFlashSale + divider).filterNotNull())
             combinedList.sortBy { it.ordinal }
 
 
-            _mainRvData.emit(combinedList)
+            _mainRvData.emit(Resource.Success(combinedList))
 
 
         }
@@ -154,31 +155,12 @@ class MainViewModel @Inject constructor(
                             }
                             if (index != -1) {
                                 combinedList[index] =viewType
-                                _mainRvData.emit(combinedList.toList())
+                                _mainRvData.emit(Resource.Success(combinedList.toList()))
 
                             }
                             emit(
                                 viewType
                             )
-//                            _mainRvData.replayCache.indexOfFirst {
-//                                it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
-//                            }
-                            //val lastValue=_mainRvData.replayCache.last().toMutableList()
-
-
-
-//                            if (category != null) {
-//                                val index = mainRvData.value.indexOfFirst {
-//                                    it is MainRecycleViewTypes.RVCategory && it.data is Resource.Success
-//                                }
-//
-//                                //_mainRvData.value[index]=viewType
-////                                _mainRvData.value[index] =
-////                                    (mainRvData.value[index] as MainRecycleViewTypes.RVCategory).copy(
-////                                        data = Resource.Success(it)
-////                                    )
-//                                currentCategory = category
-//                            }
                         }
                     }
 

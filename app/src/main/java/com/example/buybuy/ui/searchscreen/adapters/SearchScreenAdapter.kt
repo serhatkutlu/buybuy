@@ -26,13 +26,13 @@ class SearchScreenAdapter:ListAdapter<ProductDetailUI, SearchScreenAdapter.Searc
             val newPrice = productDetail.price calculateDiscount productDetail.discount
             binding.imageView.setImage(productDetail.image)
             binding.tvTitle.text = productDetail.title
-            binding.tvCurrentPrice.text = context.getString(R.string.currency_symbol,newPrice.toString())
+            binding.tvCurrentPrice.text = context.getString(R.string.currency_symbol_detail,newPrice)
 
             setFavoriteBackground(productDetail.isFavorite)
 
             if (productDetail.discount > 0) {
                 binding.tvLastPrice.visible()
-                binding.tvLastPrice.text = context.getString(R.string.currency_symbol,productDetail.price.toString())
+                binding.tvLastPrice.text = context.getString(R.string.currency_symbol_detail,productDetail.price.toFloat())
             }
             binding.tvLastPrice.paint.isStrikeThruText = true
             binding.cardView.setOnClickListener {

@@ -53,7 +53,7 @@ class CouponRepositoryImp @Inject constructor(
                         .collection(Constant.COLLECTION_PATH_COUPON_USER).get().await()
 
                 snapshot.documents.forEach {
-                    val couponData = it.toObject(CouponData::class.java)
+                    val couponData = it.toObject(CouponData::class.java)?.copy(id = it.id)
                     if (couponData != null) {
                         list.add(couponData)
                     }
@@ -69,4 +69,16 @@ class CouponRepositoryImp @Inject constructor(
     }
 
 
+     override suspend fun deactivateCoupon(id:String){
+        try {
+            val uid = authentication.currentUser?.uid?:""
+            val userCouponsRef =
+                firestore.collection(Constant.COLLECTION_PATH_COUPON).document(uid)
+                    .collection(Constant.COLLECTION_PATH_COUPON_USER)
+
+            userCouponsRef.document(id).update(Constant.COUPON_USED_FIELD_NAME,true)
+
+        }catch (_:Exception){}
+
+    }
 }

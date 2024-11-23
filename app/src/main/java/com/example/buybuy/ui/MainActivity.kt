@@ -1,12 +1,19 @@
 package com.example.buybuy.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
+import androidx.activity.enableEdgeToEdge
 
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +22,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.buybuy.R
-import com.example.buybuy.data.source.remote.FakeStoreApi
 import com.example.buybuy.databinding.ActivityMainBinding
 import com.example.buybuy.databinding.NavHeaderBinding
 import com.example.buybuy.util.NavOptions
@@ -27,12 +33,11 @@ import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+     lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
     private val viewmodel: ActivityViewModel by viewModels()
@@ -40,8 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var headerBinding: NavHeaderBinding
 
-    @Inject
-    lateinit var fakeApi: FakeStoreApi
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -149,7 +154,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.favoritesFragment -> {
                     if (navController.currentDestination?.id==R.id.favoritesFragment) return@setOnItemSelectedListener true
-                    val navOptions =if (navController.currentDestination?.id != R.id.mainFragment) NavOptions.leftAnim else NavOptions.rightAnim
+                    val navOptions =if (navController.currentDestination?.id == R.id.mainFragment || navController.currentDestination?.id == R.id.searchFragment)   NavOptions.rightAnim else NavOptions.leftAnim
                     navController.navigate(R.id.favoritesFragment, null, navOptions)
                     true
                 }

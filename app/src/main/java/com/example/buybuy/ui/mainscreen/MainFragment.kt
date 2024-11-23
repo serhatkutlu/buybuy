@@ -97,6 +97,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.includedError.buttonRefresh.setOnClickListener {
             viewModel.fetchMainContent()
         }
+        binding.swipeRefreshLayout.setOnRefreshListener{
+            viewModel.fetchMainContent()
+            binding.swipeRefreshLayout.isRefreshing = false
+            rvAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initRV() {
@@ -140,35 +145,51 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    mainRvData.collect { response ->
+                        when (response) {
+                            is Resource.Success -> {
+                                val isError = response.data?.any {
+                                    if (it is MainRecycleViewTypes.RVCategory) {
+                                        it.data is Resource.Error
 
-                    mainRvData.collect {
-                        val isError = it.any {
-                            if (it is MainRecycleViewTypes.RVCategory) {
-                                it.data is Resource.Error
-                            } else false
-                        }
-                        if (!isError) {
-                            binding.includedError.root.gone()
-                            binding.recyclerView.visible()
-                            rvAdapter.submitList(it)
-                            if (isfirstinit) {
-                                val indexCategory = it.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
-                                val indexFlashSale = it.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
-                                isfirstinit = false
-                                rvAdapter.updateRvItems(listOf(it[indexCategory],it[indexFlashSale]))
-//                                if (indexCategory != -1) {
-//                                    rvAdapter.updateCategoryItem(it[indexCategory] as MainRecycleViewTypes.RVCategory)
-//                                }
-//                                if (indexFlashSale != -1) {
-//                                    rvAdapter.updateFlashSaleItem(it[indexFlashSale] as MainRecycleViewTypes.FlashSaleDataUi)
-//                                }
+                                    } else false
+                                }
+                                if (!isError!!) {
+                                    binding.includedError.root.gone()
+                                    binding.recyclerView.visible()
+                                    binding.progressBar.gone()
+                                    rvAdapter.submitList(response.data)
+                                    if (isfirstinit) {
+                                        val indexCategory =
+                                            response.data.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
+                                        val indexFlashSale =
+                                            response.data.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
+                                        isfirstinit = false
+                                        rvAdapter.updateRvItems(
+                                            listOf(
+                                                response.data[indexCategory],
+                                                response.data[indexFlashSale]
+                                            )
+                                        )
+                                    }
+
+                                } else {
+                                    binding.recyclerView.invisible()
+                                    binding.progressBar.gone()
+                                    binding.includedError.root.visible()
+                                }
+
 
                             }
 
+                            is Resource.Loading->{
+                                binding.includedError.root.gone()
+                                binding.recyclerView.visible()
+                                binding.progressBar.visible()
 
-                        } else {
-                            binding.recyclerView.invisible()
-                            binding.includedError.root.visible()
+                            }
+
+                            else->{}
                         }
                     }
 

@@ -21,8 +21,10 @@ import com.example.buybuy.enums.ToastMessage
 import com.example.buybuy.ui.orderscreen.adapter.MyOrdersAdapter
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.setRatingText
 import com.example.buybuy.util.viewBinding
+import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,8 +50,17 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
                 viewModel.orders.collect{
                     when(it){
                         is Resource.Success->{
+                            if (!it.data.isNullOrEmpty()){
+                                binding.recyclerView.visible()
+                                binding.llLottie.gone()
+                                adapter.updateList(it.data)
+                            }
+                            else{
+                                binding.recyclerView.gone()
+                                binding.llLottie.visible()
+                            }
                             binding.progressBar.visibility=View.GONE
-                            adapter.updateList(it.data?: listOf())
+
                         }
 
                         is Resource.Loading->{

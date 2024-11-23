@@ -11,7 +11,6 @@ import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,11 +50,10 @@ class SignupViewModel @Inject constructor(
     private fun createCouponData(): List<CouponData> {
         val list= mutableListOf<CouponData>()
 
-        val activeDate = java.time.LocalDate.now().plusMonths(1).toString()
-        list.add(CouponData(Constant.COUPON_COD, false, activeDate, Constant.COUPON_DISCOUNT))
+        val lastDate = java.time.LocalDate.now().plusMonths(1).toString()
+        list.add(CouponData(id = null ,Constant.COUPON_COD_30, false, lastDate, Constant.COUPON_DISCOUNT_30))
 
-        val disabledDate = java.time.LocalDate.now().minusMonths(1).toString()
-        list.add(CouponData(Constant.COUPON_COD_DISABLED, false, disabledDate, Constant.COUPON_DISCOUNT_DISABLED))
+        list.add(CouponData(id = null ,Constant.COUPON_COD_50, false, lastDate, Constant.COUPON_DISCOUNT_50))
         return list
 
     }

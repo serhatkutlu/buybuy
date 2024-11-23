@@ -34,14 +34,24 @@ class GetProductByCategoriesUseCase @Inject constructor(
                         is Resource.Empty -> emit(Resource.Empty)
                     }
                 }
+
                 is Resource.Loading -> {
                     emit(Resource.Loading())
                 }
-                is Resource.Error -> {
-                    emit(Resource.Error(resource.message))
-                }
                 is Resource.Empty -> {
                     emit(Resource.Empty)
+                }
+                is Resource.Error -> {
+                    val dbResource = mainRepository.getAllProductFromDbWithCategory(category)
+                    when (dbResource) {
+                        is Resource.Success -> {
+                            val mappedData = productEntityToUiMapper.mapToModelList(dbResource.data ?: emptyList())
+                            emit(Resource.Success(mappedData))
+                        }else->{
+                        emit(resource)
+                    }
+
+                    }
                 }
             }
         }

@@ -28,6 +28,7 @@ retrofit = "2.11.0"
 roomRuntime = "2.6.1"
 shimmer = "0.5.0"
 lifecycleRuntimeAndroid = "2.8.6"
+swiperefreshlayout = "1.1.0"
 
 
 
@@ -41,6 +42,7 @@ androidx-navigation-fragment-ktx-v240 = { module = "androidx.navigation:navigati
 androidx-navigation-ui-ktx-v240 = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }

@@ -8,69 +8,60 @@ import com.example.buybuy.ui.mainscreen.adapter.VpBannerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
     RecyclerView.ViewHolder(binding.root) {
      var selectedPage = 1
-    private val coroutineScopeScroll = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var autoScrollJob: Job? = null
+    private val coroutineScopeAutoScroll  = CoroutineScope(Dispatchers.Main + Job())
 
-    fun bind(item: MainRecycleViewTypes?, selectedPageChangeCallback: (Int) -> Int) {
+    fun bind(item: MainRecycleViewTypes?) {
         item as MainRecycleViewTypes.VpBannerData
         val vpBannerAdapter = VpBannerAdapter()
-        val data = item.data.toMutableList()
-        data.add(0, item.data[0])
-        data.add(item.data.size - 1, item.data[item.data.size - 1])
-        vpBannerAdapter.submitList(data)
+        val infiniteList = item.data + item.data + item.data
+        vpBannerAdapter.submitList(infiniteList)
+
+
         binding.viewPager.adapter = vpBannerAdapter
+
+        val initialPosition = item.data.size
+        binding.viewPager.setCurrentItem(initialPosition, false)
+
         startAutoScroll(binding)
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
 
-        binding.viewPager.setCurrentItem(selectedPage, false)
+                selectedPage = position % item.data.size
+                binding.counterTextView.text = "${selectedPage + 1}/${item.data.size}"
 
-        binding.counterTextView.text =
-            (selectedPage).toString() + "/${item.data.size}"
-
-        binding.viewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                selectedPage=selectedPageChangeCallback(position)
-                if (position == (binding.viewPager.adapter?.itemCount ?: 0) - 1) {
-                    binding.viewPager.setCurrentItem(1, false)
-                    selectedPage=selectedPageChangeCallback(1)
-
-                } else if (position == 0) {
-                    binding.viewPager.setCurrentItem(
-                        (binding.viewPager.adapter?.itemCount ?: 0) - 1, false
-                    )
-                   selectedPage= selectedPageChangeCallback((binding.viewPager.adapter?.itemCount ?: 0) - 1)
+                if (position == 0) {
+                    binding.viewPager.setCurrentItem(infiniteList.size - (2 * item.data.size), false)
+                } else if (position == infiniteList.size - 1) {
+                    binding.viewPager.setCurrentItem(item.data.size -2, false)
+                    coroutineScopeAutoScroll.coroutineContext.cancelChildren()
                 }
-
-                binding.counterTextView.text =
-                    (selectedPage).toString() + "/${item.data.size}"
             }
-
-
         })
 
 
     }
     private fun startAutoScroll(binding: ItemVpBannerBinding) {
 
-        autoScrollJob?.cancel()
-        autoScrollJob = coroutineScopeScroll.launch {
+        coroutineScopeAutoScroll.coroutineContext.cancelChildren()
+        coroutineScopeAutoScroll.launch {
             while (true) {
-                delay(3000)
-                binding.viewPager.setCurrentItem(++selectedPage, true)
+                delay(3000) // 3 saniye gecikme
+                binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
             }
         }
+    }
+
+    fun stopAutoScroll() {
+        coroutineScopeAutoScroll.coroutineContext.cancelChildren()
+
     }
 
 }

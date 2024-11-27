@@ -24,7 +24,7 @@ class SearchScreenAdapter:ListAdapter<ProductDetailUI, SearchScreenAdapter.Searc
         fun bind(productDetail: ProductDetailUI) {
             val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
-            binding.imageView.setImage(productDetail.image)
+            binding.imageView.setImage(productDetail.image,true)
             binding.tvTitle.text = productDetail.title
             binding.tvCurrentPrice.text = context.getString(R.string.currency_symbol_detail,newPrice)
 

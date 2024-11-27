@@ -19,7 +19,7 @@ class MyOrdersAdapter(private var orderList: List<OrderDataUi>, private val onIt
         fun bind(product: OrderDataUi) {
             with(binding) {
                 with(product.data) {
-                    ivProduct.setImage(image)
+                    ivProduct.setImage(image,true)
                     tvBrand.text = brand
                     tvTitle.text = title
                     rating.rating = star

@@ -23,7 +23,7 @@ class FavoritesAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductDetailUI) {
             with(binding) {
-                ivProduct.setImage(product.image)
+                ivProduct.setImage(product.image,true)
                 tvBrand.text = product.brand
                 tvTitle.text = product.title
                 rating.rating = product.star

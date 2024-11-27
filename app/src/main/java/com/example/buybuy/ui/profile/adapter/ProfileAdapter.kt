@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.buybuy.R
 import com.example.buybuy.domain.model.data.ProfileOption
 import com.example.buybuy.databinding.ItemProfileBinding
 import com.example.buybuy.enums.ProfileOptionsEnum
@@ -16,6 +17,7 @@ class ProfileAdapter(val optionClickListener:(ProfileOptionsEnum)->Unit
         fun bind(item: ProfileOption){
             binding.ivIcon.setImageResource(item.iconResId)
             binding.tvTitle.text=binding.root.context.getString(item.title)
+            if (!item.isActive) binding.ivArrow.setColorFilter(binding.root.context.getColor(R.color.black))
             binding.root.setOnClickListener {
                 optionClickListener(item.type)
             }

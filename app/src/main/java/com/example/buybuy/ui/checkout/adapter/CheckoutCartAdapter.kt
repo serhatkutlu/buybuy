@@ -14,7 +14,7 @@ class CheckoutCartAdapter():RecyclerView.Adapter<CheckoutCartAdapter.CartViewHol
     private val list:MutableList<ProductDetailUI> = mutableListOf()
      class CartViewHolder(private val binding: ItemCheckoutCartItemBinding):ViewHolder(binding.root){
          fun bind(productDetailUI: ProductDetailUI){
-             binding.ivProductImage.setImage(productDetailUI.image)
+             binding.ivProductImage.setImage(productDetailUI.image,true)
              binding.tvPrice.text = productDetailUI.price.calculateDiscount(productDetailUI.discount).toString()
              binding.tvPieceCount.text=productDetailUI.pieceCount.toString()
 

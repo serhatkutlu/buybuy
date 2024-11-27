@@ -15,12 +15,7 @@ class VpBannerAdapter:ListAdapter<String,VpBannerAdapter.ViewPagerViewHolder>(Ba
         }
     }
 
-    override fun onCurrentListChanged(
-        previousList: MutableList<String>,
-        currentList: MutableList<String>
-    ) {
-        super.onCurrentListChanged(previousList, currentList)
-    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

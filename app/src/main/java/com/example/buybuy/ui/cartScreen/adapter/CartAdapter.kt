@@ -35,7 +35,7 @@ class CartAdapter :
             with(binding) {
 
                 val discount = product.discount
-                ivProduct.setImage(product.image)
+                ivProduct.setImage(product.image,true)
                 tvBrand.text = product.brand
                 tvTitle.text = product.title
                 tvRating.text = product.star.toString()

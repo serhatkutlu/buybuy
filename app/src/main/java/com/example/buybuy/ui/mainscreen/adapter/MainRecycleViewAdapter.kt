@@ -4,6 +4,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.buybuy.databinding.ItemCategoryContentRvBinding
@@ -19,6 +20,7 @@ import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.FlashSaleViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.SingleBannerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
+import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolderTest
 import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
 
@@ -31,7 +33,7 @@ class MainRecycleViewAdapter(
     ListAdapter<MainRecycleViewTypes, ViewHolder>(ProductComparatorMainRV()) {
 
 
-    private var selectedPageVpBanner = 1
+
 
     private var isFavoriteUpdateCategory = true
     private var scrollStateCategory: Parcelable? = null
@@ -141,11 +143,7 @@ class MainRecycleViewAdapter(
             when (holder) {
                 is VpBannerViewHolder -> {
                     (holder).apply {
-                        selectedPage = selectedPageVpBanner
-                        bind(item) {
-                            selectedPageVpBanner = it
-                            selectedPageVpBanner
-                        }
+                        bind(item)
                     }
                 }
 
@@ -280,6 +278,14 @@ class MainRecycleViewAdapter(
 
             }
         }
+    }
+
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        if (holder is VpBannerViewHolder) {
+            holder.stopAutoScroll()
+        }
+        super.onViewRecycled(holder)
     }
 
 

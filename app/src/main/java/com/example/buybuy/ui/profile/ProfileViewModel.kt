@@ -55,13 +55,14 @@ class ProfileViewModel @Inject constructor(
                 ProfileOption(ProfileOptionsEnum.ORDER, R.drawable.nav_order, R.string.order),
                 ProfileOption(ProfileOptionsEnum.COUPONS, R.drawable.coupon, R.string.coupons),
                 ProfileOption(ProfileOptionsEnum.ADDRESS, R.drawable.location, R.string.address),
-                ProfileOption(ProfileOptionsEnum.PAYMENT, R.drawable.payment, R.string.payment),
+                ProfileOption(ProfileOptionsEnum.PAYMENT, R.drawable.payment, R.string.payment,false),
+                ProfileOption(ProfileOptionsEnum.SETTINGS, R.drawable.settings, R.string.settings,false),
+                ProfileOption(ProfileOptionsEnum.HELP, R.drawable.help, R.string.help,false),
+                ProfileOption(ProfileOptionsEnum.ABOUT, R.drawable.about, R.string.about,false),
                 ProfileOption(ProfileOptionsEnum.LOGOUT, R.drawable.nav_logout, R.string.logout),
-                ProfileOption(ProfileOptionsEnum.SETTINGS, R.drawable.settings, R.string.settings),
-                ProfileOption(ProfileOptionsEnum.HELP, R.drawable.help, R.string.help),
-                ProfileOption(ProfileOptionsEnum.ABOUT, R.drawable.about, R.string.about)
-            )
-                .let {
+
+                )
+                .also {
                     _profileOptions.value = Resource.Success(it)
                 }
 

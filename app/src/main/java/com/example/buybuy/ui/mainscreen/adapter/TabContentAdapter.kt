@@ -25,7 +25,7 @@ class TabContentAdapter(private val onClickListener: (ProductDetailUI) -> Unit) 
             setFavoriteBackground(productDetail.isFavorite)
             val context=binding.root.context
             val newPrice = productDetail.price calculateDiscount productDetail.discount
-            binding.imageView.setImage(productDetail.image)
+            binding.imageView.setImage(productDetail.image,true)
             binding.tvTitle.text = productDetail.title
             binding.tvCurrentPrice.text =context.getString(R.string.currency_symbol, newPrice)
             if (productDetail.discount > 0) {

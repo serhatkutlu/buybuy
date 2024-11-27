@@ -4,4 +4,4 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.buybuy.enums.ProfileOptionsEnum
 
-data class ProfileOption(val type: ProfileOptionsEnum, @DrawableRes val iconResId:Int,@StringRes val title:Int)
+data class ProfileOption(val type: ProfileOptionsEnum, @DrawableRes val iconResId:Int,@StringRes val title:Int,var isActive:Boolean=true)

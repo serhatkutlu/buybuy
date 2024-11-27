@@ -1,9 +1,10 @@
 package com.example.buybuy.enums
 
 import android.content.Context
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.RawRes
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+
+import androidx.annotation.RawRes
 import com.example.buybuy.R
 
 import com.example.buybuy.util.showCustomizeToast

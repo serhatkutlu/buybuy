@@ -6,29 +6,35 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.RawRes
 import android.view.Gravity
 import android.view.LayoutInflater
+
+
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
+
 import androidx.core.content.ContextCompat
+
+import com.bumptech.glide.Glide
 import com.example.buybuy.R
 import com.example.buybuy.databinding.LayoutToastMessageBinding
 import com.example.buybuy.util.Constant.PREFS_NAME
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -154,9 +160,15 @@ fun Context.showAlertDialog(
 }
 
 
-fun ImageView.setImage(url: String) {
+fun ImageView.setImage(url: String,isReducedSize:Boolean=false) {
+
+
     if (url.isNotEmpty()) {
-        Picasso.get().load(url).into(this)
+        if (isReducedSize) {
+            Glide.with(this).load(url).override(500).into(this)
+        }else{
+            Glide.with(this).load(url).into(this)
+        }
     }
 
 }

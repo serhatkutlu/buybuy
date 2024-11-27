@@ -6,9 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -44,7 +47,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
 
 
     private val galleryLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
             uri?.let {
                 val selectedImageUri: Uri = uri
 
@@ -102,7 +105,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
         with(binding) {
 
             ivProfile.setOnClickListener {
-                checkPermissionAndOpenGallery()
+                checkPermissionAndOpenGallery2()
             }
 
             ivClose.setOnClickListener {
@@ -143,33 +146,60 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
 
     }
 
-    private fun checkPermissionAndOpenGallery() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            openGallery()
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        ) {
-            requireContext().showAlertDialog(getString(R.string.alert_title),
-                getString(R.string.alert_message),
-                getString(R.string.alert_ok),
-                { requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) },
-                getString(R.string.alert_cancel),
-                { openAppSettings(requireContext()) })
+
+
+
+
+
+    private fun checkPermissionAndOpenGallery2() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.READ_MEDIA_IMAGES
+                )
+            ) {
+                requireContext().showAlertDialog(getString(R.string.alert_title),
+                    getString(R.string.alert_message),
+                    getString(R.string.alert_ok),
+                    { requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES) },
+                    getString(R.string.alert_cancel),
+                    { openAppSettings(requireContext()) })
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            }
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                requireContext().showAlertDialog(getString(R.string.alert_title),
+                    getString(R.string.alert_message),
+                    getString(R.string.alert_ok),
+                    { requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) },
+                    getString(R.string.alert_cancel),
+                    { openAppSettings(requireContext()) })
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
         }
     }
 
     private fun openGallery() {
-        //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        //pickImageLauncher.launch(intent)
-        galleryLauncher.launch("image/*")
+        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
     }
 
     private fun openAppSettings(context: Context) {
@@ -178,5 +208,6 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
         intent.data = uri
         context.startActivity(intent)
     }
+
 
 }

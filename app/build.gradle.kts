@@ -94,8 +94,10 @@ dependencies {
     implementation (libs.kotlinx.coroutines.core)
     implementation (libs.kotlinx.coroutines.android)
 
-    //picasso
-    implementation (libs.picasso)
+    //glide
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+
 
     implementation (libs.shimmer)
 

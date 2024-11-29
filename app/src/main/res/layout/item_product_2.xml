@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CustomCardView"
+        >
+
+        <ImageView
+            android:id="@+id/iv_delete_out"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:background="@color/red"
+            android:src="@drawable/trash"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            android:padding="7dp"
+            app:tint="@color/light_grey"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp">
+
+            <ImageView
+                android:id="@+id/iv_product"
+                android:layout_width="120dp"
+                android:layout_gravity="center"
+                android:layout_height="150dp"
+                android:src="@color/dark_grey"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SONY"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Microsoft Xbox X/S Wireless Controller Robot White"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/rating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:progressTint="@color/gold"
+                        android:rating="3.5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="(3.5)" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/orange"
+                    android:textSize="25sp"
+                    android:text="250$"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_add_to_cart"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/button_bg_stroke"
+                    android:text="@string/fragment_favorites_add_to_cart"
+                    android:textSize="@dimen/small_text_size"
+                    android:visibility="gone"
+                    tools:visibility="gone" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_rate"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/button_bg_orange"
+                    android:text="@string/fragment_my_orders_button_rate"
+                    android:textSize="@dimen/x_small_text_size"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                     />
+
+                <LinearLayout
+                    android:id="@+id/ll_order_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/tv_piece_count"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/small_text_size"
+                        android:layout_weight="1"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="3dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="15dp"
+
+                        app:cardUseCompatPadding="true"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:padding="15dp"
+                            >
+
+                            <ImageView
+                                android:id="@+id/iv_minus"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/minus"
+                                app:tint="@color/dark_grey"
+                                android:layout_weight="0.3"/>
+                            <TextView
+                                android:id="@+id/tv_count"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/orange"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="30"/>
+                            <ImageView
+                                android:id="@+id/iv_plus"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                app:tint="@color/orange"
+                                android:src="@drawable/plus" />
+
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        app:tint="@color/orange"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/trash"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

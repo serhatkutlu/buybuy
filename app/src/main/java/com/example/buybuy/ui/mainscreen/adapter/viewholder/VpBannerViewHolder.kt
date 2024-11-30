@@ -41,7 +41,6 @@ class VpBannerViewHolder(val binding: ItemVpBannerBinding) :
                     binding.viewPager.setCurrentItem(infiniteList.size - (2 * item.data.size), false)
                 } else if (position == infiniteList.size - 1) {
                     binding.viewPager.setCurrentItem(item.data.size -2, false)
-                    coroutineScopeAutoScroll.coroutineContext.cancelChildren()
                 }
             }
         })

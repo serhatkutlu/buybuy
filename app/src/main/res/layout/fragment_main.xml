@@ -82,6 +82,7 @@
         android:layout_height="0dp"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
+        android:background="@color/rv_background_color"
         android:layout_marginTop="@dimen/xxlarge_margin"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

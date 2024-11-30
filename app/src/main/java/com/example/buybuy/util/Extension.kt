@@ -21,6 +21,8 @@ import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.example.buybuy.R
 import com.example.buybuy.databinding.LayoutToastMessageBinding
 import com.example.buybuy.util.Constant.PREFS_NAME
@@ -165,9 +167,11 @@ fun ImageView.setImage(url: String,isReducedSize:Boolean=false) {
 
     if (url.isNotEmpty()) {
         if (isReducedSize) {
-            Glide.with(this).load(url).override(500).into(this)
-        }else{
-            Glide.with(this).load(url).into(this)
+            Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.DATA).thumbnail(0.1f).into(this)
+        }
+        else{
+            Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.DATA).into(this)
+
         }
     }
 

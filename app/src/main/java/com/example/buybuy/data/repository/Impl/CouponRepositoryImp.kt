@@ -1,7 +1,6 @@
-package com.example.buybuy.data.repository
+package com.example.buybuy.data.repository.Impl
 
 import com.example.buybuy.data.model.data.CouponData
-import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.domain.repository.CouponRepository
 import com.example.buybuy.util.Constant
 import com.example.buybuy.util.Resource

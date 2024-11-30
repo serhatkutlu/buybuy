@@ -1,4 +1,4 @@
-package com.example.buybuy.data.repository
+package com.example.buybuy.data.repository.Impl
 
 import com.example.buybuy.domain.model.data.UserData
 import com.example.buybuy.domain.model.data.User

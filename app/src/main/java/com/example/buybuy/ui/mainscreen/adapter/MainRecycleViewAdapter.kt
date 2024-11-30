@@ -20,7 +20,6 @@ import com.example.buybuy.ui.mainscreen.adapter.viewholder.DividerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.FlashSaleViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.SingleBannerViewHolder
 import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolder
-import com.example.buybuy.ui.mainscreen.adapter.viewholder.VpBannerViewHolderTest
 import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
 

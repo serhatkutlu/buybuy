@@ -36,7 +36,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
     private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewmodel.checkUserLogin.collect {
+                viewmodel.checkUserLogin().collect {
                     delay(2000)
                     when (it) {
                         is Resource.Success -> {
@@ -55,7 +55,9 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
                             }
 
                         }
+                        is Resource.Loading -> {
 
+                        }
                         else -> {
                             findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.rightAnim)
 

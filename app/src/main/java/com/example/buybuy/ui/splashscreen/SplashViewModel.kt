@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(checkUserLoginUseCase: CheckUserLoginUseCase) : ViewModel() {
+class SplashViewModel @Inject constructor(private val checkUserLoginUseCase: CheckUserLoginUseCase) : ViewModel() {
 
-    val checkUserLogin = checkUserLoginUseCase()
+     suspend fun checkUserLogin() =checkUserLoginUseCase()
 }

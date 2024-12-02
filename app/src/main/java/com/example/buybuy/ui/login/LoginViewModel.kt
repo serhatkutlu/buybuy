@@ -21,8 +21,8 @@ class LoginViewModel @Inject constructor(
 
 
 
-    private val _loginFlow: MutableStateFlow<Resource<Boolean>> = MutableStateFlow(Resource.Empty)
-    val loginFlow: StateFlow<Resource<Boolean>> =_loginFlow
+    private val _loginFlow: MutableStateFlow<Resource<Unit>> = MutableStateFlow(Resource.Empty)
+    val loginFlow: StateFlow<Resource<Unit>> =_loginFlow
 
 
     fun loginEmailAndPassword(email: String, password: String) {

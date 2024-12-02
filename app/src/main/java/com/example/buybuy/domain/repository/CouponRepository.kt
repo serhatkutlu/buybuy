@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface CouponRepository {
 
-     fun createRegisterCoupon(couponData:List<CouponData>):Flow<Resource<Nothing>>
+     suspend fun createRegisterCoupon(couponData:List<CouponData>):Flow<Resource<Unit>>
 
-     fun getAllCoupon():Flow<Resource<List<CouponData>>>
-     suspend fun deactivateCoupon(id:String)
+     suspend fun getAllCoupon():Flow<Resource<List<CouponData>>>
+     suspend fun deactivateCoupon(id:String):Boolean
 }

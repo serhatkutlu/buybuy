@@ -12,7 +12,7 @@ class SearchFavoritesUseCase @Inject constructor(
     private val mainRepository: MainRepository,
     private val mapper: ProductEntityToUiMapper
 ) {
-    operator fun invoke(query: String): Flow<Resource<List<ProductDetailUI>>> {
+    suspend operator fun invoke(query: String): Flow<Resource<List<ProductDetailUI>>> {
 
         val data = mainRepository.searchFavorites(query)
         return data.map {

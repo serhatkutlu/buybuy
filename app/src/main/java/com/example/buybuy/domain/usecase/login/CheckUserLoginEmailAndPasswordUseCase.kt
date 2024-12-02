@@ -6,6 +6,6 @@ import javax.inject.Inject
 class CheckUserLoginEmailAndPasswordUseCase @Inject constructor(private val loginRepositoryAuth: LoginRepository) {
 
 
-    operator fun invoke(email:String,password:String) =loginRepositoryAuth.checkUserEmailAndPassword(email,password)
+    suspend operator fun invoke(email:String, password:String) =loginRepositoryAuth.checkUserEmailAndPassword(email,password)
 
 }

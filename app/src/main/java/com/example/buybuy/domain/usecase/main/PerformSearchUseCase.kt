@@ -13,7 +13,7 @@ class PerformSearchUseCase @Inject constructor(
     private val mapper: ProductEntityToUiMapper
 ) {
 
-    operator fun invoke(query: String): Flow<Resource<List<ProductDetailUI>>> {
+    suspend operator fun invoke(query: String): Flow<Resource<List<ProductDetailUI>>> {
         return repository.searchProduct(query).map {
             when (it) {
                 is Resource.Success -> {

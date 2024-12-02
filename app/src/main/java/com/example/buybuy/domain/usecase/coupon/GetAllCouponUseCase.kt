@@ -10,7 +10,7 @@ package com.example.buybuy.domain.usecase.coupon
 
  class GetAllCouponUseCase @Inject constructor(private val repository: CouponRepository) {
 
-     operator fun invoke(): Flow<Resource<List<CouponData>>> = repository.getAllCoupon().map {
+     suspend operator fun invoke(): Flow<Resource<List<CouponData>>> = repository.getAllCoupon().map {
 
          if (it is Resource.Success) {
           val updatedList=it.data?.map {

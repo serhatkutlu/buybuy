@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllFavoriteUseCase @Inject constructor(private val repository: MainRepository,private val mapper: ProductEntityToUiMapper) {
-    operator fun invoke(): Flow<Resource<List<ProductDetailUI>>> {
+    suspend operator fun invoke(): Flow<Resource<List<ProductDetailUI>>> {
 
         val data = repository.getAllFavorite()
         return data.map {

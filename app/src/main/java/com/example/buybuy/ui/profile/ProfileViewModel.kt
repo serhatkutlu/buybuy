@@ -9,25 +9,28 @@ import com.example.buybuy.domain.usecase.login.LogOutUseCase
 import com.example.buybuy.domain.usecase.main.ClearAllTableUseCase
 import com.example.buybuy.domain.usecase.main.GetUserDataUseCase
 import com.example.buybuy.enums.ProfileOptionsEnum
+import com.example.buybuy.util.Constant
 import com.example.buybuy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val logOutUseCase: LogOutUseCase,
     private val getUserDataUseCase: GetUserDataUseCase,
-    private val clearAllTableUseCase: ClearAllTableUseCase
 ) : ViewModel() {
     private val _profileOptions = MutableStateFlow<Resource<List<ProfileOption>>>(Resource.Empty)
     val profileOptions: StateFlow<Resource<List<ProfileOption>>> = _profileOptions
 
-    private val _logOutState = MutableStateFlow<Resource<Nothing>>(Resource.Empty)
-    val logOutState: StateFlow<Resource<Nothing>> = _logOutState
+    private val _logOutState = MutableStateFlow<Resource<Unit>>(Resource.Empty)
+    val logOutState: StateFlow<Resource<Unit>> = _logOutState
 
 
     private val _user = MutableStateFlow<Resource<UserData>>(Resource.Empty)
@@ -72,13 +75,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun logOut() {
-        viewModelScope.launch {
-            logOutUseCase().collect {
-                clearAllTableUseCase()
-                _logOutState.emit(it)
 
-            }
-        }
-    }
+
+
 }

@@ -41,8 +41,8 @@ class CheckOutViewModel @Inject constructor(
     private val _couponData = MutableStateFlow<Resource<List<CouponData>>>(Resource.Empty)
     val couponData: StateFlow<Resource<List<CouponData>>> = _couponData
 
-    private val _orderState = MutableSharedFlow<Resource<Nothing>>()
-    val orderState: SharedFlow<Resource<Nothing>> = _orderState
+    private val _orderState = MutableSharedFlow<Resource<Unit>>()
+    val orderState: SharedFlow<Resource<Unit>> = _orderState
 
     var lastAddressId: String? = null
      var lastCardInformationData=CardInformationData()

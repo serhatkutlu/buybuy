@@ -6,6 +6,6 @@ import javax.inject.Inject
 class CheckUserLoginUseCase @Inject constructor(private val loginRepositoryAuth: LoginRepository) {
 
 
-    operator fun invoke() =loginRepositoryAuth.checkUserLogin()
+    suspend operator fun invoke() =loginRepositoryAuth.checkUserLogin()
 
 }

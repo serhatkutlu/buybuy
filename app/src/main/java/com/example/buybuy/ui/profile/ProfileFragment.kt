@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentProfileBinding
 import com.example.buybuy.enums.ProfileOptionsEnum
+import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.ui.profile.adapter.ProfileAdapter
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.NavOptions
@@ -40,7 +41,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // handleOnBackPressed()
+        handleOnBackPressed()
         initUi()
         initObservers()
         initLogOutObserver()
@@ -52,7 +53,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    //findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
+                    findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
                 }
             })
     }
@@ -215,7 +216,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 //            }
             ProfileOptionsEnum.LOGOUT -> {
                 requireContext().showAlertDialog(getString(R.string.fragment_profile_alert_title), getString(R.string.fragment_profile_alert_message), positiveButtonAction = {
-                    viewModel.logOut()
+                    (requireActivity() as MainActivity).logOut()
                 })
 
 

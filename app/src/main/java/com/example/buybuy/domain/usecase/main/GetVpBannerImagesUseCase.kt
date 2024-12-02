@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetVpBannerImagesUseCase @Inject constructor(private val mainRepository: MainRepository) {
 
-    operator fun invoke() =mainRepository.getVpBannerData()
+    suspend operator fun invoke() =mainRepository.getVpBannerData()
 }

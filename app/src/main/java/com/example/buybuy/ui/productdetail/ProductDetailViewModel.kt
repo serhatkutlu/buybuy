@@ -30,8 +30,8 @@ class ProductDetailViewModel @Inject constructor(
     private val _isFavorite: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val isFavoriteFlow: MutableStateFlow<Boolean?> = _isFavorite
 
-    private val _buyNow: MutableSharedFlow<Resource<Nothing>> = MutableSharedFlow()
-     val buyNowFlow: SharedFlow<Resource<Nothing>> = _buyNow
+    private val _buyNow: MutableSharedFlow<Resource<Unit>> = MutableSharedFlow()
+     val buyNowFlow: SharedFlow<Resource<Unit>> = _buyNow
 
     fun addToFavorite(productDetail: ProductDetailUI) {
         viewModelScope.launch(Dispatchers.IO) {

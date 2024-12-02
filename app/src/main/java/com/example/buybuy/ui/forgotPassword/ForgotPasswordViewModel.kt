@@ -13,8 +13,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(private val resetPassword: ResetPassword): ViewModel() {
 
-    private val _resetFlow:MutableStateFlow<Resource<Nothing>> = MutableStateFlow(Resource.Empty)
-    val resetFlow: StateFlow<Resource<Nothing>> = _resetFlow
+    private val _resetFlow:MutableStateFlow<Resource<Unit>> = MutableStateFlow(Resource.Empty)
+    val resetFlow: StateFlow<Resource<Unit>> = _resetFlow
     fun resetPasswordWithEmail(email: String){
         viewModelScope.launch {
             resetPassword.invoke(email).collect{

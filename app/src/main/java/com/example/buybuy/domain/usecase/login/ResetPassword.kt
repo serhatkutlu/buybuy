@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class ResetPassword @Inject constructor(private val loginRepository: LoginRepository) {
 
-    operator fun invoke(email: String) = loginRepository.resetPassword(email)
+    suspend operator fun invoke(email: String) = loginRepository.resetPassword(email)
 
 }

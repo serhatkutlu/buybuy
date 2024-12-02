@@ -1,5 +1,6 @@
 package com.example.buybuy.data.repository.base
 
+import com.example.buybuy.util.Constant
 import com.example.buybuy.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -17,13 +18,26 @@ open class BaseRepository(private val dispatcher: CoroutineDispatcher) {
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Resource.Success(it))
-                } ?: emit(Resource.Empty) // Boş bir yanıt durumunda
+                } ?: emit(Resource.Error("Empty response body"))
             } else {
-                emit(Resource.Error(response.message() ?: "Unknown error"))
+                emit(Resource.Error(response.message() ?: Constant.UNKNOWN_ERROR))
             }
-        }.catch { exception ->
-            // `catch` içerisinde `emit` kullanımı güvenli
-            emit(Resource.Error(exception.message ?: "Unexpected error", exception))
+        }
+            .catch { exception ->
+            emit(Resource.Error(exception.localizedMessage ?: Constant.UNKNOWN_ERROR))
+        }
+    }
+
+    protected suspend fun <T> safeCall(
+        query: suspend () -> T
+    ): Flow<Resource<T>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val result = withContext(dispatcher){query()}
+            emit(Resource.Success(result))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: Constant.UNKNOWN_ERROR))
         }
     }
 }

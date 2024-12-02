@@ -48,13 +48,18 @@ class MainViewModel @Inject constructor(
     val mainRvData: SharedFlow<Resource<List<MainRecycleViewTypes>>> = _mainRvData
 
 
-    private val categories = getCategories()
+    private var categories= listOf<String>()
     private var combinedList: MutableList<MainRecycleViewTypes> = mutableListOf()
     var currentCategory = DEFAULT_CATEGORY
         private set
     var mainContentJob: Job = Job()
 
 
+    init {
+        viewModelScope.launch {
+            categories = getCategories()
+        }
+    }
 
     fun fetchMainContent() {
         if (mainContentJob.isActive) mainContentJob.cancel()
@@ -139,7 +144,6 @@ class MainViewModel @Inject constructor(
             getProductByCategoriesUseCase.invoke(category ?: currentCategory).collect { response ->
                 when (response) {
                     is Resource.Success -> {
-
                         currentCategory = category ?: currentCategory
                         response.data?.let {
                             val viewType = MainRecycleViewTypes.RVCategory(
@@ -154,7 +158,7 @@ class MainViewModel @Inject constructor(
 
                             }
                             if (index != -1) {
-                                combinedList[index] =viewType
+                                combinedList[index] = viewType
                                 _mainRvData.emit(Resource.Success(combinedList.toList()))
 
                             }
@@ -199,18 +203,13 @@ class MainViewModel @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    private fun getCategories(): List<String> {
+    private suspend fun getCategories(): List<String> {
         val category = mutableListOf<String>()
-        viewModelScope.launch {
-            val response = getCategoriesUseCase().firstOrNull()
-            when (response) {
-                is Resource.Success -> {
-                    response.data?.let { rvc ->
-                        category.addAll(rvc)
-                    }
+        getCategoriesUseCase().collect {
+            if (it is Resource.Success) {
+                it.data?.let { rvc ->
+                    category.addAll(rvc)
                 }
-
-                else -> {}
             }
         }
         return category

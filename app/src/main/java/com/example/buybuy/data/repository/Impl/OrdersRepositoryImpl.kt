@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.time.withTimeout
 import java.time.Duration
 
-class OrdersRepositoryImp(
+class OrdersRepositoryImpl(
     private val firestore: FirebaseFirestore,
     authentication: FirebaseAuth,
     private val dataSource: RemoteDataSource

@@ -21,8 +21,8 @@ class SignupViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    private val _user = MutableStateFlow<Resource<Nothing>>(Resource.Empty)
-    val user: StateFlow<Resource<Nothing>> = _user
+    private val _user = MutableStateFlow<Resource<Unit>>(Resource.Empty)
+    val user: StateFlow<Resource<Unit>> = _user
 
     fun signup(user: User) {
         viewModelScope.launch {

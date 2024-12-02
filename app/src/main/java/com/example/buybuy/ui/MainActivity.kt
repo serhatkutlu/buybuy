@@ -239,4 +239,7 @@ class MainActivity : AppCompatActivity() {
     fun openDrawerClick() {
         binding.drawerLayout.openDrawer(GravityCompat.START)
     }
+    fun logOut(){
+        viewmodel.logOut()
+    }
 }

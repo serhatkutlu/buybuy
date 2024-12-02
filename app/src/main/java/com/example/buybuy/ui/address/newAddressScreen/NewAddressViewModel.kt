@@ -20,11 +20,9 @@ class NewAddressViewModel @Inject constructor(
     private val updateAddressUseCase: UpdateAddressUseCase
 ) :
     ViewModel() {
-    private val _addressResponse: MutableStateFlow<Resource<Nothing>> =
+    private val _addressResponse: MutableStateFlow<Resource<Unit>> =
         MutableStateFlow(Resource.Empty)
-    val addressResponse: StateFlow<Resource<Nothing>> = _addressResponse
-
-
+    val addressResponse: StateFlow<Resource<Unit>> = _addressResponse
 
 
     fun savaAddress(addressData: AddressData) {

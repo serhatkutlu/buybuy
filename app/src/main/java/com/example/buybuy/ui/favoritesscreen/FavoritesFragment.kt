@@ -132,8 +132,11 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
     private fun onItemClicked(productDetail: ProductDetailUI) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addToCart(productDetail).collect{
-                if (it is Resource.Success) requireContext().showToast(getString(R.string.snackbar_message_cart))
-                else requireContext().showToast(getString(R.string.unknown_error))
+                when(it){
+                    is Resource.Success ->  requireContext().showToast(getString(R.string.snackbar_message_cart))
+                    is Resource.Error->     requireContext().showToast(getString(R.string.unknown_error))
+                    else->{}
+                }
 
             }
         }

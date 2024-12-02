@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(private val loginRepository: LoginRepository) {
 
-    operator fun invoke(user: User) =loginRepository.createUser(user)
+    suspend operator fun invoke(user: User) =loginRepository.createUser(user)
 
 
 }

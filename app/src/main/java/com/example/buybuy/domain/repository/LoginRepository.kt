@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface LoginRepository {
 
-     fun createUser(user: User): Flow<Resource<Nothing>>
+     suspend fun createUser(user: User): Flow<Resource<Unit>>
 
-     fun checkUserLogin():Flow<Resource<Boolean>>
-     fun checkUserEmailAndPassword(email: String, password: String):Flow<Resource<Boolean>>
-     fun resetPassword(email: String):Flow<Resource<Nothing>>
-     fun logOut():Flow<Resource<Nothing>>
+     suspend fun checkUserLogin():Flow<Resource<Boolean>>
+     suspend fun checkUserEmailAndPassword(email: String, password: String):Flow<Resource<Unit>>
+     suspend fun resetPassword(email: String):Flow<Resource<Unit>>
+     suspend fun logOut(): Flow<Resource<Unit>>
 
-     fun getUserData(): Flow<Resource<UserData>>
+     suspend fun getUserData(): Flow<Resource<UserData>>
 
 
 }

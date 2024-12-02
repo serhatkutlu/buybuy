@@ -13,7 +13,7 @@ class GetCartProductsUseCase @Inject constructor(
     private val repository: CartRepository,
     private val mapper: ProductEntityToUiMapper
 ) {
-    operator fun invoke(): Flow<Resource<List<ProductDetailUI>>> {
+    suspend operator fun invoke(): Flow<Resource<List<ProductDetailUI>>> {
          return repository.getCartProducts().map {
             when (it) {
                 is Resource.Success -> {

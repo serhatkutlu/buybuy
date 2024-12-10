@@ -2,6 +2,7 @@ package com.example.buybuy.di
 
 import com.example.buybuy.data.repository.Impl.CartRepositoryImpl
 import com.example.buybuy.data.repository.Impl.CouponRepositoryImpl
+import com.example.buybuy.data.repository.Impl.FcmRepositoryImpl
 import com.example.buybuy.data.repository.Impl.LoginRepositoryImpl
 import com.example.buybuy.data.repository.Impl.MainRepositoryImpl
 import com.example.buybuy.data.repository.Impl.OrdersRepositoryImpl
@@ -17,6 +18,7 @@ import com.example.buybuy.domain.repository.OrdersRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -78,4 +80,9 @@ object RepositoryModule {
         fireStore: FirebaseFirestore,
         remoteDataSource: RemoteDataSource
     ): OrdersRepository = OrdersRepositoryImpl(fireStore, authentication, remoteDataSource)
+
+    @Provides
+    @ViewModelScoped
+    fun provideFcmRepository(fireStore: FirebaseFirestore,firebaseAuth: FirebaseAuth): FcmRepositoryImpl=FcmRepositoryImpl(fireStore,firebaseAuth)
+
 }

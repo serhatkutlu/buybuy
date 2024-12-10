@@ -18,7 +18,7 @@ open class BaseRepository(private val dispatcher: CoroutineDispatcher) {
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Resource.Success(it))
-                } ?: emit(Resource.Error("Empty response body"))
+                } ?: emit(Resource.Error(Constant.UNKNOWN_ERROR))
             } else {
                 emit(Resource.Error(response.message() ?: Constant.UNKNOWN_ERROR))
             }

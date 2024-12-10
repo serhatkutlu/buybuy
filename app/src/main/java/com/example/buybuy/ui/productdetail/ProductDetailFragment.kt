@@ -41,7 +41,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
     private val binding by viewBinding(FragmentProductDetailScreenBinding::bind)
     private val viewModel: ProductDetailViewModel by viewModels()
-    private val  args: ProductDetailFragmentArgs by navArgs()
+    private val args: ProductDetailFragmentArgs by navArgs()
     private val tabs: MutableMap<String, String> = mutableMapOf()
     private var isExpanded = false
     private var isDetailopen = false
@@ -69,16 +69,23 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 }
                 launch {
                     viewModel.buyNowFlow.collect {
-                       when(it){
-                           is Resource.Success->{
-                               findNavController().navigate(R.id.action_productDetailFragment_to_checkoutFragment,null,NavOptions.rightAnim)
-                           }
-                           is Resource.Error->{
-                               ToastMessage.ERROR.showToast(requireContext(),it.message)
-                           }
-                           else->{}
+                        when (it) {
+                            is Resource.Success -> {
+                                findNavController().navigate(
+                                    R.id.action_productDetailFragment_to_checkoutFragment,
+                                    null,
+                                    NavOptions.rightAnim
+                                )
+                            }
 
-                       }                       }
+                            is Resource.Error -> {
+                                ToastMessage.ERROR.showToast(requireContext(), it.message)
+                            }
+
+                            else -> {}
+
+                        }
+                    }
                 }
 
             }
@@ -88,14 +95,8 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
     private fun createTabsList() {
         with(args.product) {
             tabs.apply {
-
-
-                    put(::color.name, color)
-
-
-
-                    put(::category.name, category)
-
+                put(::color.name, color)
+                put(::category.name, category)
                 if (popular) put(::popular.name.lowercase(), POPULAR)
             }
 
@@ -212,6 +213,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
 
         binding.imDetatilButton.startAnimation(rotateAnimation)
     }
+
     private fun startToggleDescriptionAnim() {
         val minheight = DETAIL_CARD_MIN_HEIGHT
         val maxheight = DETAIL_CARD_MAX_HEIGHT
@@ -229,9 +231,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
                 isExpanded = !isExpanded
-                if (isExpanded){
+                if (isExpanded) {
                     binding.tvTitle.maxLines = Int.MAX_VALUE
-                }else{
+                } else {
                     binding.tvTitle.maxLines = 1
                 }
             }

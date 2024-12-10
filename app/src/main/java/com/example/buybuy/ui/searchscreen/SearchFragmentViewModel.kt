@@ -18,21 +18,20 @@ import javax.inject.Inject
 class SearchFragmentViewModel @Inject constructor(
     private val performSearchUseCase: PerformSearchUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
-    private val deletefavoriteUseCase: DeleteFromFavoriteUseCase,
+    private val deleteFavoriteUseCase: DeleteFromFavoriteUseCase,
 ) :
     ViewModel() {
 
-    private var _searchData: MutableStateFlow<Resource<List<ProductDetailUI>>> =
+    private val _searchData: MutableStateFlow<Resource<List<ProductDetailUI>>> =
         MutableStateFlow(Resource.Empty)
     val searchData: StateFlow<Resource<List<ProductDetailUI>>> = _searchData
-    fun performSearch(query: String) {
 
+    fun performSearch(query: String) {
         viewModelScope.launch {
             performSearchUseCase(query).collect {
                 _searchData.emit(it)
 
             }
-
 
         }
     }
@@ -40,7 +39,7 @@ class SearchFragmentViewModel @Inject constructor(
     fun addToFavorite(productDetail: ProductDetailUI) {
         viewModelScope.launch(Dispatchers.IO) {
             if (productDetail.isFavorite) {
-                deletefavoriteUseCase.invoke(productDetail.id)
+                deleteFavoriteUseCase.invoke(productDetail.id)
 
             } else {
                 addToFavoriteUseCase.invoke(productDetail)

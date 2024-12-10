@@ -163,5 +163,9 @@
     <string name="item_ticket_expiration_date">expiration date: %s</string>
 
 
+    <string name="fcm_new_coupon_message">%s coupon has been added to your account.</string>
+    <string name="fcm_new_coupon_title">Congratulations</string>
+
+
 
 </resources>

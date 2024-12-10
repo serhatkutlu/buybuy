@@ -35,9 +35,7 @@ class SearchScreenAdapter:ListAdapter<ProductDetailUI, SearchScreenAdapter.Searc
                 binding.tvLastPrice.text = context.getString(R.string.currency_symbol_detail,productDetail.price.toFloat())
             }
             binding.tvLastPrice.paint.isStrikeThruText = true
-            binding.cardView.setOnClickListener {
-                onClickListener(productDetail)
-            }
+
             binding.includedLayout.cvFavorite.setOnClickListener {
                 onFavoriteClickListener(productDetail.copy())
                 productDetail.isFavorite = !productDetail.isFavorite

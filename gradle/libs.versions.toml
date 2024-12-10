@@ -46,6 +46,7 @@ androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefre
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseAuth" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }

@@ -100,7 +100,10 @@
     <fragment
         android:id="@+id/couponsFragment"
         android:name="com.example.buybuy.ui.coupons.CouponsFragment"
-        android:label="CouponsFragment" />
+        android:label="CouponsFragment">
+        <deepLink
+            app:uri="https://buybuy.page.link/coupons"/>
+    </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.buybuy.ui.checkout.CheckoutFragment"

@@ -34,6 +34,8 @@ object Constant {
     const val DETAIL_CARD_MIN_HEIGHT=400
     const val NODATAFOUND="No Data Found"
 
+    const val POST_NOTIFICATION_REQUEST_CODE = 1001
+
 
     const val  COUPON_COD_30="BUY30"
     const val  COUPON_COD_50="BUY50"

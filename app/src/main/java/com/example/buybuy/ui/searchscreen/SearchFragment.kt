@@ -35,7 +35,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
-    private val rVadapter by lazy {
+    private val rvAdapter by lazy {
         SearchScreenAdapter()
     }
 
@@ -60,7 +60,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
                         is Resource.Success -> {
                             binding.includedLayout.progressBar.gone()
-                            rVadapter.submitList(it.data)
+                            rvAdapter.submitList(it.data)
                         }
 
                         is Resource.Error -> {
@@ -106,11 +106,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initRecyclerView() {
         with(binding.includedLayout.recyclerView){
-            adapter=rVadapter
+            adapter=rvAdapter
             layoutManager= GridLayoutManager(requireContext(),2)
             addItemDecoration(SpacesItemDecoration(25, spaceleft = 30, spaceright = 30))
-            rVadapter.onFavoriteClickListener=::onFavoriteClick
-            rVadapter.onClickListener=::onItemClick
+            rvAdapter.onFavoriteClickListener=::onFavoriteClick
+            rvAdapter.onClickListener=::onItemClick
         }
     }
 
@@ -123,12 +123,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun handleBackButton() {
-
-
             findNavController().navigateUp()
-
-        
-
 
     }
 }

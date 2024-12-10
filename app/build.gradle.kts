@@ -105,6 +105,7 @@ dependencies {
 
     implementation (libs.androidx.swiperefreshlayout)
 
+    implementation (libs.firebase.messaging)
     
 
 }

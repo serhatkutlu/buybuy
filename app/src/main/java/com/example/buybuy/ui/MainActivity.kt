@@ -1,13 +1,18 @@
 package com.example.buybuy.ui
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 
 
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +25,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.buybuy.R
 import com.example.buybuy.databinding.ActivityMainBinding
 import com.example.buybuy.databinding.NavHeaderBinding
+import com.example.buybuy.util.Constant.POST_NOTIFICATION_REQUEST_CODE
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
@@ -43,13 +49,23 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         headerBinding = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
 
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
+        checkNotificationPermission()
+
+        val intent = intent
+        if (intent?.action == Intent.ACTION_VIEW && intent.data != null) {
+            navController.handleDeepLink(intent)
+        }
 
         initLogOutObserver()
         initNavHeaderObserver()
@@ -57,9 +73,7 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -74,6 +88,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.checkoutFragment,
                 R.id.orderSuccessful,
                 R.id.myOrdersFragment,
+                R.id.searchFragment,
                 R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -171,6 +186,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+
+
     private fun initLogOutObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -228,6 +247,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkNotificationPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    POST_NOTIFICATION_REQUEST_CODE
+                )
+                return
+            }
+        }
+
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {

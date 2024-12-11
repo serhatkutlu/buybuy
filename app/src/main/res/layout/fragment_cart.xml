@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryVariant"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/bottom_navigation_height">
 
@@ -14,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/white"
+            android:background="?attr/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -43,7 +44,7 @@
             android:layout_height="match_parent"
             android:visibility="invisible"
             android:layout_marginBottom="@dimen/xxlarge_margin"
-            android:background="@color/rv_background_color" />
+            android:background="?attr/colorPrimaryVariant" />
 
     </LinearLayout>
 
@@ -60,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/xxlarge_margin"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:background="?attr/colorPrimary"
         android:paddingHorizontal="@dimen/default_padding"
         >
 

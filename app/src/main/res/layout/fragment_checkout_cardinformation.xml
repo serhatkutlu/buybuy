@@ -36,6 +36,7 @@
 
        <com.google.android.material.textfield.TextInputLayout
            android:id="@+id/til_cart_number"
+           style="@style/CustomTextInputLayoutStyle"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginTop="@dimen/default_margin">
@@ -78,6 +79,7 @@
 
            <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/til_cvc"
+               style="@style/CustomTextInputLayoutStyle"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_marginEnd="@dimen/small_margin"

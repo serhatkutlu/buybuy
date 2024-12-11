@@ -7,7 +7,7 @@
     app:cardCornerRadius="15dp"
     app:contentPadding="10dp"
     app:strokeColor="@color/orange"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="?attr/colorPrimary"
     app:strokeWidth="2dp">
 
     <LinearLayout
@@ -20,8 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:textSize="7sp"
-            android:textColor="@color/dark_grey" />
+            android:textSize="7sp" />
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"

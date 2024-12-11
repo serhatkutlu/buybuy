@@ -23,11 +23,13 @@
         <item name="cardElevation">5dp</item>
         <item name="cardCornerRadius">10dp</item>
         <item name="cardUseCompatPadding">true</item>
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
     </style>
-<style name="CustomTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox"
+
+    <style name="CustomTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox"
     >
-    <item name="boxStrokeColor">@color/orange</item>
+
+    <item name="boxStrokeColor">@color/box_background_color_selector</item>
     <item name="cursorColor">@color/orange</item>
     <item name="hintTextColor">@color/orange</item>
 </style>

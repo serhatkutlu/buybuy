@@ -53,7 +53,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3)
+                    findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3.build())
                 }
             })
     }

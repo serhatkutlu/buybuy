@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="currency_symbol">%.0f₺</string>
+    <string name="currency_symbol_detail">%.2f₺</string>
+    <string name="currency_symbol_detail_minus">-%.2f₺</string>
+    <string name="percentage_symbol">%.0f%%</string>
+
+    <string name="invalid_email_password">Geçersiz e-posta veya şifre</string>
+    <string name="app_name">buybuy</string>
+    <string name="bottom_nav_home">Ana Sayfa</string>
+    <string name="bottom_nav_favorite">Favoriler</string>
+    <string name="bottom_nav_cart">Sepet</string>
+    <string name="bottom_nav_profile">Profil</string>
+
+    <string name="invalid_email">Geçersiz E-posta</string>
+    <string name="invalid_password">Geçersiz Şifre</string>
+    <string name="empty_field">Boş Alan</string>
+    <string name="refresh">Yenile</string>
+
+    <string name="fragment_login_login">Giriş Yap</string>
+    <string name="fragment_login_email">E-posta</string>
+    <string name="fragment_login_password">Şifre</string>
+    <string name="fragment_login_create_account">Hesabınız yok mu?<font color="#FFFF9800"> Kaydol</font></string>
+    <string name="fragment_login_forgot_password">Şifrenizi mi unuttunuz?</string>
+    <string name="fragment_login_Login_button">GİRİŞ</string>
+
+    <string name="fragment_signup_signup">Kaydol</string>
+    <string name="fragment_signup_email">E-posta</string>
+    <string name="fragment_signup_name">Ad</string>
+    <string name="fragment_signup_password">Şifre</string>
+    <string name="fragment_signup_select_photo">Fotoğraf Seç</string>
+    <string name="fragment_signup_already_have_an_account">Zaten bir hesabınız var mı?</string>
+
+    <string name="fragment_forgot_password_forgot_password">Şifremi Unuttum</string>
+    <string name="fragment_forgot_password_new_password">Yeni şifre</string>
+    <string name="fragment_forgot_password_new_password_again">Yeni şifre tekrar</string>
+    <string name="fragment_forgot_password_email">E-posta</string>
+    <string name="fragment_forgot_password_send">Gönder</string>
+
+    <string name="nav_header_username">Kullanıcı Adı</string>
+    <string name="nav_header_email">E-posta</string>
+
+    <string name="nav_menu_profile">Profil</string>
+    <string name="nav_menu_orders">Siparişler</string>
+    <string name="nav_menu_coupons">Kuponlar</string>
+    <string name="nav_menu_logout">Çıkış Yap</string>
+
+    <string name="open">Açık</string>
+    <string name="closed">Kapalı</string>
+    <string name="hello_blank_fragment">Merhaba boş fragment</string>
+
+    <string name="unknown_error">Bilinmeyen Hata</string>
+    <string name="user_not_found">Kullanıcı bulunamadı</string>
+    <string name="no_data_found">Veri bulunamadı</string>
+
+    <string name="permission_denied_gallery">Galeriyi açmak için izin gerekiyor.</string>
+    <string name="permission_denied_settings">Galeriyi açmak için uygulama ayarlarından izin vermelisiniz.</string>
+    <string name="alert_title_cart">Ürünü Sil</string>
+    <string name="alert_title">İzin Gerekli</string>
+    <string name="alert_title_reset_password">Tamamla</string>
+    <string name="alert_title_exit">Çıkış</string>
+    <string name="alert_message_exit">Uygulamadan çıkmak istiyor musunuz?</string>
+    <string name="alert_message">Galeriyi açmak için depolama iznine ihtiyacımız var. Lütfen izin verin.</string>
+    <string name="alert_message_reset_password">Şifrenizi e-posta üzerinden sıfırlayabilirsiniz.</string>
+    <string name="alert_message_cart">Bu ürünü silmek istediğinizden emin misiniz?</string>
+    <string name="alert_message_order_successful">Sipariş Başarılı</string>
+    <string name="alert_ok">İzin Ver</string>
+    <string name="alert_reset_password_open_email">E-postayı Aç</string>
+    <string name="alert_cancel">İptal</string>
+    <string name="snackbar_message_cart">sepete eklendi</string>
+    <string name="password_not_match">Şifreler uyuşmuyor</string>
+
+    <string name="order">Sipariş</string>
+    <string name="coupons">Kuponlar</string>
+    <string name="address">Adres</string>
+    <string name="payment">Ödeme</string>
+    <string name="logout">Çıkış</string>
+    <string name="settings">Ayarlar</string>
+    <string name="help">Yardım</string>
+    <string name="about">Hakkında</string>
+
+    <string name="fragment_Favorites_title">Favoriler</string>
+    <string name="fragment_favorites_add_to_cart">Sepete ekle</string>
+
+    <string name="Profile_title">Profil</string>
+    <string name="fragment_new_address_title">Adres Ekle</string>
+    <string name="fragment_new_address_contact_information">İletişim Bilgileri</string>
+    <string name="fragment_new_address_address">Adres</string>
+    <string name="fragment_new_address_address_information">Adres Bilgileri</string>
+    <string name="fragment_new_address_name">Ad</string>
+    <string name="fragment_new_address_address_name">Adres adı</string>
+    <string name="fragment_new_address_surname">Soyad</string>
+    <string name="fragment_new_address_save_address">Adresi kaydet</string>
+    <string name="fragment_new_address_phone_number">Telefon Numarası</string>
+    <string name="fragment_address_title">Adres</string>
+    <string name="fragment_address_title_new">Yeni</string>
+
+    <string name="item_checkout_confirm_button">Onayla</string>
+    <string name="item_checkout_cart_title">Sepet</string>
+    <string name="item_checkout_shipping_address_title">Teslimat Adresi</string>
+    <string name="fragment_checkout_title">Ödeme</string>
+    <string name="fragment_checkout_choose_address">Adres Seç</string>
+    <string name="fragment_checkout_edit_addresses">Adresleri Düzenle</string>
+    <string name="fragment_checkout_address_not_selected">Adres seçilmedi</string>
+    <string name="fragment_checkout_card_information">Kart Bilgileri</string>
+    <string name="fragment_checkout_cart_number_hint">Kart numarası</string>
+    <string name="fragment_checkout_cart_month_hint">Ay</string>
+    <string name="fragment_checkout_cart_year_hint">Yıl</string>
+    <string name="fragment_checkout_cart_cvc_hint">CVC</string>
+    <string name="fragment_checkout_cart_error_message">Geçersiz numara</string>
+    <string name="fragment_checkout_address_alert_title">Adres bulunamadı</string>
+    <string name="fragment_checkout_address_alert_message">Yeni bir adres eklemek ister misiniz?</string>
+    <string name="fragment_checkout_coupon_title">Kupon</string>
+    <string name="fragment_checkout_coupon_message">Kupon kullanıldı</string>
+
+    <string name="fragment_coupons_title">Kuponlar</string>
+
+    <string name="fragment_order_successful_title">Siparişinizi Siparişler ekranında görebilirsiniz.</string>
+    <string name="fragment_order_fail_title">Üzgünüz, siparişiniz işleme alınamadı.</string>
+
+    <string name="alert_positive_button_text">Tamam</string>
+    <string name="alert_negative_button_text">İptal</string>
+    <string name="fragment_profile_alert_title">Çıkış Yap</string>
+    <string name="fragment_profile_alert_message">Çıkış yapmak istediğinizden emin misiniz?</string>
+
+    <string name="fragment_cart_title">Sepet</string>
+    <string name="fragment_cart_button_buy_now">Hemen Satın Al</string>
+
+    <string name="fragment_my_orders_title">Siparişlerim</string>
+    <string name="fragment_my_orders_button_rate">Deneyiminizi Puanlayın</string>
+    <string name="fragment_my_orders_alert_title">Bu ürünü puanlayın</string>
+    <string name="fragment_my_orders_alert_positive_text">Gönder</string>
+    <string name="fragment_my_orders_quantity">Adet: %s</string>
+
+    <string name="rating_text_very_bad">Çok Kötü</string>
+    <string name="rating_text_bad">Kötü</string>
+    <string name="rating_text_average">Orta</string>
+    <string name="rating_text_good">İyi</string>
+    <string name="rating_text_very_good">Çok İyi</string>
+
+    <string name="item_ticket_expiration_date">Son Kullanma Tarihi: %s</string>
+
+    <string name="fcm_new_coupon_message">%s kupon hesabınıza eklendi.</string>
+    <string name="fcm_new_coupon_title">Yeni Kupon!</string>
+
+
+</resources>

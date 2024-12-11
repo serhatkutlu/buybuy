@@ -1,6 +1,8 @@
 package com.example.buybuy.ui.mainscreen.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.R
 import com.example.buybuy.databinding.ItemTabLayoutBinding
+import com.google.android.material.color.MaterialColors
 
 class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparatorTab()) {
 
@@ -61,7 +64,13 @@ class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparat
     }
 
     private fun selectCardBackgroundColor(context: Context, isSelected: Boolean): Int {
+        val colorPrimary = MaterialColors.getColor(
+            context,
+            com.google.android.material.R.attr.colorPrimary,
+            Color.WHITE
+        )
         return if (isSelected) ContextCompat.getColor(context, R.color.orange)
-        else ContextCompat.getColor(context, R.color.white)
+
+        else colorPrimary
     }
 }

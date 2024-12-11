@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/rv_background_color"
+    android:background="?attr/colorPrimaryVariant"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/white"
+        android:background="?attr/colorPrimary"
         android:orientation="horizontal">
 
         <ImageView
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_margin"
-                android:background="@color/white"
+                android:background="?attr/colorPrimary"
                 android:orientation="vertical">
 
                 <TextView
@@ -62,7 +62,7 @@
                     android:layout_marginHorizontal="@dimen/default_margin"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginBottom="@dimen/default_margin"
-                    android:background="@color/rv_background_color" />
+                    android:background="?attr/colorPrimaryVariant" />
 
 
                 <LinearLayout
@@ -175,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="@color/white"
+                android:background="?attr/colorPrimary"
                 android:orientation="vertical">
 
                 <TextView
@@ -192,7 +192,7 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
-                    android:background="@color/rv_background_color" />
+                    android:background="?attr/colorPrimaryVariant" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -269,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="20dp"
-                android:background="@color/white">
+                android:background="?attr/colorPrimary">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save"

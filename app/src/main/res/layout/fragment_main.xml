@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?attr/colorPrimary">
 
 
     <ImageView
@@ -82,7 +82,7 @@
         android:layout_height="0dp"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
-        android:background="@color/rv_background_color"
+        android:background="?attr/colorPrimaryVariant"
         android:layout_marginTop="@dimen/xxlarge_margin"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

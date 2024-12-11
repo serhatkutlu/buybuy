@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.orderSuccessful,
                 R.id.myOrdersFragment,
                 R.id.searchFragment,
+                R.id.couponsFragment,
                 R.id.newAddressFragment -> {
                     binding.bottomNavigation.gone()
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

@@ -76,7 +76,10 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                         binding.recyclerView.invisible()
                         binding.lottieAnimationView.visible()
                         binding.lottieAnimationView.playAnimation()
+                        binding.buttonBuyNow.isClickable=false
+
                     }else{
+                        binding.buttonBuyNow.isClickable=true
                         binding.recyclerView.visible()
                         binding.lottieAnimationView.gone()
                         cartAdapter.submitList(it.data)
@@ -84,6 +87,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                     }
                 }
                 is Resource.Error->{
+                    binding.buttonBuyNow.isClickable=false
                     binding.recyclerView.invisible()
                     binding.lottieAnimationView.visible()
                     binding.lottieAnimationView.playAnimation()
@@ -92,6 +96,7 @@ class CartFragment:Fragment(R.layout.fragment_cart) {
                     requireContext().showToast(it.message)
                 }
                 is Resource.Loading->{
+                    binding.buttonBuyNow.isClickable=false
                     binding.progressBar.visible()
                 }
                 is Resource.Empty->{}

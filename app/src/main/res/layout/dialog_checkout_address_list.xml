@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/rv_background_color"
+    android:background="?attr/colorPrimaryVariant"
     android:orientation="vertical">
 
     <TextView
@@ -19,13 +19,13 @@
         android:layout_height="1dp"
         android:elevation="3dp"
         android:layout_margin="@dimen/default_margin"
-        android:background="@color/dark_grey"
+        android:background="?attr/colorOnPrimary"
         android:layout_marginTop="@dimen/large_margin"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/rv_background_color"
+        android:background="?attr/colorPrimaryVariant"
         android:layout_margin="@dimen/default_margin">
 
     </androidx.recyclerview.widget.RecyclerView>

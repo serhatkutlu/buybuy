@@ -59,7 +59,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
                         }
                         else -> {
-                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.rightAnim)
+                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions3.setPopUpTo(R.id.splashFragment,true).build())
 
                         }
                     }

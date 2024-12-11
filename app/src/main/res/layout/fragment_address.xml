@@ -44,7 +44,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rv_background_color"/>
+        android:background="?attr/colorPrimaryVariant"/>
 </LinearLayout>
     <include
         android:id="@+id/include_progress_bar"

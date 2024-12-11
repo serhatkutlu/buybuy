@@ -16,5 +16,5 @@
         android:layout_height="match_parent"
         android:padding="8dp"
         android:src="@drawable/heart"
-        app:tint="@color/dark_grey"/>
+        app:tint="@color/black"/>
 </com.google.android.material.card.MaterialCardView>

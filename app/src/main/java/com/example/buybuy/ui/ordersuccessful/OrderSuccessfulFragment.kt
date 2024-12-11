@@ -20,7 +20,7 @@ class OrderSuccessfulFragment : Fragment(R.layout.fragment_order_successful) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.root.setOnClickListener{
-            findNavController().navigate(R.id.action_orderSuccessful_to_mainFragment,null, NavOptions.navOptions3)
+            findNavController().navigate(R.id.action_orderSuccessful_to_mainFragment,null, NavOptions.navOptions3.build())
         }
         ToastMessage.SUCCESS.showToast(requireContext(),getString(R.string.alert_message_order_successful))
 

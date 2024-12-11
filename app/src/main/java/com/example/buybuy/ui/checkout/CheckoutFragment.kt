@@ -62,7 +62,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                                 findNavController().navigate(
                                     R.id.action_checkoutFragment_to_orderSuccessful,
                                     null,
-                                    NavOptions.navOptions3
+                                    NavOptions.navOptions3.build()
                                 )
                             }
                             is Resource.Loading->{

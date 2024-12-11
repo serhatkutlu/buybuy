@@ -33,8 +33,8 @@ object NavOptions {
         .setExitAnim(R.anim.slide_out_left)
         .setPopEnterAnim(R.anim.slide_in_left)
         .setPopExitAnim(R.anim.slide_out_right)
-        .build()
 
-    val navOptions4 = NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).setRestoreState(true).build()
+
+    val navOptions4 = NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build()
 
 }

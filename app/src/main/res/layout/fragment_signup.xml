@@ -7,7 +7,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+
     android:orientation="vertical">
 
     <ImageView
@@ -34,6 +34,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name"
+        style="@style/CustomTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -47,16 +48,17 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_name"
-            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fragment_signup_name"
             android:inputType="textEmailAddress"
-            android:padding="20dp" />
+            android:padding="20dp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
+        style="@style/CustomTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -145,6 +147,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
+        style="@style/CustomTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -166,6 +169,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password2"
+        style="@style/CustomTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

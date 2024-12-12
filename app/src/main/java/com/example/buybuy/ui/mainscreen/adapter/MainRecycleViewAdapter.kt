@@ -24,24 +24,21 @@ import com.example.buybuy.util.ProductComparatorMainRV
 import com.example.buybuy.util.Resource
 
 class MainRecycleViewAdapter(
-    val contentClickListener: (ProductDetailUI) -> Unit,
-    val favoriteClickListener: (ProductDetailUI, Int, MainRecycleViewTypes) -> Unit,
-    val fetchContentData: (content: String) -> Unit,
-
+    private val contentClickListener: (ProductDetailUI) -> Unit,
+    private val favoriteClickListener: (ProductDetailUI, Int, MainRecycleViewTypes) -> Unit,
+    private val fetchContentData: (content: String) -> Unit,
+    currentCategory: String? = null
     ) :
     ListAdapter<MainRecycleViewTypes, ViewHolder>(ProductComparatorMainRV()) {
-
-
-
-
     private var isFavoriteUpdateCategory = true
+
     private var scrollStateCategory: Parcelable? = null
     private var scrollStateFlashSale: Parcelable? = null
 
-    var layoutManager: LayoutManager? = null
-    var flashLayoutManager: LayoutManager? = null
+    private var layoutManager: LayoutManager? = null
+    private var flashLayoutManager: LayoutManager? = null
 
-    private var currentCategory: String? = null
+    private var lastCurrentCategory: String? = currentCategory
 
     private val tabAdapter: TabAdapter by lazy {
         TabAdapter()
@@ -82,9 +79,10 @@ class MainRecycleViewAdapter(
     }
 
 
-    fun saveState() {
+    fun saveState():Pair<Parcelable?,Parcelable?> {
         scrollStateCategory = layoutManager?.onSaveInstanceState()
         scrollStateFlashSale = flashLayoutManager?.onSaveInstanceState()
+        return Pair(scrollStateCategory,scrollStateFlashSale)
     }
 
 
@@ -151,7 +149,7 @@ class MainRecycleViewAdapter(
                     holder.bind(
                         item,
                         tabAdapter,
-                        currentCategory,
+                        lastCurrentCategory,
                         ::setCurrentCategory,
                         tabContentAdapter,
                         scrollStateCategory,
@@ -185,7 +183,7 @@ class MainRecycleViewAdapter(
     }
 
     private fun setCurrentCategory(category: String) {
-        currentCategory = category
+        lastCurrentCategory = category
         fetchContentData(category)
         isFavoriteUpdateCategory = true
 
@@ -207,30 +205,6 @@ class MainRecycleViewAdapter(
         submitList(newList){
             positions.forEach{
                 notifyItemChanged(it)
-            }
-        }
-    }
-    fun updateCategoryItem(newItem: MainRecycleViewTypes) {
-        val positionCategoryItem = currentList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
-        if (positionCategoryItem != -1) {
-            val currentList = currentList.toMutableList()
-            currentList[positionCategoryItem] = newItem
-            submitList(currentList){
-             //   notifyItemChanged(positionCategoryItem)
-            }
-
-        }
-
-
-    }
-    fun updateFlashSaleItem(newItem: MainRecycleViewTypes) {
-        val positionFlashSaleItem = currentList.indexOfFirst { it is MainRecycleViewTypes.FlashSaleDataUi }
-
-        if (positionFlashSaleItem != -1) {
-            val currentList = currentList.toMutableList()
-            currentList[positionFlashSaleItem] = newItem
-            submitList(currentList){
-                notifyItemChanged(positionFlashSaleItem)
             }
         }
     }
@@ -279,6 +253,10 @@ class MainRecycleViewAdapter(
         }
     }
 
+    fun updateState(pair: Pair<Parcelable?, Parcelable?>){
+        scrollStateCategory = pair.first
+        scrollStateFlashSale = pair.second
+    }
 
     override fun onViewRecycled(holder: ViewHolder) {
         if (holder is VpBannerViewHolder) {

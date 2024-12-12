@@ -35,8 +35,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         binding.tabRecyclerView.adapter = tabAdapter
         binding.tabRecyclerView.layoutManager =
             LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+        tabAdapter.setSelectedPosition(item.categories.indexOf(currentCategory))
         tabAdapter.submitList(item.categories)
-
 
         binding.contentRecyclerView.adapter = tabContentAdapter
         binding.contentRecyclerView.layoutManager =

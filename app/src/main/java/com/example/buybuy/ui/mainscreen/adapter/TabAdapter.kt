@@ -51,6 +51,9 @@ class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparat
         }
     }
 
+    fun setSelectedPosition(position: Int) {
+        selectedPosition = position
+    }
 
     class ProductComparatorTab : DiffUtil.ItemCallback<String>() {
 

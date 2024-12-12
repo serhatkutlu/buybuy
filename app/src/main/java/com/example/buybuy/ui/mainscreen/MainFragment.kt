@@ -1,6 +1,7 @@
 package com.example.buybuy.ui.mainscreen
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
@@ -11,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentMainBinding
@@ -28,16 +28,22 @@ import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+private const val CATEGORY_STATE="category_state"
+private const val FLASH_SALE_STATE="flash_sale_state"
+private const val MAIN_RV_STATE="main_rv_state"
+
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
     private var isfirstinit = false
+    private var state:Parcelable?=null
     private val rvAdapter: MainRecycleViewAdapter by lazy {
         MainRecycleViewAdapter(
             contentClickListener = ::openProductDetailScreen,
             favoriteClickListener = ::addToFavorite,
-            fetchContentData = ::fetchContentDataForCategoryViewHolder
+            fetchContentData = ::fetchContentDataForCategoryViewHolder,
+            viewModel.currentCategory
         )
     }
 
@@ -56,6 +62,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         initUi()
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val categoryState = savedInstanceState?.getParcelable<Parcelable>(CATEGORY_STATE)
+        val flashSaleState = savedInstanceState?.getParcelable<Parcelable>(FLASH_SALE_STATE)
+        val innerState=Pair(categoryState,flashSaleState)
+        if (innerState.first!=null || innerState.second!=null){
+            rvAdapter.updateState(innerState)
+        }
+
+        state=savedInstanceState?.getParcelable(MAIN_RV_STATE)
+    }
 
     private fun handleOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -110,7 +127,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
-
         }
 
     }
@@ -135,12 +151,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     }
 
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (isAdded && view != null && binding.recyclerView.layoutManager != null) {
+            val innerState = rvAdapter.saveState()
+            val state = binding.recyclerView.layoutManager?.onSaveInstanceState()
+            outState.putParcelable(CATEGORY_STATE, innerState.first)
+            outState.putParcelable(FLASH_SALE_STATE, innerState.second)
+            outState.putParcelable(MAIN_RV_STATE, state)
+        }
+
+
+    }
+
     override fun onStop() {
         super.onStop()
         rvAdapter.saveState()
     }
-
-
     private fun initObservers() {
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launch {
@@ -158,7 +187,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                                     binding.includedError.root.gone()
                                     binding.recyclerView.visible()
                                     binding.progressBar.gone()
-                                    rvAdapter.submitList(response.data)
+                                    rvAdapter.submitList(response.data){
+                                        binding.recyclerView.layoutManager?.onRestoreInstanceState(state)
+
+                                    }
                                     if (isfirstinit) {
                                         val indexCategory =
                                             response.data.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
@@ -214,16 +246,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-//    private fun fetchContentDataForFlashSaleViewHolder() {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                val response = viewModel.getFlashSaleList()
-//                response?.let {
-//                    rvAdapter.updateCategoryItem(it)
-//                }
-//            }
-//        }
-//    }
+
+
 
     private fun openProductDetailScreen(product: ProductDetailUI) {
         findNavController().navigate(

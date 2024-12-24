@@ -4,4 +4,33 @@
     <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">9sp</item>
     </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_gravity">center</item>
+        ...
+    </style>
+
+    <style name="BackImageViewStyle">
+        <item name="android:src"> @drawable/left_arrow</item>
+        <item name="android:layout_width">@dimen/large_icon_size</item>
+        <item name="android:layout_height">@dimen/large_icon_size</item>
+        <item name="android:tint">@color/orange</item>
+        <item name="android:contentDescription">back</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:padding">@dimen/small_padding</item>
+    </style>
+    <style name="CustomCardView" parent="Base.CardView">
+        <item name="cardElevation">5dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="CustomTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox"
+    >
+
+    <item name="boxStrokeColor">@color/box_background_color_selector</item>
+    <item name="cursorColor">@color/orange</item>
+    <item name="hintTextColor">@color/orange</item>
+</style>
 </resources>

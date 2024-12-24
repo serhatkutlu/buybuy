@@ -1,25 +1,36 @@
 package com.example.buybuy.domain.repository
 
-import com.example.buybuy.data.model.data.Category
 import com.example.buybuy.data.model.data.ProductDetail
-import com.example.buybuy.domain.model.mainrecycleviewdata.RVCategory
-import com.example.buybuy.domain.model.mainrecycleviewdata.VpBannerData
+import com.example.buybuy.data.model.data.FlashSaleData
+import com.example.buybuy.data.model.data.OrderData
+import com.example.buybuy.data.model.entity.ProductDetailEntity
+import com.example.buybuy.domain.model.data.SingleBannerData
+import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
+
 import com.example.buybuy.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
 
-    fun getVpBannerData(): Flow<Resource<VpBannerData>>
+    suspend fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>>
 
-    fun getProductByCategory(category: String):Flow<Resource<List<ProductDetail>>>
-    fun getAllCategory():  Flow<Resource<RVCategory>>
+    suspend fun getProductByCategory(category: String):Flow<Resource<List<ProductDetail>>>
+    suspend fun getAllCategory():  Flow<Resource<List<String>>>
+    suspend fun getAllSingleBanner(): Flow<Resource<List<SingleBannerData>>>
+    suspend fun saveAllProduct(productDetail: List<ProductDetailEntity>)
 
-    suspend fun saveAllProduct(productDetail: List<ProductDetail>)
+    suspend fun searchProduct(query: String): Flow<Resource<List<ProductDetailEntity>>>
+    suspend fun addToFavorite(productDetail: ProductDetailEntity):Boolean
+    suspend fun deleteFromFavorite(productDetail: Int):Boolean
+     suspend fun getAllFavorite(): Flow<Resource<List<ProductDetailEntity>>>
+    suspend fun searchFavorites(query: String):Flow<Resource<List<ProductDetailEntity>>>
 
-    fun searchProduct(query: String): Flow<Resource<List<ProductDetail>>>
-    suspend fun addToFavorite(productDetail: ProductDetail)
-    suspend fun deleteFromFavorite(productDetail: Int)
-     fun getAllFavorite(): Flow<Resource<List<ProductDetail>>>
+    suspend fun getAllProductFromDbWithCategory(category: String): Resource<List<ProductDetailEntity>>
 
-     suspend fun isFavorite(productDetail: Int): Boolean
+    suspend fun isFavorite(productDetail: Int): Boolean
+
+    suspend fun getAllFlashSaleProduct():Resource<FlashSaleData>
+    suspend fun clearAllTables(): Flow<Resource<Unit>>
+
+
 }

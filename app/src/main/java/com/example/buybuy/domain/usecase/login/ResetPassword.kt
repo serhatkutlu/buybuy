@@ -1,10 +1,10 @@
 package com.example.buybuy.domain.usecase.login
 
-import com.example.buybuy.domain.repository.FirebaseRepository
+import com.example.buybuy.domain.repository.LoginRepository
 import javax.inject.Inject
 
-class ResetPassword @Inject constructor(private val firebaseRepository: FirebaseRepository) {
+class ResetPassword @Inject constructor(private val loginRepository: LoginRepository) {
 
-    operator fun invoke(email: String) = firebaseRepository.resetPassword(email)
+    suspend operator fun invoke(email: String) = loginRepository.resetPassword(email)
 
 }

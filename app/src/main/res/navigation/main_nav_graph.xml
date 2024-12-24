@@ -13,22 +13,28 @@
         <action
             android:id="@+id/action_mainFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment"
-            app:launchSingleTop="true"/>
+
+            />
         <action
             android:id="@+id/action_mainFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.buybuy.ui.productdetail.ProductDetailFragment"
         android:label="ProductDetailFragment" >
+
+        <argument android:name="Product"
+            app:argType="com.example.buybuy.domain.model.data.ProductDetailUI" />
         <action
-            android:id="@+id/action_productDetailFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
-        <argument android:name="product"
-            app:argType="com.example.buybuy.data.model.data.ProductDetail" />
+            android:id="@+id/action_productDetailFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -38,5 +44,87 @@
         <action
             android:id="@+id/action_searchFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.buybuy.ui.favoritesscreen.FavoritesFragment"
+        android:label="FavoritesFragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.buybuy.ui.cartScreen.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.buybuy.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_profileFragment_to_couponsFragment"
+            app:destination="@id/couponsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.example.buybuy.ui.address.addressScreen.AddressFragment"
+        android:label="AddressFragment" >
+        <action
+            android:id="@+id/action_addressFragment_to_newAddressFragment"
+            app:destination="@id/newAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newAddressFragment"
+        android:name="com.example.buybuy.ui.address.newAddressScreen.NewAddressFragment"
+        android:label="NewAddressFragment" >
+        <argument
+            android:name="address_data"
+            app:argType="com.example.buybuy.data.model.data.AddressData"
+            app:nullable="true"
+ />
+    </fragment>
+    <fragment
+        android:id="@+id/couponsFragment"
+        android:name="com.example.buybuy.ui.coupons.CouponsFragment"
+        android:label="CouponsFragment">
+        <deepLink
+            app:uri="https://buybuy.page.link/coupons"/>
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.buybuy.ui.checkout.CheckoutFragment"
+        android:label="checkoutFragment" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderSuccessful"
+            app:destination="@id/orderSuccessful" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderSuccessful"
+        android:name="com.example.buybuy.ui.ordersuccessful.OrderSuccessfulFragment"
+        android:label="OrderSuccessful" >
+        <action
+            android:id="@+id/action_orderSuccessful_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myOrdersFragment"
+        android:name="com.example.buybuy.ui.orderscreen.MyOrdersFragment"
+        android:label="MyOrdersFragment" />
 </navigation>

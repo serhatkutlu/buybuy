@@ -11,18 +11,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentForgotPasswordBinding
-import com.example.buybuy.util.Checkemail
-import com.example.buybuy.util.Constant.ALERT_CANCEL
-import com.example.buybuy.util.Constant.ALERT_MESSAGE_RESET_PASSWORD
-import com.example.buybuy.util.Constant.ALERT_RESET_PASSWORD_OPEN_EMAIL
-import com.example.buybuy.util.Constant.ALERT_TITLE_RESET_PASSWORD
+import com.example.buybuy.util.checkEmail
+
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showToast
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.viewBinding
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,22 +45,25 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                     repeatOnLifecycle(state = Lifecycle.State.STARTED) {
                         resetFlow.collect {
                             when (it) {
-                                is Resource.Loading -> progressBar.Visible()
+                                is Resource.Loading -> progressBar.visible()
                                 is Resource.Success -> {
-                                    progressBar.Visible()
+                                    progressBar.visible()
                                     requireContext().showAlertDialog(
-                                        ALERT_TITLE_RESET_PASSWORD,
-                                        ALERT_MESSAGE_RESET_PASSWORD,
-                                        ALERT_RESET_PASSWORD_OPEN_EMAIL,
+                                        getString(R.string.alert_title_reset_password),
+                                        getString(R.string.alert_message_reset_password),
+                                        getString(R.string.alert_reset_password_open_email),
                                         ::openEmailIntent,
-                                        ALERT_CANCEL
+                                        getString(R.string.alert_cancel)
                                     )
                                     findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
                                 }
 
                                 is Resource.Error -> {
                                     requireContext().showToast(it.message)
-                                    progressBar.Gone()
+                                    progressBar.gone()
+
+                                }
+                                is Resource.Empty -> {
 
                                 }
                             }
@@ -73,10 +74,16 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
         }
     }
 
+
+
+
     private fun openEmailIntent() {
         val intent = Intent(Intent.ACTION_MAIN)
         intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+
+
     }
 
     private fun initUi() {
@@ -87,8 +94,8 @@ class ForgotPasswordFragment : Fragment(R.layout.fragment_forgot_password) {
                 }
 
                 buttonSend.setOnClickListener {
-                    if (etEmail.Checkemail(UNKNOWN_ERROR)) {
-                        viewmodel.resetPasswordwithEmail(etEmail.text.toString())
+                    if (etEmail.checkEmail(UNKNOWN_ERROR)) {
+                        viewmodel.resetPasswordWithEmail(etEmail.text.toString())
                     }
                 }
             }

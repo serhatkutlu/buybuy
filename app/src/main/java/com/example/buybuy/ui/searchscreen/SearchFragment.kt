@@ -3,26 +3,23 @@ package com.example.buybuy.ui.searchscreen
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentSearchBinding
+import com.example.buybuy.domain.model.data.ProductDetailUI
 import com.example.buybuy.ui.searchscreen.adapters.SearchScreenAdapter
-import com.example.buybuy.util.Gone
+import com.example.buybuy.util.gone
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.SpacesItemDecoration
-import com.example.buybuy.util.Visible
+import com.example.buybuy.util.visible
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +31,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val binding: FragmentSearchBinding by viewBinding(FragmentSearchBinding::bind)
     private val viewmodel: SearchFragmentViewModel by viewModels()
-    private val RVadapter by lazy {
+    val inputMethodManager : InputMethodManager by lazy{
+        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
+
+    private val rvAdapter by lazy {
         SearchScreenAdapter()
     }
 
@@ -54,18 +55,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 viewmodel.searchData.collect {
                     when (it) {
                         is Resource.Loading -> {
-                            binding.progressBar.Visible()
+                            binding.includedLayout.progressBar.visible()
                         }
 
                         is Resource.Success -> {
-                            binding.progressBar.Gone()
-                            RVadapter.submitList(it.data)
+                            binding.includedLayout.progressBar.gone()
+                            rvAdapter.submitList(it.data)
                         }
 
                         is Resource.Error -> {
-                            binding.progressBar.Gone()
+                            binding.includedLayout.progressBar.gone()
                             requireContext().showToast(it.message)
                         }
+                        is Resource.Empty -> {}
                     }
                 }
             }
@@ -73,9 +75,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initUi() {
-        with(binding) {
+        with(binding.includedLayout) {
 
             initRecyclerView()
+            ivBack.visible()
             ivBack.setOnClickListener {
                     handleBackButton()
                 }
@@ -83,9 +86,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 searchView.isIconified = false
             }
 
+
             searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener  {
                 override fun onQueryTextSubmit(p0: String?): Boolean {
-                    viewmodel.PerformSearch(p0.toString())
+                    viewmodel.performSearch(p0.toString())
+
+                    inputMethodManager.hideSoftInputFromWindow(searchView.windowToken, 0)
                     return true
                 }
 
@@ -99,17 +105,25 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initRecyclerView() {
-        with(binding.recyclerView){
-            adapter=RVadapter
+        with(binding.includedLayout.recyclerView){
+            adapter=rvAdapter
             layoutManager= GridLayoutManager(requireContext(),2)
-            addItemDecoration(SpacesItemDecoration(25))
+            addItemDecoration(SpacesItemDecoration(25, spaceleft = 30, spaceright = 30))
+            rvAdapter.onFavoriteClickListener=::onFavoriteClick
+            rvAdapter.onClickListener=::onItemClick
         }
     }
 
+    private fun onFavoriteClick(product: ProductDetailUI){
+        viewmodel.addToFavorite(product)
+    }
+    private fun onItemClick(product:ProductDetailUI){
+        val action=SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(product)
+        findNavController().navigate(action,NavOptions.rightAnim)
+    }
+
     private fun handleBackButton() {
-
-            findNavController().popBackStack()
-
+            findNavController().navigateUp()
 
     }
 }

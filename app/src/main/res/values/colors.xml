@@ -5,12 +5,19 @@
     <color name="background">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
     <color name="green">#0E600E</color>
+    <color name="light_green">#5CCC5C</color>
     <color name="blue">#2424AC</color>
     <color name="orange">#ff9800</color>"
     <color name="light_grey">#E4E3E3</color>
     <color name="dark_grey">#9b9b9b</color>
+    <color name="shimmer_placeholder_color">#C2C2C2</color>
+    <color name="rv_background_color">#F5F5F5</color>
+    <color name="transparent">#00000000</color>
+
 
     <color name="gold">#febb49</color>
+
+
 
 
 </resources>

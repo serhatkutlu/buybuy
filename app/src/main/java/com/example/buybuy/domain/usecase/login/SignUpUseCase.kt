@@ -1,14 +1,15 @@
 package com.example.buybuy.domain.usecase.login
 
-import com.example.buybuy.data.model.data.User
-import com.example.buybuy.domain.repository.FirebaseRepository
+import com.example.buybuy.domain.model.data.User
+import com.example.buybuy.domain.repository.LoginRepository
+
 import javax.inject.Inject
 
 
 
-class SignUpUseCase @Inject constructor(val firebaseRepository: FirebaseRepository) {
+class SignUpUseCase @Inject constructor(private val loginRepository: LoginRepository) {
 
-    operator fun invoke(user: User) =firebaseRepository.createUser(user)
+    suspend operator fun invoke(user: User) =loginRepository.createUser(user)
 
 
 }

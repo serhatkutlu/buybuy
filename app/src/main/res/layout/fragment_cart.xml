@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryVariant"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/bottom_navigation_height">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="?attr/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/fragment_cart_title"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/header_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:layout_marginStart="@dimen/small_margin"
+                android:src="@drawable/cart"
+                app:tint="@color/orange" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:layout_marginBottom="@dimen/xxlarge_margin"
+            android:background="?attr/colorPrimaryVariant" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/orange"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xxlarge_margin"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorPrimary"
+        android:paddingHorizontal="@dimen/default_padding"
+        >
+
+        <TextView
+            android:id="@+id/tv_price_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/large_margin"
+            android:textColor="@color/orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_buy_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg_orange"
+            android:paddingHorizontal="@dimen/x_large_padding"
+            android:text="@string/fragment_cart_button_buy_now" />
+    </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="@dimen/lottie_width"
+        android:layout_height="@dimen/lottie_height"
+        android:layout_gravity="center"
+        app:lottie_url="https://lottie.host/6b6e9f0b-a4e7-46a8-8144-edea7f25a4be/zfBPO6HPVT.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
+</FrameLayout>

@@ -1,5 +1,13 @@
 <resources>
 
+    <string name="currency_symbol">%.0f$</string>
+    <string name="currency_symbol_detail">%.2f$</string>
+    <string name="currency_symbol_detail_minus">-%.2f$</string>
+    <string name="percentage_symbol">%.0f%%</string>
+
+
+
+
     <string name="invalid_email_password">invalid email or password</string>
     <string name="app_name">buybuy</string>
     <string name="bottom_nav_home">home</string>
@@ -10,11 +18,13 @@
 
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="empty_field">Empty Field</string>
+    <string name="refresh">Refresh</string>
 
     <string name="fragment_login_login">Login</string>
     <string name="fragment_login_email">Email</string>">
     <string name="fragment_login_password">Password</string>">
-    <string name="fragment_login_create_account">Doesn\'t have an account?<font color="#FFFF9800"> Sign Up</font></string>
+    <string name="fragment_login_create_account">Doesnt\'t have an account?<font color="#FFFF9800"> Sign Up</font></string>
     ">
     <string name="fragment_login_forgot_password">Forgot Password?</string>">
     <string name="fragment_login_Login_button">LOGIN</string>">
@@ -34,6 +44,10 @@
     <string name="fragment_forgot_password_send">Send</string>">
 
 
+
+
+
+
     <string name="nav_header_username">Username</string>
     <string name="nav_header_email">Email</string>
 
@@ -46,6 +60,112 @@
     <string name="open">Open</string>
     <string name="closed">closed</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="unknown_error">Unknown Error</string>
+    <string name="user_not_found">User not found</string>
+    <string name="no_data_found">No Data Found</string>
+
+    <string name="permission_denied_gallery">Permission is required to access the gallery.</string>
+    <string name="permission_denied_settings">You need to grant permission from app settings to access the gallery.</string>
+    <string name="alert_title_cart">Delete Product</string>
+    <string name="alert_title">Permission Required</string>
+    <string name="alert_title_reset_password">complete</string>
+    <string name="alert_title_exit">Exit</string>
+    <string name="alert_message_exit">Do you want to exit the application?</string>
+    <string name="alert_message">We need storage permission to access the gallery. Please grant the permission.</string>
+    <string name="alert_message_reset_password">You can reset your password using the link sent to your email.</string>
+    <string name="alert_message_cart">Are you sure you want to delete this product?</string>
+    <string name="alert_message_order_successful">Order Successful</string>
+    <string name="alert_ok">Allow</string>
+    <string name="alert_reset_password_open_email">Open Email</string>
+    <string name="alert_cancel">Cancel</string>
+    <string name="snackbar_message_cart">added to cart</string>
+    <string name="password_not_match">Password not match</string>
+
+    <string name="order">order</string>
+    <string name="coupons">coupons</string>
+    <string name="address">address</string>
+    <string name="payment">payment</string>
+    <string name="logout">logout</string>
+    <string name="settings">settings</string>
+    <string name="help">help</string>
+    <string name="about">about</string>
+
+
+    <string name="fragment_Favorites_title">Favorites</string>
+    <string name="fragment_favorites_add_to_cart">Add to cart</string>">
+
+
+    <string name="Profile_title">Profile</string>
+    <string name="fragment_new_address_title">Add Address</string>
+    <string name="fragment_new_address_contact_information">contact information</string>
+    <string name="fragment_new_address_address">address</string>
+    <string name="fragment_new_address_address_information">address information</string>
+    <string name="fragment_new_address_name">name</string>
+    <string name="fragment_new_address_address_name">adress name</string>
+    <string name="fragment_new_address_surname">surname</string>
+    <string name="fragment_new_address_save_address">save address</string>
+    <string name="fragment_new_address_phone_number">phone number</string>
+    <string name="fragment_address_title">Address</string>
+    <string name="fragment_address_title_new">new</string>
+
+
+    <string name="item_checkout_confirm_button">Confirm</string>
+    <string name="item_checkout_cart_title">Cart</string>
+    <string name="item_checkout_shipping_address_title">Shipping Address</string>
+    <string name="fragment_checkout_title">Checkout</string>
+    <string name="fragment_checkout_choose_address">Choose Address</string>
+    <string name="fragment_checkout_edit_addresses">Edit Addresses</string>
+    <string name="fragment_checkout_address_not_selected">address not selected</string>
+    <string name="fragment_checkout_card_information">Card Information</string>
+    <string name="fragment_checkout_cart_number_hint">cart number</string>
+    <string name="fragment_checkout_cart_month_hint">month</string>
+    <string name="fragment_checkout_cart_year_hint">year</string>
+    <string name="fragment_checkout_cart_cvc_hint">CVC</string>
+    <string name="fragment_checkout_cart_error_message">invalid  number</string>
+    <string name="fragment_checkout_address_alert_title">address not found</string>
+    <string name="fragment_checkout_address_alert_message">Do you want to add a new address?</string>
+    <string name="fragment_checkout_coupon_title">Coupon</string>
+    <string name="fragment_checkout_coupon_message">Coupon is used</string>
+
+
+    <string name="fragment_coupons_title">Coupons</string>
+
+
+    <string name="fragment_order_successful_title">You can see your order on the orders screen.</string>
+    <string name="fragment_order_fail_title">"I'm sorry, your order could not be processed."</string>
+
+
+    <string name="alert_positive_button_text">OK</string>
+    <string name="alert_negative_button_text">Cancel</string>
+    <string name="fragment_profile_alert_title">Log Out</string>
+    <string name="fragment_profile_alert_message">Are you sure you want to log out?</string>
+
+
+    <string name="fragment_cart_title">Cart</string>
+    <string name="fragment_cart_button_buy_now">Buy now</string>
+
+
+    <string name="fragment_my_orders_title">My Orders</string>
+    <string name="fragment_my_orders_button_rate">Rate Your Experience</string>
+    <string name="fragment_my_orders_alert_title">Rate this product</string>
+    <string name="fragment_my_orders_alert_positive_text">Submit</string>
+    <string name="fragment_my_orders_quantity">Quantity: %s</string>
+
+
+    <string name="rating_text_very_bad">Very Bad</string>
+    <string name="rating_text_bad">Bad</string>
+    <string name="rating_text_average">Average</string>
+    <string name="rating_text_good">Good</string>
+    <string name="rating_text_very_good">Very Good</string>
+
+
+    <string name="item_ticket_expiration_date">expiration date: %s</string>
+
+
+    <string name="fcm_new_coupon_message">%s coupon has been added to your account.</string>
+    <string name="fcm_new_coupon_title">Congratulations</string>
+
 
 
 </resources>

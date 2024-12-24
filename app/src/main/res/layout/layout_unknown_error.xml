@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown_error" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/large_icon_size"
+        android:layout_height="@dimen/large_icon_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/default_margin"
+        android:src="@drawable/error" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:background="@drawable/button_bg_orange"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:text="@string/refresh"/>
+
+</LinearLayout>

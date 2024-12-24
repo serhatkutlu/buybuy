@@ -1,32 +1,51 @@
 package com.example.buybuy.util
 
+
 object Constant {
     const val BASE_URL="https://fakestoreapi.in/api/"
 
     const val ID="id"
     const val EMAIL="email"
+    const val NAME="name"
     const val IMAGE="image"
-    const val COLLECTION_PATH="users"
+    const val IMAGES="images"
+    const val COLLECTION_PATH_USERS="users"
+    const val COLLECTION_PATH_COUPON="coupon"
+    const val COLLECTION_PATH_COUPON_USER="coupon_user"
+    const val COLLECTION_PATH_ADDRESS="address"
+    const val COLLECTION_PATH_ORDERS="orders"
+    const val COLLECTION_PATH_ORDERS_USER="user_orders"
+    const val COLLECTION_PATH_ADDRESS_NAME="address_name"
+
     const val UNKNOWN_ERROR:String="Unknown Error"
     const val USER_NOT_FOUND:String="User not found"
-    const val PERMISSION_DENIED_GALLERY:String="Permission is required to access the gallery."
-    const val PERMISSION_DENIED_SETTINGS:String="You need to grant permission from app settings to access the gallery."
-    const val ALERT_TITLE="Permission Required"
-    const val ALERT_TITLE_RESET_PASSWORD="Complate"
-    const val ALERT_MESSAGE="We need storage permission to access the gallery. Please grant the permission."
-    const val ALERT_MESSAGE_RESET_PASSWORD="You can reset your password using the link sent to your email."
-    const val ALERT_OK="Allow"
-    const val ALERT_RESET_PASSWORD_OPEN_EMAIL="Open Email"
-    const val ALERT_CANCEL="Cancel"
-    const val PASSWORD_NOT_MATCH:String="Password not match"
+
+
+    const val DEFAULT_CATEGORY="tv"
+
     const val BANNER="banner"
+    const val SINGLEBANNER="banners"
     const val VPBANNER="vp_banner"
     const val CATEGORY="category"
     const val DECORATION_SPACE=20
     const val POPULAR="popular"
     const val PREFS_NAME = "my_preferences"
-    const val lASTRVPOS="lastRVPosition"
-    const val CURRENCYSYMBOL="$"
+    const val DETAIL_CARD_MAX_HEIGHT=1000
+    const val DETAIL_CARD_MIN_HEIGHT=400
     const val NODATAFOUND="No Data Found"
+
+    const val POST_NOTIFICATION_REQUEST_CODE = 1001
+
+
+    const val  COUPON_COD_30="BUY30"
+    const val  COUPON_COD_50="BUY50"
+    const val  COUPON_DISCOUNT_30=30f
+    const val  COUPON_DISCOUNT_50=50f
+    const val  COUPON_USED_FIELD_NAME="used"
+
+
+
+    const val MAIN_RV_TYPE_RV_CATEGORY=3
+
 
 }

@@ -1,11 +1,11 @@
 package com.example.buybuy.domain.usecase.login
 
-import com.example.buybuy.domain.repository.FirebaseRepository
+import com.example.buybuy.domain.repository.LoginRepository
 import javax.inject.Inject
 
-class CheckUserLoginEmailAndPasswordUseCase @Inject constructor(private val firebaseRepositoryAuth: FirebaseRepository) {
+class CheckUserLoginEmailAndPasswordUseCase @Inject constructor(private val loginRepositoryAuth: LoginRepository) {
 
 
-    operator fun invoke(email:String,password:String) =firebaseRepositoryAuth.checkUserEmailAndPassword(email,password)
+    suspend operator fun invoke(email:String, password:String) =loginRepositoryAuth.checkUserEmailAndPassword(email,password)
 
 }

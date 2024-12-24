@@ -3,28 +3,70 @@ package com.example.buybuy.ui.splashscreen
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
-import com.example.buybuy.databinding.FragmentSplashBinding
-import com.example.buybuy.util.viewBinding
+import com.example.buybuy.util.NavOptions
+import com.example.buybuy.util.Resource
+import com.example.buybuy.util.isNetworkAvailable
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class SplashFragment : Fragment(R.layout.fragment_splash) {
+@AndroidEntryPoint
+class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
-    private val binding: FragmentSplashBinding by viewBinding(FragmentSplashBinding::bind)
+    private val viewmodel: SplashViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+        initObservers()
 
-        }
+
     }
+
+    private fun initObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewmodel.checkUserLogin().collect {
+                    delay(2000)
+                    when (it) {
+                        is Resource.Success -> {
+                            if (it.data == true) {
+                                findNavController().navigate(
+                                    R.id.action_splashFragment_to_main_nav_graph,
+                                    null,
+                                    NavOptions.rightAnim
+                                )
+                            } else {
+                                findNavController().navigate(
+                                    R.id.action_splashFragment_to_loginFragment,
+                                    null,
+                                    NavOptions.rightAnim
+                                )
+                            }
+
+                        }
+                        is Resource.Loading -> {
+
+                        }
+                        else -> {
+                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions3.setPopUpTo(R.id.splashFragment,true).build())
+
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 }

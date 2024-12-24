@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPadding="@dimen/default_padding"
+    android:layout_marginHorizontal="@dimen/default_margin"
+    android:layout_marginTop="@dimen/large_margin"
+    app:cardCornerRadius="@dimen/small_card_corner_radius">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       >
+       <TextView
+           android:id="@+id/tv_cart_title"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+
+           android:layout_marginTop="@dimen/small_margin"
+           android:layout_marginStart="@dimen/default_margin"
+           android:textStyle="bold"
+           android:textSize="@dimen/subheader_text_size"
+           android:text="@string/fragment_checkout_coupon_title"/>
+
+
+
+       <View
+           android:id="@+id/titleDivider"
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:background="@color/light_grey"
+           android:layout_marginTop="@dimen/default_margin"
+           android:elevation="1dp"
+           />
+
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_margin="@dimen/default_margin">
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:layout_gravity="start|center">
+               <TextView
+                   android:id="@+id/tv_discount_price"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="-0$"
+                   android:textStyle="bold"
+                   android:layout_gravity="end"
+                   android:textSize="@dimen/subheader_text_size"
+                   android:textColor="@color/orange"/>
+               <TextView
+                   android:id="@+id/tv_total_price"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0$"
+                   android:textStyle="bold"
+                   android:layout_gravity="end"
+                   android:textSize="@dimen/subheader_text_size"
+                   android:textColor="@color/orange"/>
+
+           </LinearLayout>
+
+           <Spinner
+               android:id="@+id/spinner"
+               android:layout_gravity="end|center"
+
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+
+                />
+
+       </FrameLayout>
+   </LinearLayout>
+
+</androidx.cardview.widget.CardView>

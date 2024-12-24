@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:paddingHorizontal="@dimen/default_padding"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center|start"
+
+        android:src="@drawable/left_arrow"
+        app:tint="@color/orange" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_address_title"
+        android:layout_gravity="center"
+
+        android:textSize="@dimen/header_text_size"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_address_title_new"
+        android:layout_gravity="end|center"
+        android:textSize="@dimen/large_text_size"
+        android:textColor="@color/orange"
+         />
+</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimaryVariant"/>
+</LinearLayout>
+    <include
+        android:id="@+id/include_progress_bar"
+        layout="@layout/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

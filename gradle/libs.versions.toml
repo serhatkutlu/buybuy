@@ -30,6 +30,7 @@ roomRuntime = "2.6.1"
 shimmer = "0.5.0"
 lifecycleRuntimeAndroid = "2.8.6"
 swiperefreshlayout = "1.1.0"
+jetbrainsKotlinJvm = "1.9.0"
 
 
 
@@ -77,4 +78,6 @@ squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-and
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 

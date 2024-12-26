@@ -1,19 +1,19 @@
 package com.example.buybuy.di
 
-import com.example.buybuy.data.repository.Impl.AddressRepositoryImpl
+import com.example.buybuy.data.repository.impl.AddressRepositoryImpl
 import com.example.buybuy.domain.repository.AddressRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 
-@InstallIn(SingletonComponent::class)
 @Module
-abstract class addressModule {
+@InstallIn(SingletonComponent::class)
+abstract class AddressModule {
+
     @Binds
-    @Singleton
-    abstract fun provideAddressRepository(addressRepositoryImpl: AddressRepositoryImpl): AddressRepository
+    abstract fun bindAddressRepository(addressRepositoryImpl: AddressRepositoryImpl): AddressRepository
+
 
 }

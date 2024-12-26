@@ -2,12 +2,30 @@
     <!-- Base application theme for dark theme -->
     <style name="Base.Theme.Buybuy" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/black</item>
+        <item name="colorSurface">@color/black</item>
+
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/dark_grey</item>
-        <item name="colorOnPrimary">@color/white</item>
+
     </style>
+
     <style name="Theme.Buybuy" parent="Base.Theme.Buybuy" />
 
 
+    <style name="PrimaryColor">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="tabTextColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="backgroundColorVariant">
+        <item name="android:background">@color/dark_grey</item>
+    </style>
+    <style name="backgroundColorOnPrimary">
+        <item name="android:background">@color/white</item>
+    </style>
+    <style name="collapsingToolBarStyle">
+        <item name="contentScrim">@color/black</item>
+    </style>
 </resources>

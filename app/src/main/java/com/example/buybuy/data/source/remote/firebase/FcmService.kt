@@ -15,7 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 
 import com.example.buybuy.R
 import com.example.buybuy.data.model.data.CouponData
-import com.example.buybuy.data.repository.Impl.FcmRepositoryImpl
+import com.example.buybuy.data.repository.impl.FcmRepositoryImpl
 import com.example.buybuy.ui.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

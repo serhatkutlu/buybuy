@@ -26,10 +26,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include layout="@layout/item_product_shimmer_placeholder" />
-                <include layout="@layout/item_product_shimmer_placeholder" />
-                <include layout="@layout/item_product_shimmer_placeholder" />
-                <include layout="@layout/item_product_shimmer_placeholder" />
+                <include layout="@layout/item_product_shimmer_placeholder"/>
+                <include layout="@layout/item_product_shimmer_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"/>
+                <include layout="@layout/item_product_shimmer_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"/>
+                <include layout="@layout/item_product_shimmer_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"/>
             </LinearLayout>
 
 

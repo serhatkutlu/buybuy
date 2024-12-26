@@ -11,7 +11,7 @@ import retrofit2.Response
 
 open class BaseRepository(private val dispatcher: CoroutineDispatcher) {
 
-    protected suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Flow<Resource<T>> {
+    protected fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Flow<Resource<T>> {
         return flow {
             emit(Resource.Loading())
             val response = withContext(dispatcher) { apiCall() }
@@ -28,7 +28,7 @@ open class BaseRepository(private val dispatcher: CoroutineDispatcher) {
         }
     }
 
-    protected suspend fun <T> safeCall(
+    protected fun <T> safeCall(
         query: suspend () -> T
     ): Flow<Resource<T>> = flow {
         emit(Resource.Loading())

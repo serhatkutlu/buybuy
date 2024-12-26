@@ -106,6 +106,7 @@ dependencies {
     implementation (libs.androidx.swiperefreshlayout)
 
     implementation (libs.firebase.messaging)
-    
+
+    debugImplementation (libs.squareup.leakcanary.android)
 
 }

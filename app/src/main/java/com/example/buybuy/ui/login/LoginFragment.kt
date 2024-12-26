@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentLoginBinding
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.gone
@@ -78,10 +79,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
             }
             tvSignUp.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_signupFragment,null,navOptions = NavOptions.rightAnim)
             }
             llForgotPassword.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment,null, navOptions = NavOptions.rightAnim)
             }
 
         }

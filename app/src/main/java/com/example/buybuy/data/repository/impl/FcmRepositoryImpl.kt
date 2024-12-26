@@ -1,7 +1,8 @@
-package com.example.buybuy.data.repository.Impl
+package com.example.buybuy.data.repository.impl
 
 import com.example.buybuy.data.model.data.CouponData
 import com.example.buybuy.data.model.data.Notification
+import com.example.buybuy.domain.repository.FcmRepository
 import com.example.buybuy.util.Constant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,8 +12,8 @@ import javax.inject.Inject
 class FcmRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val authhentication: FirebaseAuth
-) {
-    suspend fun getRandomMessage(): Notification? {
+):FcmRepository {
+    override suspend fun getRandomMessage(): Notification? {
         try {
             val snapshot = firestore.collection("notifications").get().await()
             val document = snapshot.documents.random()
@@ -24,7 +25,7 @@ class FcmRepositoryImpl @Inject constructor(
         }
 
     }
-    suspend fun createCoupon(coupon: CouponData){
+    override suspend fun createCoupon(coupon: CouponData){
         val uid = authhentication.currentUser?.uid
         uid?.let{
             val userCouponsRef =

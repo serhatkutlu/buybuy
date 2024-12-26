@@ -4,5 +4,5 @@
     <item android:color="@color/orange" android:state_focused="true"/>
 
     <!-- Default state -->
-    <item android:color="?attr/colorOnPrimary"/>
+    <item android:color="?attr/colorButtonNormal"/>
 </selector>

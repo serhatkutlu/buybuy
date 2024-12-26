@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryVariant"
+    style="@style/backgroundColorVariant"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="?attr/colorPrimary"
+        style="@style/PrimaryColor"
         android:orientation="horizontal">
 
         <ImageView
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_margin"
-                android:background="?attr/colorPrimary"
+                style="@style/PrimaryColor"
                 android:orientation="vertical">
 
                 <TextView
@@ -62,7 +62,7 @@
                     android:layout_marginHorizontal="@dimen/default_margin"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginBottom="@dimen/default_margin"
-                    android:background="?attr/colorPrimaryVariant" />
+                    style="@style/backgroundColorVariant" />
 
 
                 <LinearLayout
@@ -81,6 +81,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/CustomTextInputLayoutStyle"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -175,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="?attr/colorPrimary"
+                style="@style/PrimaryColor"
                 android:orientation="vertical">
 
                 <TextView
@@ -192,7 +193,7 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
-                    android:background="?attr/colorPrimaryVariant" />
+                    style="@style/backgroundColorVariant" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -269,7 +270,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="20dp"
-                android:background="?attr/colorPrimary">
+                style="@style/PrimaryColor">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save"

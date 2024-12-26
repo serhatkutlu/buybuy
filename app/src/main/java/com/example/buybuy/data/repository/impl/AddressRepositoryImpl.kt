@@ -1,4 +1,4 @@
-package com.example.buybuy.data.repository.Impl
+package com.example.buybuy.data.repository.impl
 
 import com.example.buybuy.data.model.data.AddressData
 import com.example.buybuy.data.repository.base.BaseRepository

@@ -1,4 +1,4 @@
-package com.example.buybuy.data.repository.Impl
+package com.example.buybuy.data.repository.impl
 
 import com.example.buybuy.data.model.entity.ProductDetailEntity
 import com.example.buybuy.data.repository.base.BaseRepository
@@ -7,8 +7,9 @@ import com.example.buybuy.domain.repository.CartRepository
 import com.example.buybuy.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class CartRepositoryImpl(private val productDataSource: ProductDataSource,
+class CartRepositoryImpl @Inject constructor(private val productDataSource: ProductDataSource,
 ): CartRepository, BaseRepository(Dispatchers.IO) {
 
     override suspend fun getCartProducts(): Flow<Resource<List<ProductDetailEntity>>> =

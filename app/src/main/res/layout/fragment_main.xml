@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorPrimary">
+    android:layout_height="match_parent">
 
 
     <ImageView
@@ -82,7 +81,7 @@
         android:layout_height="0dp"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
-        android:background="?attr/colorPrimaryVariant"
+        style="@style/backgroundColorVariant"
         android:layout_marginTop="@dimen/xxlarge_margin"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

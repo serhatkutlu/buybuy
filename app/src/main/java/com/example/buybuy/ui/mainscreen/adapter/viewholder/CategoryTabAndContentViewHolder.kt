@@ -28,8 +28,8 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         currentCategoryClickListener: (String) -> Unit,
         tabContentAdapter: TabContentAdapter,
         scrollState: Parcelable?,
-        onFavoriteClickListener: (ProductDetailUI,Int,MainRecycleViewTypes) -> Unit,
-    ){
+        onFavoriteClickListener: (ProductDetailUI, Int, MainRecycleViewTypes) -> Unit,
+    ) {
         item as MainRecycleViewTypes.RVCategory
 
         binding.tabRecyclerView.adapter = tabAdapter
@@ -63,15 +63,16 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
         when (item.data) {
             is Resource.Success -> {
                 tabContentAdapter.submitList(item.data.data)
-                shimmerFrameLayout.invisible()
                 binding.contentRecyclerView.visible()
-
+                shimmerFrameLayout.invisible()
+                
             }
 
             is Resource.Loading -> {
-                    binding.contentRecyclerView.invisible()
-                    shimmerFrameLayout.visible()
-                    tabContentAdapter.submitList(listOf())
+                shimmerFrameLayout.visible()
+                binding.contentRecyclerView.invisible()
+
+                tabContentAdapter.submitList(listOf())
             }
 
             is Resource.Error -> {
@@ -89,11 +90,9 @@ class CategoryTabAndContentViewHolder(private val binding: ItemCategoryContentRv
 
         }
 
-        tabContentAdapter.onFavoriteClickListener={productDetailUI,position->
-            onFavoriteClickListener(productDetailUI,position,item)
+        tabContentAdapter.onFavoriteClickListener = { productDetailUI, position ->
+            onFavoriteClickListener(productDetailUI, position, item)
         }
-
-
 
 
     }

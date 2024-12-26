@@ -44,14 +44,11 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
                                 findNavController().navigate(
                                     R.id.action_splashFragment_to_main_nav_graph,
                                     null,
-                                    NavOptions.rightAnim
+                                    NavOptions.navOptions4(R.id.splashFragment)
                                 )
                             } else {
-                                findNavController().navigate(
-                                    R.id.action_splashFragment_to_loginFragment,
-                                    null,
-                                    NavOptions.rightAnim
-                                )
+                                findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions4(R.id.splashFragment))
+
                             }
 
                         }
@@ -59,7 +56,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
                         }
                         else -> {
-                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions3.setPopUpTo(R.id.splashFragment,true).build())
+                            findNavController().navigate(R.id.action_splashFragment_to_loginFragment, null,NavOptions.navOptions4(R.id.splashFragment))
 
                         }
                     }

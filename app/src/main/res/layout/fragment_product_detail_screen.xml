@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryVariant">
+>
 
 
     <ImageView
@@ -101,7 +101,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_description_card"
                     android:layout_width="match_parent"
-                    android:background="?attr/colorPrimary"
                     android:layout_height="@dimen/large_card_height">
 
                     <TextView
@@ -167,7 +166,6 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="400dp"
-                app:cardBackgroundColor="?attr/colorPrimaryVariant"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -201,8 +199,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_navigation_height"
         android:layout_gravity="bottom"
-        android:background="?attr/colorPrimary"
         android:paddingHorizontal="15dp"
+        style="@style/backgroundColorVariant"
         android:paddingTop="10dp">
 
         <TextView

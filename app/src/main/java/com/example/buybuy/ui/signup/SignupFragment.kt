@@ -28,6 +28,7 @@ import com.example.buybuy.databinding.FragmentSignupBinding
 import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.Constant.UNKNOWN_ERROR
+import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.showToast
@@ -43,7 +44,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
 
     private val binding: FragmentSignupBinding by viewBinding(FragmentSignupBinding::bind)
     private val viewModel: SignupViewModel by viewModels()
-    private var selectedimage: Uri? = null
+    private var selectedImage: Uri? = null
 
 
     private val galleryLauncher =
@@ -51,7 +52,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
             uri?.let {
                 val selectedImageUri: Uri = uri
 
-                selectedimage = selectedImageUri
+                selectedImage = selectedImageUri
                 binding.ivProfile.setImageURI(selectedImageUri)
 
             }
@@ -110,7 +111,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
 
             ivClose.setOnClickListener {
                 ivProfile.setImageResource(R.drawable.profile)
-                selectedimage = null
+                selectedImage = null
 
             }
 
@@ -124,7 +125,7 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                             etEmail.text.toString(),
                             etName.text.toString(),
                             etPassword.text.toString(),
-                            image = selectedimage
+                            image = selectedImage
                         )
                         viewModel.signup(user)
                         buttonLogin.isEnabled = false
@@ -135,8 +136,8 @@ class SignupFragment : Fragment(R.layout.fragment_signup) {
                 }
 
             }
-            tvAlready.setOnClickListener {
-                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+            tvAlreadyHave.setOnClickListener {
+                findNavController().popBackStack()
             }
             binding.ivBack.setOnClickListener{
                 findNavController().popBackStack()

@@ -69,11 +69,13 @@ class TabAdapter : ListAdapter<String, TabAdapter.TabViewHolder>(ProductComparat
     private fun selectCardBackgroundColor(context: Context, isSelected: Boolean): Int {
         val colorPrimary = MaterialColors.getColor(
             context,
-            com.google.android.material.R.attr.colorPrimary,
+            com.google.android.material.R.attr.colorSurface,
             Color.WHITE
         )
         return if (isSelected) ContextCompat.getColor(context, R.color.orange)
 
         else colorPrimary
     }
+
+
 }

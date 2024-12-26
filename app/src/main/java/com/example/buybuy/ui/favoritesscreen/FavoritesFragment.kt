@@ -59,8 +59,10 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
                         is Resource.Success -> {
                             if (it.data.isNullOrEmpty()) {
                              showAnimation()
+                                binding.includedLayout.root
                             }else{
                                hideAnimation()
+                                binding.includedLayout.progressBar.visible()
                             }
 
                             binding.includedLayout.progressBar.gone()
@@ -103,13 +105,13 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
     }
 
     private fun showAnimation() {
-        binding.includedLayout.root.invisible()
+        //binding.includedLayout.root.invisible()
         binding.llLottie.visible()
         binding.lottieAnimationsView.playAnimation()
     }
 
     private fun hideAnimation() {
-        binding.includedLayout.root.visible()
+        //binding.includedLayout.root.visible()
         binding.llLottie.invisible()
         binding.lottieAnimationsView.pauseAnimation()
     }

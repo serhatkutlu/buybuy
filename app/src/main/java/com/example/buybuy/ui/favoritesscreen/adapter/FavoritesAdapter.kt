@@ -60,4 +60,8 @@ class FavoritesAdapter :
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
+    override fun onViewRecycled(holder: FavoritesViewHolder) {
+        super.onViewRecycled(holder)
+        holder.binding.root.setOnClickListener(null)
+    }
 }

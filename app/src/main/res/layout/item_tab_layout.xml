@@ -7,7 +7,7 @@
     android:gravity="center"
     android:minWidth="50dp"
     app:cardCornerRadius="30dp"
-    app:cardBackgroundColor="@color/blue"
+
     app:strokeColor="@color/orange">
 
     <TextView
@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        style="@style/tabTextColor"
         android:layout_margin="8dp"
         android:padding="5dp"
         android:textSize="10sp" />

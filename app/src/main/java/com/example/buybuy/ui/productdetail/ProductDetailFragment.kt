@@ -117,7 +117,6 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail_screen) 
                 includedLayout.cvFavorite.setOnClickListener {
                     viewModel.addToFavorite(this)
                     setFavoriteBackground(!isFavorite)
-
                 }
                 recyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

@@ -53,42 +53,48 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.mainFragment,null,NavOptions.navOptions3.build())
+                    findNavController().navigate(
+                        R.id.mainFragment,
+                        null,
+                        NavOptions.navOptions3.build()
+                    )
                 }
             })
     }
 
     private fun initObservers() {
 
-            collectProfileOptions()
+        collectProfileOptions()
 
-            collectUserData()
+        collectUserData()
 
 
     }
 
-    private   fun collectUserData() {
+    private fun collectUserData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.user.collect {
-                when (it) {
-                    is Resource.Success -> {
-                        binding.includeProgressBar.progressBar.invisible()
-                        binding.includedProfile.ivProfile.setImage(it.data?.image ?: "")
-                        binding.includedProfile.tvName.text = it.data?.name
-                        binding.includedProfile.tvMail.text = it.data?.email
-                    }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.user.collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            binding.includeProgressBar.progressBar.invisible()
+                            binding.includedProfile.ivProfile.setImage(it.data?.image ?: "")
+                            binding.includedProfile.tvName.text = it.data?.name
+                            binding.includedProfile.tvMail.text = it.data?.email
+                        }
 
-                    is Resource.Loading -> {
-                        binding.includeProgressBar.progressBar.visible()
-                    }
+                        is Resource.Loading -> {
+                            binding.includeProgressBar.progressBar.visible()
+                        }
 
-                    is Resource.Error -> {
-                        binding.includeProgressBar.progressBar.invisible()
-                        requireContext().showToast(it.message)
-                    }
+                        is Resource.Error -> {
+                            binding.includeProgressBar.progressBar.invisible()
+                            requireContext().showToast(it.message)
+                        }
 
-                    else -> {
-                        binding.includeProgressBar.progressBar.invisible()
+                        else -> {
+                            binding.includeProgressBar.progressBar.invisible()
+                        }
                     }
                 }
             }
@@ -96,7 +102,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     }
 
-    private  fun collectProfileOptions() {
+    private fun collectProfileOptions() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.profileOptions.collect {
                 when (it) {
@@ -172,7 +178,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             if (verticalOffset != -appBarLayout.totalScrollRange) {
                 binding.tvTitle.setTextColor(Color.WHITE)
             } else {
-
                 binding.tvTitle.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -192,9 +197,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun optionClickListener(type: ProfileOptionsEnum) {
         when (type) {
-            ProfileOptionsEnum.ORDER->{
-                findNavController().navigate(R.id.myOrdersFragment,null,NavOptions.rightAnim)
+            ProfileOptionsEnum.ORDER -> {
+                findNavController().navigate(R.id.myOrdersFragment, null, NavOptions.rightAnim)
             }
+
             ProfileOptionsEnum.COUPONS -> {
                 findNavController().navigate(
                     R.id.action_profileFragment_to_couponsFragment,
@@ -215,9 +221,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 //                findNavController().navigate(R.id.action_profileFragment_to_aboutFragment,null,NavOptions.navOption1)
 //            }
             ProfileOptionsEnum.LOGOUT -> {
-                requireContext().showAlertDialog(getString(R.string.fragment_profile_alert_title), getString(R.string.fragment_profile_alert_message), positiveButtonAction = {
-                    (requireActivity() as MainActivity).logOut()
-                })
+                requireContext().showAlertDialog(
+                    getString(R.string.fragment_profile_alert_title),
+                    getString(R.string.fragment_profile_alert_message),
+                    positiveButtonAction = {
+                        (requireActivity() as MainActivity).logOut()
+                    })
 
 
             }

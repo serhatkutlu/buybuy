@@ -1,4 +1,4 @@
-package com.example.buybuy.data.repository.Impl
+package com.example.buybuy.data.repository.impl
 
 import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.data.model.data.ProductDetail
@@ -11,8 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.time.withTimeout
 import java.time.Duration
+import javax.inject.Inject
 
-class OrdersRepositoryImpl(
+class OrdersRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     authentication: FirebaseAuth,
     private val dataSource: RemoteDataSource

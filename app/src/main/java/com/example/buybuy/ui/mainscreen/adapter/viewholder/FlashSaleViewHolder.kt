@@ -21,6 +21,8 @@ import java.time.LocalDateTime
 
 class FlashSaleViewHolder(private val binding: ItemFlashSaleRvBinding) : ViewHolder(binding.root) {
 
+    private var countDownTimer: CountDownTimer? = null
+
     var layoutManager: RecyclerView.LayoutManager? = null
     fun bind(
         item: MainRecycleViewTypes,
@@ -64,7 +66,8 @@ class FlashSaleViewHolder(private val binding: ItemFlashSaleRvBinding) : ViewHol
     }
 
     private fun startCountDown(totalSeconds: Long) {
-        val countDownTimer = object : CountDownTimer(totalSeconds * 1000, 1000) {
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(totalSeconds * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsLeft = millisUntilFinished / 1000
                 binding.tvHour.text = (secondsLeft / 3600).toString()
@@ -75,6 +78,10 @@ class FlashSaleViewHolder(private val binding: ItemFlashSaleRvBinding) : ViewHol
             override fun onFinish() {
             }
         }
-        countDownTimer.start()
+        countDownTimer?.start()
+    }
+    fun clear() {
+        countDownTimer?.cancel()
+        countDownTimer = null
     }
 }

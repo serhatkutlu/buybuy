@@ -10,32 +10,23 @@ import com.example.buybuy.domain.datasource.local.FlashSaleDataSource
 import com.example.buybuy.domain.datasource.local.ProductDataSource
 import com.example.buybuy.domain.datasource.remote.RemoteDataSource
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
-@InstallIn(SingletonComponent::class)
 @Module
-object DataSourceModule {
-    @Provides
-    @Singleton
-    fun provideRemoteDataSource(
-        fakeStoreApi: FakeStoreApi,
-        firestore: FirebaseFirestore
-    ): RemoteDataSource = RemoteDataSourceImp(fakeStoreApi, firestore)
+@InstallIn(SingletonComponent::class)
+abstract class DataSourceModule {
 
-    @Provides
-    @Singleton
-    fun provideLocalDataSource(productDAO: ProductDAO): ProductDataSource =
-        ProductDataSourceImp(productDAO)
+    @Binds
+    abstract fun bindRemoteDataSource(remoteDataSourceImp: RemoteDataSourceImp): RemoteDataSource
 
-    @Provides
-    @Singleton
-    fun provideFlashSaleDataSource(productDAO: FlashSaleDAO): FlashSaleDataSource =FlashSaleDataSourceImp(productDAO)
+    @Binds
+    abstract fun bindProductDataSource(productDataSourceImp: ProductDataSourceImp): ProductDataSource
 
-
-
+    @Binds
+    abstract fun bindFlashSaleDataSource(flashSaleDataSourceImp: FlashSaleDataSourceImp): FlashSaleDataSource
 }

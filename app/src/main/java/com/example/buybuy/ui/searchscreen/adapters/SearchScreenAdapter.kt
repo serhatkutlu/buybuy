@@ -74,4 +74,6 @@ class SearchScreenAdapter:ListAdapter<ProductDetailUI, SearchScreenAdapter.Searc
     }
 
 
+
+
 }

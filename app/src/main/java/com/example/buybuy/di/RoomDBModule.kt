@@ -19,8 +19,10 @@ object RoomDBModule {
 
     @Singleton
     @Provides
-    fun provideSearchRoomDB(@ApplicationContext context: Context): ProductRoomDB =
-        Room.databaseBuilder(context, ProductRoomDB::class.java, "ProductRoom_Database.db").build()
+    fun provideProductRoomDB(@ApplicationContext context: Context): ProductRoomDB =
+        Room.databaseBuilder(context, ProductRoomDB::class.java, "ProductRoom_Database.db")
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Singleton
     @Provides

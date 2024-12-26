@@ -28,7 +28,7 @@ class MainRecycleViewAdapter(
     private val favoriteClickListener: (ProductDetailUI, Int, MainRecycleViewTypes) -> Unit,
     private val fetchContentData: (content: String) -> Unit,
     currentCategory: String? = null
-    ) :
+) :
     ListAdapter<MainRecycleViewTypes, ViewHolder>(ProductComparatorMainRV()) {
     private var isFavoriteUpdateCategory = true
 
@@ -79,10 +79,10 @@ class MainRecycleViewAdapter(
     }
 
 
-    fun saveState():Pair<Parcelable?,Parcelable?> {
+    fun saveState(): Pair<Parcelable?, Parcelable?> {
         scrollStateCategory = layoutManager?.onSaveInstanceState()
         scrollStateFlashSale = flashLayoutManager?.onSaveInstanceState()
-        return Pair(scrollStateCategory,scrollStateFlashSale)
+        return Pair(scrollStateCategory, scrollStateFlashSale)
     }
 
 
@@ -190,10 +190,10 @@ class MainRecycleViewAdapter(
     }
 
 
-    fun updateRvItems(list: List<MainRecycleViewTypes>){
-        val positions= mutableListOf<Int>()
+    fun updateRvItems(list: List<MainRecycleViewTypes>) {
+        val positions = mutableListOf<Int>()
         val newList = currentList.toMutableList()
-        list.forEach{item->
+        list.forEach { item ->
             val position = currentList.indexOfFirst { it::class == item::class }
             if (position != -1) {
                 positions.add(position)
@@ -202,14 +202,12 @@ class MainRecycleViewAdapter(
             }
 
         }
-        submitList(newList){
-            positions.forEach{
+        submitList(newList) {
+            positions.forEach {
                 notifyItemChanged(it)
             }
         }
     }
-
-    
 
 
     fun updateSingleProductItem(
@@ -253,16 +251,24 @@ class MainRecycleViewAdapter(
         }
     }
 
-    fun updateState(pair: Pair<Parcelable?, Parcelable?>){
+    fun updateState(pair: Pair<Parcelable?, Parcelable?>) {
         scrollStateCategory = pair.first
         scrollStateFlashSale = pair.second
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        if (holder is VpBannerViewHolder) {
-            holder.stopAutoScroll()
+        when (holder) {
+            is VpBannerViewHolder -> {
+                holder.stopAutoScroll()
+            }
+
+            is FlashSaleViewHolder -> {
+                holder.clear()
+            }
+
         }
         super.onViewRecycled(holder)
+
     }
 
 

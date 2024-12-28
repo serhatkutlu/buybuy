@@ -9,8 +9,8 @@ import retrofit2.Response
 interface RemoteDataSource {
 
     suspend fun getVpBanner():List<String>?
-    suspend fun getAllCategory():Response<Category>
     suspend fun getAllSingleBanner():List<SingleBannerData>
+    suspend fun getAllCategory():Response<Category>
     suspend fun getProductByCategory(category:String):Response<Product>
     suspend fun getSingleProduct(id:Int):Response<SingleProductData>
 }

@@ -54,6 +54,11 @@ dependencies {
 
 
 
+
+
+    implementation(project(":core:network"))
+
+
     implementation (libs.androidx.activity.ktx)
     implementation (libs.androidx.navigation.fragment.ktx.v240)
     implementation (libs.androidx.navigation.ui.ktx.v240)

@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -66,8 +67,9 @@ class MainViewModel @Inject constructor(
         mainContentJob = viewModelScope.launch(Dispatchers.IO) {
 
             combinedList = mutableListOf()
-
             _mainRvData.emit(Resource.Loading())
+
+
             fetchContentForCategory().collect { response ->
                 response?.let { data ->
                     val index = combinedList.indexOfFirst { it is MainRecycleViewTypes.RVCategory }
@@ -111,11 +113,13 @@ class MainViewModel @Inject constructor(
                 is Resource.Success -> {
                     response.data?.let { rvb ->
                         val singleBanner = rvb.map {
-                            MainRecycleViewTypes.SingleBannerDataUi(it.image, it.ordinal)
+                            MainRecycleViewTypes.SingleBannerDataUi(it.url, it.ordinal)
                         }
                         result.addAll(singleBanner)
+
                     }
                 }
+
 
                 else -> {}
             }
@@ -216,23 +220,42 @@ class MainViewModel @Inject constructor(
     }
 
 
-    private suspend fun getVpBannerImages(): List<MainRecycleViewTypes> {
-        val result = mutableListOf<MainRecycleViewTypes>()
-        getVpBannerImagesUseCase().collect {
-            when (it) {
-                is Resource.Success -> {
-                    it.data?.let { rvb ->
-                        result.add(rvb)
-                    }
+//    private suspend fun getVpBannerImages(): List<MainRecycleViewTypes> {
+//        val result = mutableListOf<MainRecycleViewTypes>()
+//        getVpBannerImagesUseCase().collect {
+//            when (it) {
+//                is Resource.Success -> {
+//                    it.data?.let { rvb ->
+//                        result.add(rvb)
+//                    }
+//
+//                }
+//
+//                else -> {}
+//            }
+//        }
+//        return result
+//    }
+private suspend fun getVpBannerImages(): List<MainRecycleViewTypes> {
+    val result = mutableListOf<MainRecycleViewTypes>()
+    // Akıştaki verileri almak
+    getVpBannerImagesUseCase().collect { resource ->
+        when (resource) {
+            is Resource.Success -> {
+                resource.data?.let { rvb ->
+
+                    result.add(rvb)
 
                 }
-
-                else -> {}
             }
+
+            else->{}
         }
-        return result
     }
 
+
+    return result
+}
 
     suspend fun getFlashSaleList(): MainRecycleViewTypes? {
         return withContext(Dispatchers.IO) {

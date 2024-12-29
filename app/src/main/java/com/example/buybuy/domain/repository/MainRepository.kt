@@ -1,18 +1,18 @@
 package com.example.buybuy.domain.repository
 
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.data.model.data.FlashSaleData
-import com.example.buybuy.data.model.data.OrderData
 import com.example.buybuy.data.model.entity.ProductDetailEntity
-import com.example.buybuy.domain.model.data.SingleBannerData
 import com.example.buybuy.domain.model.sealed.MainRecycleViewTypes
 
 import com.example.buybuy.util.Resource
+import com.example.network.dto.banners.SingleBannerData
+import com.example.network.dto.banners.VpBannerData
+import com.example.network.dto.product.ProductDetail
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
 
-    suspend fun getVpBannerData(): Flow<Resource<MainRecycleViewTypes.VpBannerData>>
+    suspend fun getVpBannerData(): Flow<Resource<List<VpBannerData>>>
 
     suspend fun getProductByCategory(category: String):Flow<Resource<List<ProductDetail>>>
     suspend fun getAllCategory():  Flow<Resource<List<String>>>

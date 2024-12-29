@@ -8,8 +8,8 @@ import com.example.buybuy.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 sealed class MainRecycleViewTypes(val type: ViewType? = null,val ordinal: Int) {
-    data class VpBannerData(val vpType: ViewType, val data: List<String>) :
-        MainRecycleViewTypes(vpType,1)
+    data class VpBannerData(val data: List<String>,val ordinal1: Int=1):
+        MainRecycleViewTypes(ViewType.VP_BANNER,ordinal1)
 
     data class RVCategory(val categories: List<String>,val data:Resource<List<ProductDetailUI>>, val rvType: ViewType? = null,val currentCategory:String) :
         MainRecycleViewTypes(rvType,Constant.MAIN_RV_TYPE_RV_CATEGORY)

@@ -1,7 +1,7 @@
 package com.example.buybuy.domain.model.mapper
 
-import com.example.buybuy.data.model.data.ProductDetail
 import com.example.buybuy.data.model.entity.ProductDetailEntity
+import com.example.network.dto.product.ProductDetail
 import javax.inject.Inject
 import kotlin.random.Random
 

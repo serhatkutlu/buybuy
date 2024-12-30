@@ -21,12 +21,10 @@ import com.example.network.dto.product.ProductDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(
-    //private val remoteDataSource: RemoteDataSource,
     private val remoteProductDataSource: RemoteProductDataSource,
     private val bannerDataSource: BannerDataSource,
     private val productDataSource: ProductDataSource,

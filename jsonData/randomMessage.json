@@ -1,0 +1,19 @@
+[
+  {
+    "content": "you have won a %s coupon.",
+    "title": "Congratulations",
+    "type":"new_coupon",
+    "url":"https://buybuy.page.link/coupons"
+  },
+  {
+    "content": "The most popular products are running out of stock! Hurry, shop before they’re gone.",
+    "title": "Hurry! Popular Items Are Running Out!",
+    "type":"random_message"
+  },
+  {
+    "content": "Get gift vouchers and surprise discounts! Start shopping now.",
+    "title": "Limited Stock Alert!",
+    "type":"random_message"
+  }
+
+]

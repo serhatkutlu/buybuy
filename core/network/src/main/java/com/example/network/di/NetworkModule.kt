@@ -3,6 +3,7 @@ package com.example.network.di
 import com.example.network.factory.RetrofitFactory
 import com.example.network.service.product.ProductService
 import com.example.network.BuildConfig
+import com.example.network.service.RandomMessageService
 import com.example.network.service.banners.BannersService
 import dagger.Module
 import dagger.Provides
@@ -36,7 +37,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideProductService(@ProductUrlRetrofit retrofit: Retrofit): ProductService=
+    fun provideProductService(@ProductUrlRetrofit retrofit: Retrofit): ProductService =
         retrofit.create()
 
     @Provides
@@ -44,7 +45,10 @@ object NetworkModule {
     fun provideBannersService(@BannerUrlRetrofit retrofit: Retrofit): BannersService =
         retrofit.create()
 
-
+    @Provides
+    @Singleton
+    fun provideRandomMessageService(@BannerUrlRetrofit retrofit: Retrofit): RandomMessageService =
+        retrofit.create()
 
 
     @Qualifier
@@ -54,5 +58,6 @@ object NetworkModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class BannerUrlRetrofit
+
 
 }

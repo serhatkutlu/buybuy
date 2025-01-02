@@ -35,7 +35,7 @@ object Constant {
     const val NODATAFOUND="No Data Found"
 
     const val POST_NOTIFICATION_REQUEST_CODE = 1001
-
+    const val DAILY_NOTIFICATION_WORKER="daily_notification_worker"
 
     const val  COUPON_COD_30="BUY30"
     const val  COUPON_COD_50="BUY50"

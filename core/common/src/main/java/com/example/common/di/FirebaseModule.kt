@@ -1,4 +1,4 @@
-package com.example.buybuy.di
+package com.example.common.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

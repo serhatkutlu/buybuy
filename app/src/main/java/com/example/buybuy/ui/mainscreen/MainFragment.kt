@@ -27,6 +27,7 @@ import com.example.buybuy.util.viewBinding
 import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val CATEGORY_STATE="category_state"
 private const val FLASH_SALE_STATE="flash_sale_state"
@@ -37,6 +38,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
     private var isfirstinit = false
+
+
     private var state:Parcelable?=null
     private val rvAdapter: MainRecycleViewAdapter by lazy {
         MainRecycleViewAdapter(
@@ -56,6 +59,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchMainContent()
         }
+
 
         handleOnBackPressed()
         initObservers()

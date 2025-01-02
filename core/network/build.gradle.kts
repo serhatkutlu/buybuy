@@ -46,9 +46,9 @@ dependencies {
     kapt (libs.hilt.android.compiler)
 
     // retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation (libs.logging.interceptor)
+    api(libs.retrofit)
+    api(libs.converter.gson)
+    api (libs.logging.interceptor)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

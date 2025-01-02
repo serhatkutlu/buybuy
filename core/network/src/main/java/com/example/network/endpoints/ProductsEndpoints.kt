@@ -7,7 +7,7 @@ object ProductsEndpoints {
 
     const val GET_SINGLE_PRODUCT = PRODUCTS_PATH + "{id}"
 
-    const val GET_ALL_CATEGORIES = PRODUCTS_PATH + "categories"
+    const val GET_ALL_CATEGORIES = PRODUCTS_PATH + "category"
 
     const val GET_PRODUCTS_BY_CATEGORY = PRODUCTS_PATH + "category"
 }

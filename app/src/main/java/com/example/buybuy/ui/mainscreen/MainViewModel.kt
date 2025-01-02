@@ -141,7 +141,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun fetchContentForCategory(
+     fun fetchContentForCategory(
         category: String? = null,
     ): Flow<MainRecycleViewTypes.RVCategory?> = flow {
         try {

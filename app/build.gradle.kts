@@ -57,6 +57,8 @@ dependencies {
 
 
     implementation(project(":core:network"))
+    implementation(project(":core:workmanager"))
+    implementation(project(":core:common"))
 
 
     implementation (libs.androidx.activity.ktx)
@@ -67,12 +69,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
+
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.runtime.android)
+    implementation(libs.androidx.hilt.work)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -113,5 +114,6 @@ dependencies {
     implementation (libs.firebase.messaging)
 
     debugImplementation (libs.squareup.leakcanary.android)
+    implementation (libs.guava)
 
 }

@@ -1,6 +1,7 @@
 package com.example.buybuy.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -35,6 +36,7 @@ import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -47,8 +49,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var headerBinding: NavHeaderBinding
 
-
-
+    @SuppressLint("MissingSuperCall")
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent?.data != null) {
+            navController.handleDeepLink(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         if (intent?.action == Intent.ACTION_VIEW && intent.data != null) {
             navController.handleDeepLink(intent)
         }
+
 
         initLogOutObserver()
         initNavHeaderObserver()

@@ -24,3 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "buybuy"
 include(":app")
 include(":core:network")
+include(":core:common")
+include(":core:workmanager")

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    style="@style/PrimaryColor"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
@@ -62,6 +61,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
+        style="@style/PrimaryColor"
         app:menu="@menu/nav_menu">
 
     </com.google.android.material.navigation.NavigationView>

@@ -2,6 +2,8 @@ package com.example.buybuy.ui.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -10,11 +12,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
 import com.example.buybuy.databinding.FragmentLoginBinding
+import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.checkNullOrEmpty
 import com.example.buybuy.util.checkEmail
 import com.example.buybuy.util.gone
 import com.example.buybuy.util.Resource
+import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.showToast
 import com.example.buybuy.util.visible
 import com.example.buybuy.util.viewBinding
@@ -30,6 +34,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         initUi()
+        handleOnBackPressed()
+    }
+
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                    requireContext().showAlertDialog(
+                        getString(R.string.alert_title_exit),
+                        getString(R.string.alert_message_exit),
+                        positiveButtonAction = {
+                            requireActivity().finish()
+                        })
+                }
+
+            })
     }
 
     private fun initObserver() {
@@ -53,7 +75,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                     progressBar.gone()
                                     buttonlogin.isEnabled = true
                                     context?.showToast(getString(R.string.invalid_email_password))
-                                }else -> {}
+                                }
+
+                                else -> {}
                             }
                         }
 
@@ -79,10 +103,18 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
             }
             tvSignUp.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_signupFragment,null,navOptions = NavOptions.rightAnim)
+                findNavController().navigate(
+                    R.id.action_loginFragment_to_signupFragment,
+                    null,
+                    navOptions = NavOptions.rightAnim
+                )
             }
             llForgotPassword.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment,null, navOptions = NavOptions.rightAnim)
+                findNavController().navigate(
+                    R.id.action_loginFragment_to_forgotPasswordFragment,
+                    null,
+                    navOptions = NavOptions.rightAnim
+                )
             }
 
         }

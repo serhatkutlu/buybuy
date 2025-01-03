@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-
+    style="@style/backgroundColorVariant"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -12,6 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
         android:gravity="center"
+        style="@style/PrimaryColor"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,6 @@
     android:layout_width="match_parent"
     android:visibility="visible"
     android:layout_height="0dp"
-    android:layout_marginBottom="@dimen/bottom_navigation_height"
     app:layout_constraintTop_toBottomOf="@id/guideline"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

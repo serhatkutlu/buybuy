@@ -27,7 +27,6 @@ import com.example.buybuy.util.viewBinding
 import com.example.buybuy.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val CATEGORY_STATE="category_state"
 private const val FLASH_SALE_STATE="flash_sale_state"
@@ -122,6 +121,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             viewModel.fetchMainContent()
             binding.swipeRefreshLayout.isRefreshing = false
             rvAdapter.notifyDataSetChanged()
+            rvAdapter.saveState()
         }
     }
 
@@ -260,6 +260,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             ), navOptions = NavOptions.rightAnim
         )
     }
+
 
 
 }

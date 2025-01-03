@@ -3,15 +3,19 @@ package com.example.buybuy.ui.splashscreen
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.buybuy.R
+import com.example.buybuy.ui.MainActivity
 import com.example.buybuy.util.NavOptions
 import com.example.buybuy.util.Resource
 import com.example.buybuy.util.isNetworkAvailable
+import com.example.buybuy.util.showAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +34,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
         initObservers()
 
+        handleOnBackPressed()
 
     }
 
@@ -66,4 +71,13 @@ class SplashFragment : Fragment(R.layout.fragment_splash2) {
 
     }
 
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
+    }
 }

@@ -113,7 +113,6 @@ dependencies {
 
     implementation (libs.firebase.messaging)
 
-    debugImplementation (libs.squareup.leakcanary.android)
     implementation (libs.guava)
 
 }

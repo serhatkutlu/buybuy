@@ -30,43 +30,46 @@ class LoginRepositoryImpl @Inject constructor(
     private val authentication: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage
-) : LoginRepository,BaseRepository(Dispatchers.IO) {
+) : LoginRepository, BaseRepository(Dispatchers.IO) {
     override suspend fun createUser(user: User): Flow<Resource<Unit>> =
-         safeCall{
-             var imageUrl = ""
-             val authResult =
-                 authentication.createUserWithEmailAndPassword(user.email, user.password )
-                     .await()
-             val uid = authResult.user?.uid.toString()
-             user.image?.let {
-                 val storageRef = storage.reference.child(IMAGES)
+        safeCall {
+            var imageUrl = ""
+            val authResult =
+                authentication.createUserWithEmailAndPassword(user.email, user.password)
+                    .await()
+            val uid = authResult.user?.uid.toString()
+            user.image?.let {
+                try {
+                    val storageRef = storage.reference.child(IMAGES)
 
-                 val imageRef = storageRef.child(user.email)
-                 imageRef.putFile(it).await()
+                    val imageRef = storageRef.child(user.email)
+                    imageRef.putFile(it).await()
 
-                 val downloadUri = imageRef.downloadUrl.await()
-                 imageUrl = downloadUri.toString()
+                    val downloadUri = imageRef.downloadUrl.await()
+                    imageUrl = downloadUri.toString()
 
-             }
-             val userModel = hashMapOf(
-                 ID to uid,
-                 EMAIL to user.email,
-                 NAME to user.name,
-                 IMAGE to imageUrl,
-             )
-             firestore.collection(COLLECTION_PATH_USERS).document(uid)
-                 .set(userModel).await()
-         }
+                } catch (e: Exception) {
+                }
+            }
+            val userModel = hashMapOf(
+                ID to uid,
+                EMAIL to user.email,
+                NAME to user.name,
+                IMAGE to imageUrl,
+            )
+            firestore.collection(COLLECTION_PATH_USERS).document(uid)
+                .set(userModel).await()
+        }
 
 
     override suspend fun getUserData(): Flow<Resource<UserData>> =
-        safeCall{
+        safeCall {
             val uid = authentication.currentUser?.uid.toString()
             val snapshot = firestore.collection(COLLECTION_PATH_USERS).document(uid).get().await()
             snapshot.toObject(UserData::class.java)
 
-        }.map{
-            it.transform{
+        }.map {
+            it.transform {
                 if (it == null) Resource.Error(USER_NOT_FOUND)
                 else Resource.Success(it)
             }
@@ -81,31 +84,35 @@ class LoginRepositoryImpl @Inject constructor(
 
 
     override suspend fun checkUserEmailAndPassword(email: String, password: String) =
-        safeCall{
+        safeCall {
             authentication.signInWithEmailAndPassword(email, password).await()
             Unit
         }
 
     override suspend fun resetPassword(email: String): Flow<Resource<Unit>> =
-        safeCall{
+        safeCall {
             suspendCoroutine<Result<Unit>> { continuation ->
                 authentication.sendPasswordResetEmail(email)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             continuation.resume(Result.success(Unit))
                         } else {
-                            continuation.resume(Result.failure(task.exception ?: Exception("Unknown error")))
+                            continuation.resume(
+                                Result.failure(
+                                    task.exception ?: Exception("Unknown error")
+                                )
+                            )
                         }
                     }
             }
 
-        }.map{
-            it.transform{
-                it?.let{
+        }.map {
+            it.transform {
+                it?.let {
                     if (it.isSuccess) Resource.Success(Unit)
                     else Resource.Error(it.exceptionOrNull()?.localizedMessage ?: "Unknown error")
 
-                }?: Resource.Error("")
+                } ?: Resource.Error("")
             }
         }
 
@@ -114,7 +121,6 @@ class LoginRepositoryImpl @Inject constructor(
         safeCall {
             authentication.signOut()
         }
-
 
 
 }

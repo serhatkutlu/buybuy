@@ -35,6 +35,9 @@ import com.example.buybuy.util.setImage
 import com.example.buybuy.util.showAlertDialog
 import com.example.buybuy.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         headerBinding = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
 
+        checkBackStack()
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -85,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+
 
             when (destination.id) {
                 R.id.loginFragment,
@@ -119,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
 
 
 
@@ -206,6 +212,7 @@ class MainActivity : AppCompatActivity() {
                     when (it) {
                         is Resource.Success -> {
                             binding.progressBar.gone()
+                            navController.popBackStack(R.id.mainFragment, true)
                             navController.navigate(
                                 R.id.splashFragment,
                                 null,
@@ -274,6 +281,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun checkBackStack(){
+
+        GlobalScope.launch {
+            repeat(50){
+
+
+            delay(10000)
+
+
+        }}
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
